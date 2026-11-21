@@ -307,7 +307,7 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
         {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-100 pb-4">
           <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-2xl bg-blue-50 text-blue-700 flex items-center justify-center shadow-xs">
+            <div className="w-11 h-11 rounded-2xl bg-[#111111] text-[#00A4A6] flex items-center justify-center shadow-xs border border-slate-800">
               <QrCode className="w-6 h-6" />
             </div>
             <div>
@@ -327,31 +327,31 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
         <div className="flex items-center bg-slate-100 p-1.5 rounded-2xl mt-5 text-xs font-bold">
           <button
             onClick={() => { setScanningError(null); setActiveMode('camera'); }}
-            className={`flex-1 py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition ${
-              activeMode === 'camera' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-900'
+            className={`flex-1 py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition cursor-pointer ${
+              activeMode === 'camera' ? 'bg-[#111111] text-white shadow-xs font-black' : 'text-slate-500 hover:text-slate-900'
             }`}
           >
-            <Camera className="w-4 h-4 text-blue-700" />
+            <Camera className="w-4 h-4 text-[#00A4A6]" />
             <span>Live Camera</span>
           </button>
           
           <button
             onClick={() => { stopCamera(); setScanningError(null); setActiveMode('file'); }}
-            className={`flex-1 py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition ${
-              activeMode === 'file' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-900'
+            className={`flex-1 py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition cursor-pointer ${
+              activeMode === 'file' ? 'bg-[#111111] text-white shadow-xs font-black' : 'text-slate-500 hover:text-slate-900'
             }`}
           >
-            <FileImage className="w-4 h-4 text-emerald-700" />
+            <FileImage className="w-4 h-4 text-emerald-400" />
             <span>Upload Image</span>
           </button>
 
           <button
             onClick={() => { stopCamera(); setScanningError(null); setActiveMode('manual'); }}
-            className={`flex-1 py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition ${
-              activeMode === 'manual' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-900'
+            className={`flex-1 py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition cursor-pointer ${
+              activeMode === 'manual' ? 'bg-[#111111] text-white shadow-xs font-black' : 'text-slate-500 hover:text-slate-900'
             }`}
           >
-            <Upload className="w-4 h-4 text-slate-700" />
+            <Upload className="w-4 h-4 text-slate-300" />
             <span>Health ID Lookup</span>
           </button>
         </div>
@@ -494,7 +494,7 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 rounded-2xl bg-blue-700 hover:bg-blue-800 text-white font-bold text-xs shadow-sm hover:shadow transition disabled:opacity-50 cursor-pointer"
+              className="w-full py-4 rounded-2xl bg-[#111111] hover:bg-black text-white font-black text-xs shadow-sm hover:shadow-md transition transform hover:-translate-y-0.5 disabled:opacity-50 cursor-pointer"
             >
               {loading ? 'Querying Universal Health Registry...' : 'Lookup Patient & Request Consent'}
             </button>

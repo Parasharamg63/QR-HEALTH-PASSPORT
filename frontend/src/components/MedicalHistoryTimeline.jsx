@@ -34,11 +34,11 @@ export default function MedicalHistoryTimeline({ records = [], prescriptions = [
       {/* Ledger Header */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-800 text-xs font-bold">
-            <ShieldCheck className="w-3.5 h-3.5 text-blue-700" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#E6F7F8] border border-[#B2E5E8] text-[#005F66] text-xs font-bold">
+            <ShieldCheck className="w-3.5 h-3.5 text-[#00838C]" />
             <span>Cryptographically Verified Clinical Ledger</span>
           </div>
-          <h3 className="text-xl font-black text-slate-950 tracking-tight mt-1">
+          <h3 className="text-xl sm:text-2xl font-black text-slate-950 tracking-tight mt-1">
             Encounter & Treatment History
           </h3>
           <p className="text-xs text-slate-500 font-medium">
@@ -46,7 +46,7 @@ export default function MedicalHistoryTimeline({ records = [], prescriptions = [
           </p>
         </div>
 
-        <span className="text-xs font-black px-3 py-1.5 rounded-full bg-slate-900 text-white shadow-xs">
+        <span className="text-xs font-black px-3.5 py-1.5 rounded-full bg-[#111111] text-white shadow-xs">
           {records.length} Verified Clinical {records.length === 1 ? 'Visit' : 'Visits'}
         </span>
       </div>
@@ -64,7 +64,7 @@ export default function MedicalHistoryTimeline({ records = [], prescriptions = [
           return (
             <div key={rec._id || idx} className="relative group">
               {/* Node Marker */}
-              <div className="absolute -left-[27px] sm:-left-[43px] top-1.5 w-6 h-6 rounded-full bg-blue-700 border-4 border-white text-white flex items-center justify-center shadow-sm">
+              <div className="absolute -left-[27px] sm:-left-[43px] top-1.5 w-6 h-6 rounded-full bg-[#111111] border-4 border-white text-[#00A4A6] flex items-center justify-center shadow-sm">
                 <CheckCircle2 className="w-3 h-3" />
               </div>
 
@@ -84,7 +84,7 @@ export default function MedicalHistoryTimeline({ records = [], prescriptions = [
                     </div>
 
                     <h4 className="text-lg font-black text-slate-900 flex items-center gap-2">
-                      <Stethoscope className="w-4 h-4 text-blue-700" />
+                      <Stethoscope className="w-4 h-4 text-[#00838C]" />
                       <span>{rec.doctorName}</span>
                     </h4>
 
@@ -95,8 +95,8 @@ export default function MedicalHistoryTimeline({ records = [], prescriptions = [
                   </div>
 
                   {rec.followUpDate && (
-                    <div className="bg-blue-50 border border-blue-200 px-3 py-1.5 rounded-2xl text-xs text-blue-900 font-bold flex items-center gap-1.5">
-                      <Clock className="w-3.5 h-3.5 text-blue-700" />
+                    <div className="bg-[#E6F7F8] border border-[#B2E5E8] px-3 py-1.5 rounded-2xl text-xs text-[#005F66] font-bold flex items-center gap-1.5">
+                      <Clock className="w-3.5 h-3.5 text-[#00838C]" />
                       <span>Follow-up: {new Date(rec.followUpDate).toLocaleDateString()}</span>
                     </div>
                   )}

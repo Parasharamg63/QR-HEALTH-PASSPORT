@@ -136,52 +136,52 @@ export default function LoginPage() {
     <div className="min-h-screen bg-slate-100/70 flex items-center justify-center p-4 sm:p-8 font-sans">
       <div className="max-w-5xl w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto">
         
-        {/* Left Column: Reassuring, Human Healthcare Context */}
+        {/* Left Column: Reassuring Healthcare Narrative */}
         <div className="lg:col-span-5 space-y-6 text-slate-800 text-center lg:text-left">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200/80 text-blue-800 text-xs font-semibold">
-            <HeartHandshake className="w-3.5 h-3.5 text-blue-700" />
-            <span>Patient-Centered Healthcare Records</span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#E6F7F8] border border-[#B2E5E8] text-[#005F66] text-xs font-bold">
+            <HeartHandshake className="w-3.5 h-3.5 text-[#00838C]" />
+            <span>GoDaddy Verified Health Architecture</span>
           </div>
 
           <div className="space-y-3">
-            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 leading-tight">
-              Compassionate Care.<br />
-              <span className="text-blue-700">Consent-Driven History.</span>
+            <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-slate-950 leading-tight">
+              Patient-First Care.<br />
+              <span className="text-[#00838C]">Consent-Driven Medical History.</span>
             </h1>
-            <p className="text-slate-600 text-sm leading-relaxed max-w-lg mx-auto lg:mx-0">
+            <p className="text-slate-600 text-sm leading-relaxed max-w-lg mx-auto lg:mx-0 font-medium">
               A private digital health passport that puts patients in control. Present your QR code at the clinic, and unlock your medical records only when you authorize with your security PIN.
             </p>
           </div>
 
-          {/* Calm, Humanized Feature List */}
+          {/* GoDaddy Modern Feature Cards */}
           <div className="space-y-3 pt-2 text-left">
-            <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs flex items-start gap-3">
-              <div className="w-8 h-8 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center flex-shrink-0 mt-0.5">
+            <div className="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs flex items-start gap-3.5">
+              <div className="w-9 h-9 rounded-xl bg-[#111111] text-[#00A4A6] flex items-center justify-center flex-shrink-0 mt-0.5 border border-slate-800">
                 <QrCode className="w-4 h-4" />
               </div>
               <div className="text-xs">
-                <div className="font-bold text-slate-900">Personal Health Passport & QR</div>
-                <div className="text-slate-500 mt-0.5">Instant universal access to blood group, vitals, and emergency contacts.</div>
+                <div className="font-black text-slate-950">Personal Health Passport & QR</div>
+                <div className="text-slate-500 font-medium mt-0.5">Instant universal access to blood group, vitals, and emergency contacts.</div>
               </div>
             </div>
 
-            <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs flex items-start gap-3">
-              <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center flex-shrink-0 mt-0.5">
+            <div className="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs flex items-start gap-3.5">
+              <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center flex-shrink-0 mt-0.5 border border-emerald-200">
                 <Lock className="w-4 h-4" />
               </div>
               <div className="text-xs">
-                <div className="font-bold text-slate-900">Explicit Patient PIN Consent</div>
-                <div className="text-slate-500 mt-0.5">Doctors cannot view sensitive history until you confirm your 4-digit PIN.</div>
+                <div className="font-black text-slate-950">Explicit Patient PIN Consent</div>
+                <div className="text-slate-500 font-medium mt-0.5">Doctors cannot view sensitive history until you confirm your 4-digit PIN.</div>
               </div>
             </div>
 
-            <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs flex items-start gap-3">
-              <div className="w-8 h-8 rounded-lg bg-amber-50 text-amber-800 flex items-center justify-center flex-shrink-0 mt-0.5">
+            <div className="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs flex items-start gap-3.5">
+              <div className="w-9 h-9 rounded-xl bg-slate-100 text-slate-800 flex items-center justify-center flex-shrink-0 mt-0.5 border border-slate-200">
                 <Stethoscope className="w-4 h-4" />
               </div>
               <div className="text-xs">
-                <div className="font-bold text-slate-900">Longitudinal Clinical Ledger</div>
-                <div className="text-slate-500 mt-0.5">Permanent, chronological records of diagnoses, vitals, and medication plans.</div>
+                <div className="font-black text-slate-950">Longitudinal Clinical Ledger</div>
+                <div className="text-slate-500 font-medium mt-0.5">Permanent, chronological records of diagnoses, vitals, and medication plans.</div>
               </div>
             </div>
           </div>
@@ -189,59 +189,59 @@ export default function LoginPage() {
 
         {/* Right Column: Clean White Card */}
         <div className="lg:col-span-7">
-          <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
+          <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-[0_4px_24px_rgba(0,0,0,0.06)] border border-slate-200/90">
             {/* Header Branding */}
             <div className="flex items-center justify-between mb-5 pb-4 border-b border-slate-100">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-blue-700 flex items-center justify-center text-white shadow-xs">
-                  <HeartHandshake className="w-6 h-6" />
+                <div className="w-11 h-11 rounded-2xl bg-[#111111] flex items-center justify-center text-white shadow-xs border border-slate-800">
+                  <HeartHandshake className="w-6 h-6 text-[#00A4A6]" />
                 </div>
                 <div>
-                  <h2 className="text-lg font-bold text-slate-900 leading-tight">
-                    QR Health Passport
+                  <h2 className="text-lg font-black text-slate-950 leading-tight">
+                    QR HEALTH <span className="text-[#00838C]">PASSPORT</span>
                   </h2>
-                  <p className="text-xs text-slate-500">Sign in or register your account</p>
+                  <p className="text-xs text-slate-500 font-medium">Sign in or register your account</p>
                 </div>
               </div>
 
-              <span className="text-[11px] font-semibold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-md">
-                Secure Portal
+              <span className="text-[11px] font-black text-slate-700 bg-slate-100 px-3 py-1 rounded-full border border-slate-200">
+                GoDaddy Protected
               </span>
             </div>
 
             {/* Mode Tabs: Sign In vs Create Account */}
-            <div className="flex bg-slate-100 p-1 rounded-xl mb-4 text-xs font-semibold">
+            <div className="flex bg-slate-100 p-1.5 rounded-2xl mb-4 text-xs font-bold">
               <button
                 type="button"
                 onClick={() => { setMode('login'); setError(null); }}
-                className={`flex-1 py-2.5 rounded-lg transition flex items-center justify-center gap-1.5 ${
-                  mode === 'login' ? 'bg-white text-slate-900 shadow-xs font-bold' : 'text-slate-600 hover:text-slate-900'
+                className={`flex-1 py-2.5 rounded-xl transition flex items-center justify-center gap-1.5 cursor-pointer ${
+                  mode === 'login' ? 'bg-[#111111] text-white shadow-xs font-black' : 'text-slate-600 hover:text-slate-950'
                 }`}
               >
-                <LogIn className="w-4 h-4 text-blue-700" />
+                <LogIn className="w-4 h-4 text-[#00A4A6]" />
                 <span>Sign In</span>
               </button>
               <button
                 type="button"
                 onClick={() => { setMode('register'); setError(null); }}
-                className={`flex-1 py-2.5 rounded-lg transition flex items-center justify-center gap-1.5 ${
-                  mode === 'register' ? 'bg-white text-slate-900 shadow-xs font-bold' : 'text-slate-600 hover:text-slate-900'
+                className={`flex-1 py-2.5 rounded-xl transition flex items-center justify-center gap-1.5 cursor-pointer ${
+                  mode === 'register' ? 'bg-[#111111] text-white shadow-xs font-black' : 'text-slate-600 hover:text-slate-950'
                 }`}
               >
-                <UserPlus className="w-4 h-4 text-blue-700" />
+                <UserPlus className="w-4 h-4 text-[#00A4A6]" />
                 <span>Create Account</span>
               </button>
             </div>
 
             {/* In Register Mode: Sub-Tabs for Patient vs Doctor */}
             {mode === 'register' && (
-              <div className="bg-slate-50 border border-slate-200/80 p-1 rounded-xl mb-4 flex items-center gap-1 text-xs font-semibold">
+              <div className="bg-slate-50 border border-slate-200/80 p-1 rounded-2xl mb-4 flex items-center gap-1 text-xs font-semibold">
                 <button
                   type="button"
                   onClick={() => { setRegRole('patient'); setError(null); }}
-                  className={`flex-1 py-2 rounded-lg transition flex items-center justify-center gap-1.5 ${
+                  className={`flex-1 py-2.5 rounded-xl transition flex items-center justify-center gap-1.5 cursor-pointer ${
                     regRole === 'patient' 
-                      ? 'bg-blue-700 text-white shadow-xs font-bold' 
+                      ? 'bg-[#111111] text-white shadow-xs font-black' 
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                   }`}
                 >
@@ -251,9 +251,9 @@ export default function LoginPage() {
                 <button
                   type="button"
                   onClick={() => { setRegRole('doctor'); setError(null); }}
-                  className={`flex-1 py-2 rounded-lg transition flex items-center justify-center gap-1.5 ${
+                  className={`flex-1 py-2.5 rounded-xl transition flex items-center justify-center gap-1.5 cursor-pointer ${
                     regRole === 'doctor' 
-                      ? 'bg-blue-700 text-white shadow-xs font-bold' 
+                      ? 'bg-[#111111] text-white shadow-xs font-black' 
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                   }`}
                 >
@@ -317,9 +317,9 @@ export default function LoginPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3 rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-bold text-sm shadow-xs transition flex items-center justify-center gap-2 mt-2 disabled:opacity-50 cursor-pointer"
+                  className="w-full py-3.5 rounded-2xl bg-[#111111] hover:bg-black text-white font-black text-sm shadow-sm hover:shadow-md transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2 mt-2 disabled:opacity-50 cursor-pointer"
                 >
-                  <LogIn className="w-4 h-4" />
+                  <LogIn className="w-4 h-4 text-[#00A4A6]" />
                   <span>{loading ? 'Signing In...' : 'Sign In'}</span>
                 </button>
 
@@ -416,8 +416,8 @@ export default function LoginPage() {
                   />
                 </div>
 
-                <div className="p-3 bg-slate-50 border border-slate-200 rounded-xl text-[11px] text-slate-700 flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-blue-700 flex-shrink-0 mt-0.5" />
+                <div className="p-3 bg-slate-50 border border-slate-200 rounded-2xl text-[11px] text-slate-700 flex items-start gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-[#00838C] flex-shrink-0 mt-0.5" />
                   <span>
                     A personal <strong>Universal Health ID</strong> and dynamic <strong>QR Health Passport</strong> will be generated automatically.
                   </span>
@@ -426,9 +426,9 @@ export default function LoginPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3 rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-bold text-sm shadow-xs transition flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
+                  className="w-full py-3.5 rounded-2xl bg-[#111111] hover:bg-black text-white font-black text-sm shadow-sm hover:shadow-md transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
                 >
-                  <UserPlus className="w-4 h-4" />
+                  <UserPlus className="w-4 h-4 text-[#00A4A6]" />
                   <span>{loading ? 'Creating Account...' : 'Complete Patient Registration'}</span>
                 </button>
               </form>
@@ -560,8 +560,8 @@ export default function LoginPage() {
                   />
                 </div>
 
-                <div className="p-3 bg-blue-50 border border-blue-200/60 rounded-xl text-[11px] text-blue-900 flex items-start gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-blue-700 flex-shrink-0 mt-0.5" />
+                <div className="p-3 bg-slate-50 border border-slate-200 rounded-2xl text-[11px] text-slate-800 flex items-start gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-[#00838C] flex-shrink-0 mt-0.5" />
                   <span>
                     Upon registration, doctor clinical privileges are granted to scan patient QR codes, initiate consent handshakes, and record treatments.
                   </span>
@@ -570,9 +570,9 @@ export default function LoginPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3 rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-bold text-sm shadow-xs transition flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
+                  className="w-full py-3.5 rounded-2xl bg-[#111111] hover:bg-black text-white font-black text-sm shadow-sm hover:shadow-md transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
                 >
-                  <Stethoscope className="w-4 h-4" />
+                  <Stethoscope className="w-4 h-4 text-[#00A4A6]" />
                   <span>{loading ? 'Registering Physician...' : 'Register as Doctor'}</span>
                 </button>
               </form>

@@ -19,12 +19,12 @@ export default function ClinicalSummaryModal({ isOpen, onClose, record, patient 
       <div className="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-slate-200 my-8">
         <div className="flex items-center justify-between border-b border-slate-100 pb-4">
           <div className="flex items-center gap-2.5">
-            <div className="w-10 h-10 rounded-2xl bg-blue-50 text-blue-700 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-2xl bg-[#111111] text-[#00A4A6] flex items-center justify-center border border-slate-800 shadow-xs">
               <Stethoscope className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-slate-900">Official Clinical Consultation Summary</h3>
-              <p className="text-xs text-slate-500">Certified Digital Clinical Record</p>
+              <h3 className="text-lg font-black text-slate-900">Official Clinical Consultation Summary</h3>
+              <p className="text-xs text-slate-500 font-medium">Certified Digital Clinical Record</p>
             </div>
           </div>
           <button 
@@ -129,9 +129,9 @@ export default function ClinicalSummaryModal({ isOpen, onClose, record, patient 
             </button>
             <button
               onClick={handlePrint}
-              className="px-4 py-2 rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-bold text-xs shadow-sm transition flex items-center gap-1.5 cursor-pointer"
+              className="px-4 py-2 rounded-xl bg-[#111111] hover:bg-black text-white font-bold text-xs shadow-sm hover:shadow transition flex items-center gap-1.5 cursor-pointer"
             >
-              <Printer className="w-4 h-4" />
+              <Printer className="w-4 h-4 text-[#00A4A6]" />
               <span>Print Clinical Summary</span>
             </button>
           </div>

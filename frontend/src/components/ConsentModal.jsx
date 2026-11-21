@@ -30,7 +30,7 @@ export default function ConsentModal({ isOpen, onClose, sessionId, patientPrevie
       <div className="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-slate-200 animate-in fade-in zoom-in duration-200 space-y-5">
         {/* Top Handshake Header */}
         <div className="flex items-start justify-between">
-          <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-700 shadow-xs">
+          <div className="w-12 h-12 rounded-2xl bg-[#111111] border border-slate-800 flex items-center justify-center text-[#00A4A6] shadow-xs">
             <ShieldCheck className="w-7 h-7" />
           </div>
           <button 
@@ -42,11 +42,11 @@ export default function ConsentModal({ isOpen, onClose, sessionId, patientPrevie
         </div>
 
         <div>
-          <div className="inline-flex items-center gap-1.5 text-xs font-black text-blue-800 uppercase tracking-wider">
-            <Lock className="w-3.5 h-3.5" />
-            <span>FHIR Consent Handshake Protocol</span>
+          <div className="inline-flex items-center gap-1.5 text-xs font-black text-[#005F66] uppercase tracking-wider bg-[#E6F7F8] border border-[#B2E5E8] px-3 py-0.5 rounded-full">
+            <Lock className="w-3.5 h-3.5 text-[#00838C]" />
+            <span>GoDaddy Consent Handshake</span>
           </div>
-          <h3 className="text-xl font-black text-slate-950 tracking-tight mt-1">
+          <h3 className="text-xl font-black text-slate-950 tracking-tight mt-1.5">
             Authorize Clinical Record Access
           </h3>
           <p className="text-xs text-slate-500 mt-1.5 leading-relaxed font-medium">
@@ -115,16 +115,16 @@ export default function ConsentModal({ isOpen, onClose, sessionId, patientPrevie
         <div className="flex items-center gap-3 pt-2">
           <button
             onClick={onClose}
-            className="flex-1 py-3 rounded-2xl border border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-50 transition"
+            className="flex-1 py-3.5 rounded-2xl border border-slate-300 text-xs font-bold text-slate-700 hover:bg-slate-50 transition cursor-pointer"
           >
             Deny Access
           </button>
           <button
             onClick={handleGrant}
             disabled={loading}
-            className="flex-1 py-3 rounded-2xl bg-blue-700 hover:bg-blue-800 text-white text-xs font-bold shadow-sm transition flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
+            className="flex-1 py-3.5 rounded-2xl bg-[#111111] hover:bg-black text-white text-xs font-black shadow-sm hover:shadow-md transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
           >
-            <CheckCircle className="w-4 h-4" />
+            <CheckCircle className="w-4 h-4 text-[#00A4A6]" />
             <span>{loading ? 'Authorizing...' : 'Grant Access (60m)'}</span>
           </button>
         </div>

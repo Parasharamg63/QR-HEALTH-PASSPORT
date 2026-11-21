@@ -164,8 +164,8 @@ export default function DoctorConsultationForm({ patient, sessionId, onTreatment
       {/* Header Clinical Ribbon */}
       <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 pb-5">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-800 text-xs font-bold">
-            <Stethoscope className="w-3.5 h-3.5 text-blue-700" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E6F7F8] border border-[#B2E5E8] text-[#005F66] text-xs font-bold">
+            <Stethoscope className="w-3.5 h-3.5 text-[#00838C]" />
             <span>Consultation & Treatment Pad</span>
           </div>
           <h3 className="text-xl sm:text-2xl font-black text-slate-950 tracking-tight mt-1.5 flex items-center gap-2.5">
@@ -473,7 +473,7 @@ export default function DoctorConsultationForm({ patient, sessionId, onTreatment
         <button
           type="submit"
           disabled={saving}
-          className="w-full py-4 rounded-2xl bg-blue-700 hover:bg-blue-800 text-white font-bold text-sm sm:text-base shadow-sm hover:shadow transition flex items-center justify-center gap-3 disabled:opacity-50 cursor-pointer"
+          className="w-full py-4 rounded-2xl bg-[#111111] hover:bg-black text-white font-black text-sm sm:text-base shadow-sm hover:shadow-lg transition transform hover:-translate-y-0.5 flex items-center justify-center gap-3 disabled:opacity-50 cursor-pointer"
         >
           {saving ? (
             <>
@@ -482,12 +482,12 @@ export default function DoctorConsultationForm({ patient, sessionId, onTreatment
             </>
           ) : saveSuccess ? (
             <>
-              <CheckCircle className="w-5 h-5 text-emerald-200" />
+              <CheckCircle className="w-5 h-5 text-emerald-300" />
               <span>Treatment Immutably Recorded in Patient Passport!</span>
             </>
           ) : (
             <>
-              <Lock className="w-5 h-5 text-blue-200" />
+              <Lock className="w-5 h-5 text-[#00A4A6]" />
               <span>Give Treatment & Update Medical History</span>
             </>
           )}

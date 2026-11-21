@@ -79,18 +79,6 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
     }
   };
 
-  const handleQuickDemoSelect = (abhaId) => {
-    setManualAbha(abhaId);
-    setLoading(true);
-    api.scanQR({ manualAbhaId: abhaId }).then((res) => {
-      if (res.success) {
-        onScanSuccess(res);
-        onClose();
-      }
-    }).catch(err => setScanningError(err.message))
-      .finally(() => setLoading(false));
-  };
-
   if (!isOpen) return null;
 
   return (
@@ -192,37 +180,6 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
             </button>
           </form>
         )}
-
-        {/* 1-Click Test Simulation Chip */}
-        <div className="mt-5 pt-4 border-t border-slate-100 space-y-2">
-          <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 block">
-            Instant Test Simulator:
-          </span>
-          <button
-            type="button"
-            onClick={() => handleQuickDemoSelect('91-4421-8890-1204')}
-            className="w-full p-3 rounded-2xl bg-slate-50 hover:bg-teal-50 border border-slate-200 hover:border-teal-300 text-left transition flex items-center justify-between group"
-          >
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center font-bold text-xs">
-                RG
-              </div>
-              <div>
-                <div className="text-xs font-bold text-slate-900 group-hover:text-teal-900">
-                  Rameshwar Gowda (Patient)
-                </div>
-                <div className="text-[10px] text-slate-400 font-mono">
-                  Health ID: 91-4421-8890-1204
-                </div>
-              </div>
-            </div>
-
-            <span className="text-xs font-bold text-teal-600 flex items-center gap-1">
-              <Zap className="w-3.5 h-3.5 fill-teal-600" />
-              <span>Simulate Scan</span>
-            </span>
-          </button>
-        </div>
       </div>
     </div>
   );

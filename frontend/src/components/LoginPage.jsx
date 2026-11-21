@@ -133,13 +133,6 @@ export default function LoginPage() {
     }
   };
 
-  // Quick fill demo helper
-  const handleQuickFill = (email, pwd) => {
-    setLoginEmail(email);
-    setLoginPassword(pwd);
-    setError(null);
-  };
-
   return (
     <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4 sm:p-8 relative overflow-hidden font-sans">
       {/* Ambient background glow orbs */}
@@ -184,39 +177,41 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {/* Live Persona Quick-Fill Chips for Evaluators */}
-          <div className="pt-4 border-t border-white/10 space-y-2.5">
+          {/* Platform Clinical Capabilities */}
+          <div className="pt-4 border-t border-white/10 space-y-3">
             <span className="text-xs font-bold uppercase tracking-wider text-slate-400 block">
-              1-Click Demo Personas:
+              Clinical Platform Capabilities:
             </span>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-              <button
-                type="button"
-                onClick={() => handleQuickFill('doctor.rajesh@hospital.org', 'password123')}
-                className="p-3 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-left transition flex items-center gap-3 group cursor-pointer"
-              >
-                <div className="w-9 h-9 rounded-xl bg-blue-500/20 border border-blue-400/30 flex items-center justify-center text-blue-300 group-hover:scale-105 transition">
-                  <Stethoscope className="w-5 h-5" />
+            <div className="space-y-2.5">
+              <div className="p-3 rounded-2xl bg-white/5 border border-white/10 flex items-center gap-3">
+                <div className="w-8 h-8 rounded-xl bg-teal-500/20 border border-teal-400/30 flex items-center justify-center text-teal-300">
+                  <QrCode className="w-4 h-4" />
                 </div>
-                <div>
-                  <div className="text-xs font-bold text-white">Dr. Rajesh Sharma</div>
-                  <div className="text-[10px] text-slate-400">Cardiologist • Apex Hospital</div>
+                <div className="text-xs">
+                  <div className="font-bold text-white">Dynamic Cryptographic QR Passports</div>
+                  <div className="text-[11px] text-slate-400">Time-bounded, tamper-proof patient credential</div>
                 </div>
-              </button>
+              </div>
 
-              <button
-                type="button"
-                onClick={() => handleQuickFill('rameshwar.gowda@patient.org', 'password123')}
-                className="p-3 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-left transition flex items-center gap-3 group cursor-pointer"
-              >
-                <div className="w-9 h-9 rounded-xl bg-teal-500/20 border border-teal-400/30 flex items-center justify-center text-teal-300 group-hover:scale-105 transition">
-                  <User className="w-5 h-5" />
+              <div className="p-3 rounded-2xl bg-white/5 border border-white/10 flex items-center gap-3">
+                <div className="w-8 h-8 rounded-xl bg-blue-500/20 border border-blue-400/30 flex items-center justify-center text-blue-300">
+                  <Lock className="w-4 h-4" />
                 </div>
-                <div>
-                  <div className="text-xs font-bold text-white">Rameshwar Gowda</div>
-                  <div className="text-[10px] text-slate-400">Patient • Health ID #91-4421...</div>
+                <div className="text-xs">
+                  <div className="font-bold text-white">Zero-Knowledge PIN Consent Protocol</div>
+                  <div className="text-[11px] text-slate-400">Records decrypt only with explicit 4-digit patient PIN</div>
                 </div>
-              </button>
+              </div>
+
+              <div className="p-3 rounded-2xl bg-white/5 border border-white/10 flex items-center gap-3">
+                <div className="w-8 h-8 rounded-xl bg-emerald-500/20 border border-emerald-400/30 flex items-center justify-center text-emerald-300">
+                  <Stethoscope className="w-4 h-4" />
+                </div>
+                <div className="text-xs">
+                  <div className="font-bold text-white">Physician Clinical Consultation Suite</div>
+                  <div className="text-[11px] text-slate-400">Diagnosis, vitals telemetry, & prescription pad</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -318,7 +313,7 @@ export default function LoginPage() {
                     required
                     value={loginEmail}
                     onChange={(e) => setLoginEmail(e.target.value)}
-                    placeholder="doctor.rajesh@hospital.org or patient email"
+                    placeholder="Enter registered email address"
                     className="w-full px-4 py-3 rounded-2xl border border-slate-200 text-slate-900 font-medium focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 outline-none transition bg-slate-50/50"
                   />
                 </div>
@@ -373,7 +368,7 @@ export default function LoginPage() {
                     required
                     value={patientData.name}
                     onChange={(e) => setPatientData({ ...patientData, name: e.target.value })}
-                    placeholder="e.g. Rameshwar Gowda"
+                    placeholder="e.g. John Doe"
                     className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 font-medium focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 outline-none bg-slate-50/50"
                   />
                 </div>
@@ -478,7 +473,7 @@ export default function LoginPage() {
                     required
                     value={doctorData.name}
                     onChange={(e) => setDoctorData({ ...doctorData, name: e.target.value })}
-                    placeholder="e.g. Dr. Rajesh Sharma, MD, DM"
+                    placeholder="e.g. Dr. Jane Smith, MD"
                     className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 font-medium focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none bg-slate-50/50"
                   />
                 </div>
@@ -519,7 +514,7 @@ export default function LoginPage() {
                       required
                       value={doctorData.licenseNumber}
                       onChange={(e) => setDoctorData({ ...doctorData, licenseNumber: e.target.value })}
-                      placeholder="e.g. KMC-48291-KA"
+                      placeholder="e.g. MED-REG-12345"
                       className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 font-mono font-bold text-slate-800 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none bg-slate-50/50"
                     />
                   </div>
@@ -564,7 +559,7 @@ export default function LoginPage() {
                       type="text"
                       value={doctorData.hospital}
                       onChange={(e) => setDoctorData({ ...doctorData, hospital: e.target.value })}
-                      placeholder="Apex Heart Institute"
+                      placeholder="General Hospital / Medical Center"
                       className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 font-medium focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none bg-slate-50/50"
                     />
                   </div>
@@ -577,7 +572,7 @@ export default function LoginPage() {
                       type="text"
                       value={doctorData.department}
                       onChange={(e) => setDoctorData({ ...doctorData, department: e.target.value })}
-                      placeholder="Cardiology / Medicine"
+                      placeholder="Cardiology / Internal Medicine"
                       className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 font-medium focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none bg-slate-50/50"
                     />
                   </div>

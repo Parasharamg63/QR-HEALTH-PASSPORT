@@ -52,12 +52,11 @@ The application features a modern, luxury MedTech aesthetic inspired by top Drib
 
 ---
 
-## 👥 Built-in Realistic Demo Personas (1-Click Fill)
+## 👥 Authentication & User Roles
 
-| Role | Name | Email | Password | Details |
-|---|---|---|---|---|
-| **Patient** | Rameshwar Gowda | `rameshwar.gowda@patient.org` | `password123` | 68-year-old patient, Health ID: `91-4421-8890-1204`, Blood Group: `B+`, PIN: `1234` |
-| **Doctor** | Dr. Rajesh Sharma, MD, DM | `doctor.rajesh@hospital.org` | `password123` | Consultant Cardiologist, Apex Heart & Super-Specialty Institute |
+The platform provides standard JWT-based registration and authentication with dedicated role-based portals:
+- **Patient Registration**: Issues a personal **Universal Health ID (UHID)** and dynamic **Health Passport QR Code**.
+- **Doctor Registration**: Captures medical license, specialization, hospital/clinic affiliation, and enables immediate clinical scanning and treatment recording privileges.
 
 ---
 

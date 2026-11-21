@@ -31,8 +31,6 @@ export const api = {
   login: (credentials) => request('/auth/login', { method: 'POST', body: JSON.stringify(credentials) }),
   register: (userData) => request('/auth/register', { method: 'POST', body: JSON.stringify(userData) }),
   getMe: () => request('/auth/me'),
-  getDemoUsers: () => request('/auth/demo-users'),
-  switchDemo: (payload) => request('/auth/switch-demo', { method: 'POST', body: JSON.stringify(payload) }),
 
   // Passport
   getMyPassport: () => request('/passport/my-passport'),

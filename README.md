@@ -1,60 +1,77 @@
 # QR HEALTH PASSPORT 🏥
 
-> **HealthTech Platform for Seamless, Consent-Governed Medical History & Treatment Management**  
+> **Consent-Governed HealthTech Platform for Seamless Medical History & Treatment Management**  
 > Built strictly using the **MERN Stack** (MongoDB, Express, React, Node.js) with independent backend and frontend architectures.  
-> GitHub Repository: [https://github.com/Parasharamg63/QR-HEALTH-PASSPORT.git](https://github.com/Parasharamg63/QR-HEALTH-PASSPORT.git)
+> GitHub Repository: [https://github.com/Parasharamg63/QR-HEALTH-PASSPORT.git](https://github.com/Parasharamg63/QR-HEALTH-PASSPORT.git)  
+> Collaborators: `srushtimamatha10@gmail.com`, `thrupthis022@gmail.com`  
+> Active Branches: `main` & `dev`
 
 ---
 
-## 🌟 The Core Workflow (Prompt-Driven Architecture)
+## 🎨 Dribbble-Inspired MedTech Design System
+
+The application features a modern, luxury MedTech aesthetic inspired by top Dribbble healthtech designs:
+- **Biometric Titanium Health Card**: Apple Wallet / Singpass style metallic card with holographic shimmer, gold EMV biometric chip, Ayushman Bharat verification badges, and 1-click ABHA copy.
+- **Dynamic QR Code Token**: High-contrast QR display with luminous corner brackets, dynamic token refresh, and instant physical print layout.
+- **Clinical EHR Treatment Studio**: High-efficiency doctor workstation with visual telemetry cards for Vitals (BP, Pulse, SpO2, Glucose, Temp), diagnosis with ICD-10 tags, and an interactive medication prescription pad with instant dosage/meal-timing controls.
+- **Chronological Clinical Ledger**: Visual medical history timeline featuring verified doctor signatures, diagnostic tags, and vitals history at each visit.
+- **Cyberpunk Optical QR Scanner**: Dark viewfinder with an animated sweeping laser scan line and 1-click simulator test chips.
+- **Cryptographic Consent Handshake**: 4-digit PIN verification modal enforcing time-bounded (60-minute) zero-knowledge data decryption.
+
+---
+
+## 🌟 The Core Clinical Workflow
 
 1. **Patient Registration & QR Generation**:
-   - A patient registers on the platform.
-   - The platform automatically creates a unique **ABHA Digital Health Passport** and issues a dynamic, personal **QR Code** upon registration.
+   - Patient registers with basic demographics and emergency contact.
+   - The platform automatically issues a unique **ABHA Digital Health Passport** (`91-XXXX-XXXX-XXXX`) and generates a personal dynamic **QR Code**.
 2. **Doctor Visit & QR Code Presentation**:
-   - The patient visits the doctor or clinic and presents their personal QR code (on their phone or as a printed badge).
+   - Patient presents their personal QR code (on mobile screen or printed physical passport).
 3. **Doctor QR Code Scanning**:
-   - The doctor scans the patient's QR code using their device camera or image scanner.
+   - Doctor scans the QR code via webcam or runs a 1-click test simulation.
 4. **Consent Handshake**:
-   - The system triggers an instant patient consent verification.
-   - The doctor **CANNOT access** confidential medical records until the patient explicitly authorizes the request using their **4-digit Security PIN (`1234`)**.
+   - Patient authorization is required. Confidential medical records remain encrypted until the patient authorizes the request using their **4-digit Security PIN (`1234`)**.
 5. **Medical History Decryption**:
-   - Once consent is verified, the doctor's screen unlocks the patient's complete chronological medical history (past diagnoses, previous doctor notes, active prescriptions, and allergies).
-6. **Treatment & Medical History Update**:
-   - The doctor conducts the clinical consultation, enters Chief Complaints, Diagnosis, Clinical Observations, and Prescribed Treatments.
-   - Upon submission, the patient's **medical history is immutably updated** in the database and visible in real time on both doctor and patient views.
+   - Upon verification, the doctor's screen unlocks the patient's complete chronological clinical history (past diagnoses, doctor notes, vitals, prescriptions, and allergies).
+6. **Treatment & Ledger Update**:
+   - Doctor enters clinical examination notes, vitals, diagnosis, and prescribed medications, then clicks **"Give Treatment & Update Medical History"**.
+   - The record is immutably committed to the MongoDB ledger, and passport vitals are updated in real time.
 
 ---
 
-## 📋 The 6 Structured Phases
+## 📋 Structured Implementation Phases
 
-| Phase | Milestone | Key Features | Status |
+| Phase | Milestone | Description | Status |
 |---|---|---|---|
-| **Phase 1** | **Project Architecture & MERN Foundation** | Express API, MongoDB setup, Mongoose schemas, JWT Authentication, Clinical seed data | ✅ Pushed (`136b721`) |
-| **Phase 2** | **Patient Registration & QR Code Generation** | Automatic ABHA ID generation, Dynamic cryptographic QR creation, Printable Digital Health Card | ✅ Pushed (`6a22dab`) |
-| **Phase 3** | **Doctor Portal & QR Scanner Handshake** | Camera QR scanner, image upload scanner, manual ABHA lookup, Doctor consultation portal | ✅ Pushed (`44474ac`) |
-| **Phase 4** | **Patient Real-Time Consent Verification** | Zero-knowledge consent handshake, 4-digit PIN verification (`1234`), 60-min access grant | 🟡 Ready for Next Push |
-| **Phase 5** | **Doctor Treatment & Medical History Update** | Clinical consultation form, vital signs logging, prescription orders, real-time medical ledger update | 🟡 Ready for Next Push |
-| **Phase 6** | **Production Polish & Clinical Verification** | Printable clinical summaries, multi-role testing, end-to-end audit trail, responsive UI | 🟡 Ready for Next Push |
+| **Phase 1** | **Project Architecture & MERN Foundation** | Express API, MongoDB setup, Mongoose schemas, JWT Authentication, Clinical seed data | ✅ Completed & Pushed |
+| **Phase 2** | **Patient Registration & QR Code Generation** | Automatic ABHA ID generation, Dynamic cryptographic QR creation, Printable Digital Health Card | ✅ Completed & Pushed |
+| **Phase 3** | **Doctor Portal & QR Scanner Handshake** | Camera QR scanner, image upload scanner, manual ABHA lookup, Doctor consultation portal | ✅ Completed & Pushed |
+| **Phase 4** | **Patient Real-Time Consent Verification** | Zero-knowledge consent handshake, 4-digit PIN verification (`1234`), 60-min access grant | ✅ Completed & Pushed |
+| **Phase 5** | **Doctor Treatment & Medical History Update** | Clinical consultation form, vital signs logging, prescription orders, real-time medical ledger update | ✅ Completed & Pushed |
+| **Phase 6** | **Dribbble MedTech Polish & Production Build** | Dribbble UI system, standard Login/Logout JWT auth, responsive layout, full verification | ✅ Completed & Pushed |
 
 ---
 
-## 👥 Built-in Realistic Demo Personas (1-Click Switcher)
+## 👥 Built-in Realistic Demo Personas (1-Click Fill)
 
-| Role | Name | Email | Details |
-|---|---|---|---|
-| **Patient** | Rameshwar Gowda | `rameshwar.gowda@patient.org` | 68-year-old patient, ABHA: `91-4421-8890-1204`, Blood Group: `B+`, PIN: `1234` |
-| **Doctor** | Dr. Rajesh Sharma, MD, DM | `doctor.rajesh@hospital.org` | Chief Consultant Cardiologist, Apex Heart & Super-Specialty Institute |
+| Role | Name | Email | Password | Details |
+|---|---|---|---|---|
+| **Patient** | Rameshwar Gowda | `rameshwar.gowda@patient.org` | `password123` | 68-year-old patient, ABHA: `91-4421-8890-1204`, Blood Group: `B+`, PIN: `1234` |
+| **Doctor** | Dr. Rajesh Sharma, MD, DM | `doctor.rajesh@hospital.org` | `password123` | Consultant Cardiologist, Apex Heart & Super-Specialty Institute |
 
 ---
 
-## 🚀 Running the WebApp
+## 🚀 Running the WebApp Locally
 
+### 1-Click Launch:
+Double-click `start-dev.bat` in the repository root.
+
+### Manual Launch:
 ```bash
-# 1. Start MongoDB
-mongod --dbpath <data_directory> --port 27017
+# 1. Start MongoDB Server
+mongod --dbpath "D:\QR HEALTH PASSPORT\data\db" --port 27017
 
-# 2. Run Backend (Port 5000)
+# 2. Run Backend API (Port 5000)
 cd backend
 npm install
 node seed/seedData.js
@@ -66,4 +83,4 @@ npm install
 npm run dev
 ```
 
-Open **`http://localhost:5173`** in your browser.
+Open **`http://localhost:5173`** in your browser to experience the platform.

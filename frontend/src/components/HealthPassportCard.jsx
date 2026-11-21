@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { useLanguage } from '../context/LanguageContext';
 import { 
   QrCode, 
   Printer, 
@@ -9,18 +8,14 @@ import {
   Heart, 
   Phone, 
   Activity, 
-  User, 
   ShieldCheck, 
-  FileText, 
-  CheckCircle, 
-  Lock,
-  Sparkles
+  Sparkles,
+  KeyRound
 } from 'lucide-react';
 import { api } from '../services/api';
 
 export default function HealthPassportCard() {
   const { user, passport, refreshPassport } = useAuth();
-  const { t } = useLanguage();
   const [refreshing, setRefreshing] = useState(false);
   const [showPin, setShowPin] = useState(false);
 
@@ -42,7 +37,7 @@ export default function HealthPassportCard() {
 
   if (!passport) {
     return (
-      <div className="bg-white rounded-2xl p-8 border border-slate-200 text-center">
+      <div className="bg-white rounded-3xl p-8 border border-slate-200 text-center">
         <Activity className="w-10 h-10 text-teal-600 animate-spin mx-auto mb-3" />
         <p className="text-slate-600 font-medium">Loading Health Passport records...</p>
       </div>
@@ -67,20 +62,20 @@ export default function HealthPassportCard() {
         {/* Card Header */}
         <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-4 mb-6">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-teal-500/20 border border-teal-400/40 flex items-center justify-center text-teal-300">
+            <div className="w-10 h-10 rounded-2xl bg-teal-500/20 border border-teal-400/40 flex items-center justify-center text-teal-300">
               <ShieldCheck className="w-6 h-6" />
             </div>
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-xs font-extrabold tracking-widest uppercase text-teal-400">
-                  NATIONAL DIGITAL HEALTH NETWORK
+                  NATIONAL HEALTH AUTHORITY
                 </span>
                 <span className="text-[10px] bg-teal-400/20 text-teal-300 border border-teal-400/30 px-2 py-0.5 rounded-full font-bold">
-                  VERIFIED
+                  VERIFIED PASSPORT
                 </span>
               </div>
               <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
-                {t.passportCard.title}
+                Digital QR Health Passport
               </h2>
             </div>
           </div>
@@ -93,7 +88,7 @@ export default function HealthPassportCard() {
               title="Regenerate dynamic QR token"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${refreshing ? 'animate-spin' : ''}`} />
-              <span className="hidden sm:inline">{t.passportCard.refreshQR}</span>
+              <span className="hidden sm:inline">Refresh QR</span>
             </button>
 
             <button
@@ -101,7 +96,7 @@ export default function HealthPassportCard() {
               className="px-3.5 py-1.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-bold shadow-lg shadow-teal-600/30 transition flex items-center gap-1.5"
             >
               <Printer className="w-3.5 h-3.5" />
-              <span>{t.passportCard.downloadCard}</span>
+              <span>Print Health Passport</span>
             </button>
           </div>
         </div>
@@ -120,7 +115,7 @@ export default function HealthPassportCard() {
                 </h3>
                 <div className="flex flex-wrap items-center gap-2 mt-1 text-xs text-slate-300">
                   <span className="font-mono bg-white/10 px-2.5 py-0.5 rounded-md font-semibold text-teal-300 border border-white/10">
-                    {t.passportCard.abhaNumber}: {passport.abhaId}
+                    ABHA ID: {passport.abhaId}
                   </span>
                   <span>•</span>
                   <span>{passport.gender || 'Male'}, {age} yrs</span>
@@ -133,12 +128,12 @@ export default function HealthPassportCard() {
             {/* Critical Patient Attributes */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               <div className="bg-white/5 border border-white/10 rounded-2xl p-3">
-                <span className="text-[11px] text-slate-400 block font-medium">{t.passportCard.bloodGroup}</span>
+                <span className="text-[11px] text-slate-400 block font-medium">Blood Group</span>
                 <span className="text-xl font-black text-rose-400 tracking-tight">{passport.bloodGroup || 'B+'}</span>
               </div>
 
               <div className="bg-white/5 border border-white/10 rounded-2xl p-3">
-                <span className="text-[11px] text-slate-400 block font-medium">Consent PIN</span>
+                <span className="text-[11px] text-slate-400 block font-medium">Consent Security PIN</span>
                 <div className="flex items-center gap-1.5 mt-0.5">
                   <span className="font-mono text-lg font-bold text-teal-300">
                     {showPin ? passport.consentPIN || '1234' : '••••'}
@@ -153,15 +148,15 @@ export default function HealthPassportCard() {
               </div>
 
               <div className="bg-white/5 border border-white/10 rounded-2xl p-3">
-                <span className="text-[11px] text-slate-400 block font-medium">{t.passportCard.organDonor}</span>
+                <span className="text-[11px] text-slate-400 block font-medium">Organ Donor Status</span>
                 <span className="text-xs font-bold text-emerald-300 flex items-center gap-1 mt-1">
                   <Heart className="w-3.5 h-3.5 fill-emerald-400 text-emerald-400" />
-                  {passport.organDonor ? 'Pledged Yes' : 'No'}
+                  {passport.organDonor ? 'Registered Donor' : 'Not Pledged'}
                 </span>
               </div>
 
               <div className="bg-white/5 border border-white/10 rounded-2xl p-3">
-                <span className="text-[11px] text-slate-400 block font-medium">{t.passportCard.emergencyContact}</span>
+                <span className="text-[11px] text-slate-400 block font-medium">Emergency Contact</span>
                 <a 
                   href={`tel:${passport.emergencyContact?.phone}`} 
                   className="text-xs font-bold text-amber-300 hover:underline flex items-center gap-1 mt-1 truncate"
@@ -179,7 +174,7 @@ export default function HealthPassportCard() {
                   <AlertCircle className="w-4 h-4 text-rose-400 flex-shrink-0 mt-0.5" />
                   <div>
                     <span className="font-bold text-rose-300 uppercase tracking-wide mr-1.5">
-                      {t.passportCard.allergiesTitle}:
+                      Recorded Allergies:
                     </span>
                     <span className="text-rose-100 font-medium">
                       {passport.allergies.map(a => `${a.allergen} (${a.reaction})`).join(' • ')}
@@ -193,7 +188,7 @@ export default function HealthPassportCard() {
                   <Activity className="w-4 h-4 text-teal-400 flex-shrink-0 mt-0.5" />
                   <div>
                     <span className="font-bold text-teal-300 uppercase tracking-wide mr-1.5">
-                      {t.passportCard.conditionsTitle}:
+                      Chronic Medical Conditions:
                     </span>
                     <span className="text-teal-100 font-medium">
                       {passport.chronicConditions.map(c => `${c.name} (${c.diagnosedYear})`).join(' • ')}
@@ -219,7 +214,6 @@ export default function HealthPassportCard() {
                 </div>
               )}
 
-              {/* Security watermark badge */}
               <div className="absolute bottom-2 right-2 bg-slate-900/90 text-teal-400 text-[9px] px-1.5 py-0.5 rounded font-mono font-bold tracking-tight border border-teal-500/40">
                 AES-256
               </div>
@@ -228,42 +222,42 @@ export default function HealthPassportCard() {
             <div className="mt-3 space-y-1">
               <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-teal-300">
                 <Sparkles className="w-3 h-3 text-teal-400" />
-                Dynamic Cryptographic QR
+                Patient Personal QR Code
               </span>
               <p className="text-[11px] text-slate-300 max-w-xs leading-relaxed">
-                {t.passportCard.scanInstruction}
+                Show this QR code to the doctor when you visit the clinic. The doctor will scan it and request your consent to access your medical history.
               </p>
             </div>
           </div>
         </div>
 
-        {/* Current Vitals Strip */}
+        {/* Current Vitals Baseline */}
         <div className="mt-6 pt-4 border-t border-white/10">
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
               <Activity className="w-3.5 h-3.5 text-teal-400" />
-              {t.passportCard.vitalsTitle}
+              Latest Baseline Vitals
             </span>
             <span className="text-[11px] text-slate-400">
-              Last Synced: {new Date(vitals.lastUpdated || Date.now()).toLocaleDateString()}
+              Last Updated: {new Date(vitals.lastUpdated || Date.now()).toLocaleDateString()}
             </span>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
             <div className="bg-slate-800/80 rounded-xl p-2.5 border border-white/5 flex items-center justify-between">
-              <span className="text-slate-400">{t.passportCard.bp}</span>
+              <span className="text-slate-400">Blood Pressure</span>
               <span className="font-bold text-white font-mono">{vitals.bloodPressure || '130/84'} mmHg</span>
             </div>
             <div className="bg-slate-800/80 rounded-xl p-2.5 border border-white/5 flex items-center justify-between">
-              <span className="text-slate-400">{t.passportCard.heartRate}</span>
+              <span className="text-slate-400">Heart Rate</span>
               <span className="font-bold text-white font-mono">{vitals.heartRate || 74} bpm</span>
             </div>
             <div className="bg-slate-800/80 rounded-xl p-2.5 border border-white/5 flex items-center justify-between">
-              <span className="text-slate-400">{t.passportCard.bloodSugar}</span>
+              <span className="text-slate-400">Blood Sugar</span>
               <span className="font-bold text-amber-300 font-mono">{vitals.bloodSugar || 138} mg/dL</span>
             </div>
             <div className="bg-slate-800/80 rounded-xl p-2.5 border border-white/5 flex items-center justify-between">
-              <span className="text-slate-400">{t.passportCard.spo2}</span>
+              <span className="text-slate-400">Oxygen SpO2</span>
               <span className="font-bold text-emerald-400 font-mono">{vitals.spo2 || 97}%</span>
             </div>
           </div>

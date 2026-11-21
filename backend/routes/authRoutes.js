@@ -11,10 +11,10 @@ const generateToken = (id) => {
 };
 
 // @route   POST /api/auth/register
-// @desc    Register a new user (Patient, Doctor, Caregiver)
+// @desc    Register a new user (Patient, Doctor)
 router.post('/register', async (req, res) => {
   try {
-    const { name, email, password, role, phone, language, doctorDetails, caregiverDetails, bloodGroup, dob, gender, emergencyContact } = req.body;
+    const { name, email, password, role, phone, language, doctorDetails, bloodGroup, dob, gender, emergencyContact } = req.body;
 
     const userExists = await User.findOne({ email });
     if (userExists) {
@@ -29,10 +29,9 @@ router.post('/register', async (req, res) => {
       phone,
       language: language || 'en',
       doctorDetails: role === 'doctor' ? doctorDetails : undefined,
-      caregiverDetails: role === 'caregiver' ? caregiverDetails : undefined,
     });
 
-    // If registering as a patient, automatically provision their Health Passport & ABHA ID
+    // If registering as a patient, automatically provision their Health Passport & personal QR code
     let passport = null;
     if (user.role === 'patient') {
       const randomDigits = Math.floor(1000 + Math.random() * 9000);
@@ -66,8 +65,10 @@ router.post('/register', async (req, res) => {
         email: user.email,
         role: user.role,
         language: user.language,
-        hasPassport: !!passport,
+        phone: user.phone,
+        doctorDetails: user.doctorDetails,
       },
+      passport,
     });
   } catch (err) {
     res.status(500).json({ success: false, message: 'Registration failed: ' + err.message });
@@ -79,71 +80,13 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ success: false, message: 'Please provide both email and password.' });
+    }
+
     const user = await User.findOne({ email });
     if (!user || !(await user.matchPassword(password))) {
       return res.status(401).json({ success: false, message: 'Invalid email or password.' });
-    }
-
-    res.json({
-      success: true,
-      token: generateToken(user._id),
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        language: user.language,
-        phone: user.phone,
-        doctorDetails: user.doctorDetails,
-        caregiverDetails: user.caregiverDetails,
-      },
-    });
-  } catch (err) {
-    res.status(500).json({ success: false, message: 'Login failed: ' + err.message });
-  }
-});
-
-// @route   GET /api/auth/me
-// @desc    Get current user profile
-router.get('/me', protect, async (req, res) => {
-  try {
-    let passport = null;
-    if (req.user.role === 'patient') {
-      passport = await HealthPassport.findOne({ userId: req.user._id });
-    }
-    res.json({
-      success: true,
-      user: req.user,
-      passport,
-    });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
-
-// @route   GET /api/auth/demo-users
-// @desc    Get list of demo accounts for instant 1-click test login
-router.get('/demo-users', async (req, res) => {
-  try {
-    const demoUsers = await User.find({ isDemoUser: true }).select('name email role doctorDetails caregiverDetails');
-    res.json({ success: true, demoUsers });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
-
-// @route   POST /api/auth/switch-demo
-// @desc    One-click instant login as any demo role
-router.post('/switch-demo', async (req, res) => {
-  try {
-    const { role, email } = req.body;
-    let query = { isDemoUser: true };
-    if (email) query.email = email;
-    else if (role) query.role = role;
-
-    const user = await User.findOne(query);
-    if (!user) {
-      return res.status(404).json({ success: false, message: 'Demo user not found. Please ensure database seed has completed.' });
     }
 
     let passport = null;
@@ -162,8 +105,25 @@ router.post('/switch-demo', async (req, res) => {
         language: user.language,
         phone: user.phone,
         doctorDetails: user.doctorDetails,
-        caregiverDetails: user.caregiverDetails,
       },
+      passport,
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: 'Login failed: ' + err.message });
+  }
+});
+
+// @route   GET /api/auth/me
+// @desc    Get current user profile
+router.get('/me', protect, async (req, res) => {
+  try {
+    let passport = null;
+    if (req.user.role === 'patient') {
+      passport = await HealthPassport.findOne({ userId: req.user._id });
+    }
+    res.json({
+      success: true,
+      user: req.user,
       passport,
     });
   } catch (err) {

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
+import LoginPage from './components/LoginPage';
 import HealthPassportCard from './components/HealthPassportCard';
 import MedicalHistoryTimeline from './components/MedicalHistoryTimeline';
 import DoctorConsultationForm from './components/DoctorConsultationForm';
 import QRScannerModal from './components/QRScannerModal';
 import ConsentModal from './components/ConsentModal';
-import PatientRegistrationModal from './components/PatientRegistrationModal';
 import ClinicalSummaryModal from './components/ClinicalSummaryModal';
 import { useAuth } from './context/AuthContext';
 import { 
@@ -14,18 +14,18 @@ import {
   ShieldCheck, 
   Lock, 
   CheckCircle2, 
-  FileText 
+  FileText,
+  Activity
 } from 'lucide-react';
 import { api } from './services/api';
 
 export default function App() {
-  const { user, passport, refreshPassport } = useAuth();
+  const { user, passport, refreshPassport, loading } = useAuth();
   const [activeTab, setActiveTab] = useState('passport');
 
   // Modals
   const [showScanner, setShowScanner] = useState(false);
   const [showConsentModal, setShowConsentModal] = useState(false);
-  const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [summaryRecord, setSummaryRecord] = useState(null);
 
   // Doctor Consultation State
@@ -35,7 +35,7 @@ export default function App() {
   const [medicalRecords, setMedicalRecords] = useState([]);
   const [prescriptions, setPrescriptions] = useState([]);
 
-  // Auto-switch tab based on persona
+  // Auto-switch tab based on user role
   useEffect(() => {
     if (user?.role === 'doctor') {
       setActiveTab('doctorPortal');
@@ -61,7 +61,9 @@ export default function App() {
   };
 
   useEffect(() => {
-    loadPatientRecords();
+    if (user) {
+      loadPatientRecords();
+    }
   }, [user, passport]);
 
   // Doctor Scans QR
@@ -71,7 +73,6 @@ export default function App() {
       sessionId: scanResult.sessionId,
       sessionToken: scanResult.sessionToken,
     });
-    // Open consent authorization modal
     setShowConsentModal(true);
   };
 
@@ -89,22 +90,42 @@ export default function App() {
     }
   };
 
+  // If loading auth state
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-900 flex items-center justify-center text-white">
+        <div className="text-center space-y-3">
+          <Activity className="w-10 h-10 text-teal-400 animate-spin mx-auto" />
+          <p className="text-xs text-slate-400 font-medium tracking-wide">
+            Initializing Secure Health Passport Session...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // If NOT logged in, show normal Login / Register page
+  if (!user) {
+    return <LoginPage />;
+  }
+
+  const isDoctor = user.role === 'doctor';
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans">
       {/* Top Navbar */}
       <Navbar 
         activeTab={activeTab} 
         setActiveTab={setActiveTab} 
-        onOpenRegister={() => setShowRegisterModal(true)} 
       />
 
-      {/* Main Content */}
+      {/* Main Content Area */}
       <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-8">
-        {/* Tab 1: Health Passport & QR Code (Patient View) */}
-        {activeTab === 'passport' && (
+        {/* PATIENT VIEW: Tab 1 - Health Passport & QR Code */}
+        {!isDoctor && activeTab === 'passport' && (
           <div className="space-y-8">
             <HealthPassportCard />
-            <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm flex items-center justify-between gap-4">
+            <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-4">
               <div>
                 <h4 className="text-base font-bold text-slate-900">Visiting a Doctor or Hospital?</h4>
                 <p className="text-xs text-slate-500 mt-0.5">
@@ -121,8 +142,8 @@ export default function App() {
           </div>
         )}
 
-        {/* Tab 2: Medical History Ledger (Patient View) */}
-        {activeTab === 'history' && (
+        {/* PATIENT VIEW: Tab 2 - Medical History Ledger */}
+        {!isDoctor && activeTab === 'history' && (
           <div className="space-y-6">
             <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-4">
               <div>
@@ -130,7 +151,7 @@ export default function App() {
                   Patient Medical Dossier
                 </span>
                 <h3 className="text-xl font-extrabold text-slate-900 mt-1">
-                  Complete Medical History for {user?.name || 'Patient'}
+                  Complete Medical History for {user.name}
                 </h3>
                 <p className="text-xs text-slate-500">
                   Every doctor consultation, diagnosis, and treatment plan is immutably logged below.
@@ -152,8 +173,8 @@ export default function App() {
           </div>
         )}
 
-        {/* Tab 3: Doctor Clinical Portal (Doctor View) */}
-        {activeTab === 'doctorPortal' && (
+        {/* DOCTOR VIEW: Tab 3 - Doctor Clinical Portal */}
+        {isDoctor && (
           <div className="space-y-6">
             {!consultationDossier ? (
               /* Doctor Scan Prompt */
@@ -309,17 +330,6 @@ export default function App() {
         patientPreview={patientPreview}
         onClose={() => setShowConsentModal(false)}
         onConsentGranted={handleConsentGranted}
-      />
-
-      {/* Register New Patient Modal */}
-      <PatientRegistrationModal
-        isOpen={showRegisterModal}
-        onClose={() => setShowRegisterModal(false)}
-        onRegistered={async () => {
-          await refreshPassport();
-          await loadPatientRecords();
-          setActiveTab('passport');
-        }}
       />
 
       {/* Clinical Consultation Summary Modal */}

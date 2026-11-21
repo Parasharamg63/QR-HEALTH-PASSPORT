@@ -9,57 +9,88 @@ export function AuthProvider({ children }) {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
   const [loading, setLoading] = useState(true);
 
+  // Initialize auth from existing token if present
   const initAuth = async () => {
     setLoading(true);
-    try {
-      if (token) {
+    const savedToken = localStorage.getItem('token');
+    if (savedToken) {
+      try {
         const res = await api.getMe();
-        if (res.success) {
+        if (res.success && res.user) {
           setUser(res.user);
           setPassport(res.passport);
-          setLoading(false);
-          return;
+          setToken(savedToken);
+        } else {
+          // Token invalid or expired
+          localStorage.removeItem('token');
+          setToken('');
+          setUser(null);
+          setPassport(null);
         }
+      } catch (err) {
+        console.warn('Session expired or invalid, logging out:', err.message);
+        localStorage.removeItem('token');
+        setToken('');
+        setUser(null);
+        setPassport(null);
       }
-    } catch (err) {
-      console.warn('Initial auth fetch error, switching to default demo user:', err.message);
+    } else {
+      setUser(null);
+      setPassport(null);
     }
-
-    // Default to Patient Rameshwar Gowda demo user if no token or expired
-    try {
-      const demoRes = await api.switchDemo({ role: 'patient' });
-      if (demoRes.success) {
-        localStorage.setItem('token', demoRes.token);
-        setToken(demoRes.token);
-        setUser(demoRes.user);
-        setPassport(demoRes.passport);
-      }
-    } catch (err) {
-      console.error('Failed to load default demo user:', err.message);
-    } finally {
-      setLoading(false);
-    }
+    setLoading(false);
   };
 
   useEffect(() => {
     initAuth();
   }, []);
 
-  const switchPersona = async (role, email) => {
+  // Standard Login
+  const login = async (email, password) => {
     setLoading(true);
     try {
-      const res = await api.switchDemo({ role, email });
+      const res = await api.login({ email, password });
       if (res.success) {
         localStorage.setItem('token', res.token);
         setToken(res.token);
         setUser(res.user);
-        setPassport(res.passport);
+        setPassport(res.passport || null);
+        return { success: true, user: res.user };
       }
+      return { success: false, message: res.message || 'Login failed' };
     } catch (err) {
-      console.error('Switch demo persona error:', err.message);
+      return { success: false, message: err.message || 'Invalid email or password' };
     } finally {
       setLoading(false);
     }
+  };
+
+  // Standard Register
+  const register = async (userData) => {
+    setLoading(true);
+    try {
+      const res = await api.register(userData);
+      if (res.success) {
+        localStorage.setItem('token', res.token);
+        setToken(res.token);
+        setUser(res.user);
+        setPassport(res.passport || null);
+        return { success: true, user: res.user, passport: res.passport };
+      }
+      return { success: false, message: res.message || 'Registration failed' };
+    } catch (err) {
+      return { success: false, message: err.message || 'Registration error' };
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Standard Logout
+  const logout = () => {
+    localStorage.removeItem('token');
+    setToken('');
+    setUser(null);
+    setPassport(null);
   };
 
   const refreshPassport = async () => {
@@ -74,7 +105,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, passport, token, loading, switchPersona, refreshPassport }}>
+    <AuthContext.Provider value={{ user, passport, token, loading, login, register, logout, refreshPassport }}>
       {children}
     </AuthContext.Provider>
   );

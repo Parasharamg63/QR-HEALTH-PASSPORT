@@ -2,52 +2,37 @@ import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import { 
   ShieldCheck, 
-  UserCheck, 
   Stethoscope, 
-  UserPlus, 
   QrCode, 
-  FileText 
+  FileText, 
+  LogOut,
+  User
 } from 'lucide-react';
 
-export default function Navbar({ activeTab, setActiveTab, onOpenRegister }) {
-  const { user, switchPersona } = useAuth();
+export default function Navbar({ activeTab, setActiveTab }) {
+  const { user, logout } = useAuth();
+
+  const isDoctor = user?.role === 'doctor';
 
   return (
     <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
-      {/* Top Banner */}
+      {/* Top Bar */}
       <div className="bg-slate-900 text-slate-100 text-xs py-1.5 px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
             <span className="font-semibold text-slate-200">Consent-Driven HealthTech Platform</span>
             <span className="hidden md:inline text-slate-500">|</span>
-            <span className="hidden md:inline text-teal-400">Dynamic Patient QR Code & Medical Record Synchronization</span>
+            <span className="hidden md:inline text-teal-400">ABHA Digital Health Network</span>
           </div>
 
-          {/* Quick Persona Switcher */}
-          <div className="flex items-center gap-2">
-            <span className="text-slate-400 font-medium">Switch Role:</span>
-            <button
-              onClick={() => switchPersona('patient', 'rameshwar.gowda@patient.org')}
-              className={`px-2.5 py-0.5 rounded-lg text-xs transition font-semibold flex items-center gap-1 ${
-                user?.role === 'patient' ? 'bg-teal-600 text-white shadow-sm' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
-              }`}
-            >
-              <UserCheck className="w-3.5 h-3.5" /> Patient (Rameshwar)
-            </button>
-            <button
-              onClick={() => switchPersona('doctor', 'doctor.rajesh@hospital.org')}
-              className={`px-2.5 py-0.5 rounded-lg text-xs transition font-semibold flex items-center gap-1 ${
-                user?.role === 'doctor' ? 'bg-blue-600 text-white shadow-sm' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
-              }`}
-            >
-              <Stethoscope className="w-3.5 h-3.5" /> Doctor (Dr. Rajesh)
-            </button>
+          <div className="text-slate-400 text-[11px] font-mono">
+            Secure Session Active
           </div>
         </div>
       </div>
 
-      {/* Main Brand & Action Navigation */}
+      {/* Main Header */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between gap-4">
         {/* Brand */}
         <div className="flex items-center gap-3">
@@ -64,73 +49,74 @@ export default function Navbar({ activeTab, setActiveTab, onOpenRegister }) {
               </span>
             </div>
             <p className="text-xs text-slate-500 hidden sm:block">
-              Patient QR Verification • Consent-Governed History • Clinical Treatment Ledger
+              Patient QR Verification • Consent-Governed Medical Records
             </p>
           </div>
         </div>
 
-        {/* Right Actions */}
-        <div className="flex items-center gap-3">
-          <button
-            onClick={onOpenRegister}
-            className="px-3.5 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs shadow-md shadow-teal-600/25 transition flex items-center gap-1.5"
-          >
-            <UserPlus className="w-4 h-4" />
-            <span>Register New Patient</span>
-          </button>
-
-          {/* Active User Badge */}
-          <div className="hidden lg:flex items-center gap-2.5 pl-3 border-l border-slate-200">
-            <div className="w-9 h-9 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center font-bold text-slate-700 text-xs">
-              {user?.name ? user.name.charAt(0) : 'U'}
+        {/* User Profile & Standard Logout */}
+        <div className="flex items-center gap-3 sm:gap-4">
+          <div className="flex items-center gap-2.5">
+            <div className="w-9 h-9 rounded-xl bg-teal-50 border border-teal-200 flex items-center justify-center font-bold text-teal-800 text-xs">
+              {isDoctor ? <Stethoscope className="w-4 h-4 text-teal-700" /> : <User className="w-4 h-4 text-teal-700" />}
             </div>
-            <div>
+            <div className="text-left hidden sm:block">
               <div className="text-xs font-bold text-slate-900 leading-none">{user?.name}</div>
-              <div className="text-[10px] uppercase font-semibold text-teal-700 mt-1">
-                Role: {user?.role}
+              <div className="text-[10px] uppercase font-bold text-teal-700 mt-1">
+                {isDoctor ? 'Authorized Doctor' : 'Registered Patient'}
               </div>
             </div>
           </div>
+
+          {/* Standard Logout Button */}
+          <button
+            onClick={logout}
+            className="px-3.5 py-2 rounded-xl border border-slate-300 text-slate-700 hover:bg-rose-50 hover:text-rose-700 hover:border-rose-200 font-bold text-xs transition flex items-center gap-1.5 shadow-xs"
+            title="Sign out of your session"
+          >
+            <LogOut className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Logout</span>
+          </button>
         </div>
       </div>
 
-      {/* Tabs */}
+      {/* Navigation Tabs based on logged in role */}
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center space-x-2 border-t border-slate-100 py-1.5 text-xs sm:text-sm font-semibold">
-        <button
-          onClick={() => setActiveTab('passport')}
-          className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl transition ${
-            activeTab === 'passport' 
-              ? 'bg-teal-50 text-teal-800 font-bold border-b-2 border-teal-600' 
-              : 'text-slate-600 hover:bg-slate-50'
-          }`}
-        >
-          <QrCode className="w-4 h-4 text-teal-600" />
-          <span>Patient Health Passport & QR</span>
-        </button>
+        {!isDoctor ? (
+          <>
+            <button
+              onClick={() => setActiveTab('passport')}
+              className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl transition ${
+                activeTab === 'passport' 
+                  ? 'bg-teal-50 text-teal-800 font-bold border-b-2 border-teal-600' 
+                  : 'text-slate-600 hover:bg-slate-50'
+              }`}
+            >
+              <QrCode className="w-4 h-4 text-teal-600" />
+              <span>My Health Passport & QR</span>
+            </button>
 
-        <button
-          onClick={() => setActiveTab('history')}
-          className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl transition ${
-            activeTab === 'history' 
-              ? 'bg-teal-50 text-teal-800 font-bold border-b-2 border-teal-600' 
-              : 'text-slate-600 hover:bg-slate-50'
-          }`}
-        >
-          <FileText className="w-4 h-4 text-teal-600" />
-          <span>Medical History Ledger</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab('doctorPortal')}
-          className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl transition ${
-            activeTab === 'doctorPortal' 
-              ? 'bg-blue-50 text-blue-800 font-bold border-b-2 border-blue-600' 
-              : 'text-slate-600 hover:bg-slate-50'
-          }`}
-        >
-          <Stethoscope className="w-4 h-4 text-blue-600" />
-          <span>Doctor Portal (Scan QR & Treat)</span>
-        </button>
+            <button
+              onClick={() => setActiveTab('history')}
+              className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl transition ${
+                activeTab === 'history' 
+                  ? 'bg-teal-50 text-teal-800 font-bold border-b-2 border-teal-600' 
+                  : 'text-slate-600 hover:bg-slate-50'
+              }`}
+            >
+              <FileText className="w-4 h-4 text-teal-600" />
+              <span>Medical History Ledger</span>
+            </button>
+          </>
+        ) : (
+          <button
+            onClick={() => setActiveTab('doctorPortal')}
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-blue-50 text-blue-800 font-bold border-b-2 border-blue-600"
+          >
+            <Stethoscope className="w-4 h-4 text-blue-600" />
+            <span>Doctor Clinical Portal (Scan Patient QR & Record Treatment)</span>
+          </button>
+        )}
       </nav>
     </header>
   );

@@ -26,7 +26,7 @@ const medicalRecordSchema = new mongoose.Schema({
   },
   visitType: {
     type: String,
-    enum: ['OPD', 'Emergency', 'Follow-up', 'Routine Checkup'],
+    enum: ['OPD', 'OPD Consultation', 'Emergency', 'Follow-up', 'Routine Checkup', 'General Consultation'],
     default: 'OPD',
   },
   chiefComplaints: [{

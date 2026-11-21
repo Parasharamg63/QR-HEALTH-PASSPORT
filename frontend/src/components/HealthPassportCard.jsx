@@ -24,7 +24,7 @@ export default function HealthPassportCard() {
   const { user, passport, refreshPassport } = useAuth();
   const [refreshing, setRefreshing] = useState(false);
   const [showPin, setShowPin] = useState(false);
-  const [copiedAbha, setCopiedAbha] = useState(false);
+  const [copiedId, setCopiedId] = useState(false);
 
   const handleRefreshQR = async () => {
     setRefreshing(true);
@@ -38,11 +38,11 @@ export default function HealthPassportCard() {
     }
   };
 
-  const handleCopyAbha = () => {
+  const handleCopyHealthId = () => {
     if (passport?.abhaId) {
       navigator.clipboard.writeText(passport.abhaId);
-      setCopiedAbha(true);
-      setTimeout(() => setCopiedAbha(false), 2000);
+      setCopiedId(true);
+      setTimeout(() => setCopiedId(false), 2000);
     }
   };
 
@@ -70,7 +70,7 @@ export default function HealthPassportCard() {
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 border border-teal-200/60 text-teal-800 text-xs font-bold">
             <ShieldCheck className="w-3.5 h-3.5 text-teal-600" />
-            <span>Ayushman Bharat Verified Medical Credential</span>
+            <span>Certified Digital Health Credential</span>
           </div>
           <h2 className="text-2xl font-black text-slate-950 tracking-tight mt-1.5">
             Digital Health Passport
@@ -115,7 +115,7 @@ export default function HealthPassportCard() {
           <div className="absolute -right-20 -top-20 w-72 h-72 rounded-full bg-teal-500/20 blur-3xl pointer-events-none"></div>
           <div className="absolute -left-20 -bottom-20 w-72 h-72 rounded-full bg-blue-500/20 blur-3xl pointer-events-none"></div>
 
-          {/* Card Top: Government Header & EMV Chip */}
+          {/* Card Top: Header & EMV Chip */}
           <div className="relative z-10 flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-5">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-teal-500 to-emerald-400 flex items-center justify-center text-slate-950 font-black shadow-lg shadow-teal-500/20">
@@ -123,10 +123,10 @@ export default function HealthPassportCard() {
               </div>
               <div>
                 <span className="text-[10px] font-black uppercase tracking-[0.2em] text-teal-400 block">
-                  NATIONAL HEALTH AUTHORITY • GOVT OF INDIA
+                  GLOBAL HEALTH NETWORK • VERIFIED CREDENTIAL
                 </span>
                 <h3 className="text-lg font-black tracking-tight text-white leading-tight">
-                  Ayushman Bharat Health Account (ABHA)
+                  Universal Digital Health Passport
                 </h3>
               </div>
             </div>
@@ -141,7 +141,7 @@ export default function HealthPassportCard() {
             </div>
           </div>
 
-          {/* Card Middle: Patient Identity & ABHA Identifier */}
+          {/* Card Middle: Patient Identity & Health Identifier */}
           <div className="relative z-10 space-y-4">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div className="flex items-center gap-4">
@@ -160,7 +160,7 @@ export default function HealthPassportCard() {
                   <div className="flex items-center gap-2 mt-1 text-xs text-slate-300 font-medium">
                     <span>{passport.gender || 'Male'}, {age} yrs</span>
                     <span>•</span>
-                    <span className="text-emerald-400 font-semibold">{passport.address?.district || 'Mandya'}, Karnataka</span>
+                    <span className="text-emerald-400 font-semibold">{passport.address?.district || 'Mandya'}, Regional Care</span>
                   </div>
                 </div>
               </div>
@@ -174,11 +174,11 @@ export default function HealthPassportCard() {
               </div>
             </div>
 
-            {/* ABHA Number Bar with 1-Click Copy */}
+            {/* Health ID Bar with 1-Click Copy */}
             <div className="bg-white/5 border border-white/10 rounded-2xl p-3.5 flex flex-wrap items-center justify-between gap-3 backdrop-blur-md">
               <div>
                 <span className="text-[10px] text-slate-400 uppercase tracking-widest font-bold block">
-                  Official Health ID (ABHA)
+                  Universal Health ID (UHID)
                 </span>
                 <span className="font-mono text-base sm:text-lg font-black text-teal-300 tracking-wider">
                   {passport.abhaId}
@@ -186,11 +186,11 @@ export default function HealthPassportCard() {
               </div>
 
               <button
-                onClick={handleCopyAbha}
-                className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-xs font-bold text-white transition flex items-center gap-1.5"
+                onClick={handleCopyHealthId}
+                className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-xs font-bold text-white transition flex items-center gap-1.5 cursor-pointer"
               >
-                {copiedAbha ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-teal-300" />}
-                <span>{copiedAbha ? 'Copied ID' : 'Copy ABHA'}</span>
+                {copiedId ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-teal-300" />}
+                <span>{copiedId ? 'Copied Health ID' : 'Copy Health ID'}</span>
               </button>
             </div>
           </div>

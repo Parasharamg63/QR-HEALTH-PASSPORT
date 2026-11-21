@@ -224,7 +224,7 @@ export default function App() {
                     onClick={() => setShowScanner(true)}
                     className="px-6 py-4 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs sm:text-sm transition cursor-pointer"
                   >
-                    Manual ABHA Lookup
+                    Manual Health ID Lookup
                   </button>
                 </div>
 
@@ -251,7 +251,7 @@ export default function App() {
                           Consent Handshake Verified (60m)
                         </span>
                         <span className="text-xs font-mono font-bold text-slate-500">
-                          ABHA: {consultationDossier.passport?.abhaId}
+                          Health ID: {consultationDossier.passport?.abhaId}
                         </span>
                       </div>
                       <h3 className="text-xl sm:text-2xl font-black text-slate-950 mt-1">

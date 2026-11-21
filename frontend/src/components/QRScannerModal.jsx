@@ -73,7 +73,7 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
         onClose();
       }
     } catch (err) {
-      setScanningError(err.message || 'No patient record found for this ABHA ID');
+      setScanningError(err.message || 'No patient record found for this Health ID');
     } finally {
       setLoading(false);
     }
@@ -133,7 +133,7 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
             }`}
           >
             <Upload className="w-4 h-4 text-blue-600" />
-            <span>Manual ABHA Lookup</span>
+            <span>Manual Health ID Lookup</span>
           </button>
         </div>
 
@@ -167,12 +167,12 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
           </div>
         )}
 
-        {/* Manual ABHA Input View */}
+        {/* Manual Health ID Input View */}
         {activeMode === 'manual' && (
           <form onSubmit={handleManualSubmit} className="mt-4 space-y-4 text-xs">
             <div>
               <label className="font-bold text-slate-700 block mb-1.5">
-                Patient ABHA Health Identifier (14-digit):
+                Universal Health Identifier (UHID):
               </label>
               <input
                 type="text"
@@ -186,9 +186,9 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 rounded-2xl bg-teal-600 hover:bg-teal-700 text-white font-black text-xs shadow-lg shadow-teal-600/25 transition disabled:opacity-50"
+              className="w-full py-3.5 rounded-2xl bg-teal-600 hover:bg-teal-700 text-white font-black text-xs shadow-lg shadow-teal-600/25 transition disabled:opacity-50 cursor-pointer"
             >
-              {loading ? 'Querying ABDM Registry...' : 'Lookup Patient & Request Consent'}
+              {loading ? 'Querying Universal Health Registry...' : 'Lookup Patient & Request Consent'}
             </button>
           </form>
         )}
@@ -212,7 +212,7 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
                   Rameshwar Gowda (Patient)
                 </div>
                 <div className="text-[10px] text-slate-400 font-mono">
-                  ABHA: 91-4421-8890-1204
+                  Health ID: 91-4421-8890-1204
                 </div>
               </div>
             </div>

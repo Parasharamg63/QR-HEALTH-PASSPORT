@@ -42,7 +42,7 @@ export default function MedicalHistoryTimeline({ records = [], prescriptions = [
             Encounter & Treatment History
           </h3>
           <p className="text-xs text-slate-500 font-medium">
-            Immutable longitudinal electronic health record complying with National Health Authority standards.
+            Immutable longitudinal electronic health record complying with HL7/FHIR International Health Records Standards.
           </p>
         </div>
 

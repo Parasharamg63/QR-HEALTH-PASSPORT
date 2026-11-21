@@ -24,7 +24,7 @@ export default function ClinicalSummaryModal({ isOpen, onClose, record, patient 
             </div>
             <div>
               <h3 className="text-lg font-bold text-slate-900">Official Clinical Consultation Summary</h3>
-              <p className="text-xs text-slate-500">National Digital Health Mission Verified Medical Record</p>
+              <p className="text-xs text-slate-500">Certified Digital Clinical Record</p>
             </div>
           </div>
           <button 
@@ -65,7 +65,7 @@ export default function ClinicalSummaryModal({ isOpen, onClose, record, patient 
               <strong className="text-slate-900 font-bold">{patient?.name || 'Rameshwar Gowda'}</strong>
             </div>
             <div>
-              <span className="text-slate-400 block text-[10px] font-semibold">ABHA HEALTH ID</span>
+              <span className="text-slate-400 block text-[10px] font-semibold">HEALTH ID (UHID)</span>
               <strong className="font-mono text-teal-700">{patient?.abhaId || '91-4421-8890-1204'}</strong>
             </div>
             <div>

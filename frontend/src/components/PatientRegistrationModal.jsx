@@ -93,7 +93,7 @@ export default function PatientRegistrationModal({ isOpen, onClose, onRegistered
                 Patient Registration & Instant QR Passport
               </h3>
               <p className="text-xs text-slate-500">
-                Register a new patient to generate an ABHA Digital Health Passport & QR Code
+                Register a new patient to generate a Digital Health Passport & QR Code
               </p>
             </div>
           </div>
@@ -122,7 +122,7 @@ export default function PatientRegistrationModal({ isOpen, onClose, onRegistered
                 Registration Successful!
               </h4>
               <p className="text-xs text-slate-500 mt-1">
-                Generated ABHA Health ID: <strong className="font-mono text-teal-700">{newPassport.abhaId}</strong>
+                Generated Universal Health ID: <strong className="font-mono text-teal-700">{newPassport.abhaId}</strong>
               </p>
             </div>
 

@@ -107,7 +107,7 @@ export default function LoginPage() {
         <div className="lg:col-span-6 space-y-6 text-white text-center lg:text-left">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-teal-500/10 border border-teal-400/20 text-teal-300 text-xs font-bold tracking-wide">
             <Sparkles className="w-3.5 h-3.5 text-teal-400 animate-spin" />
-            <span>Ayushman Bharat Digital Health Protocol</span>
+            <span>Decentralized Clinical Health Protocol</span>
           </div>
 
           <div className="space-y-3">
@@ -134,7 +134,7 @@ export default function LoginPage() {
             </div>
             <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
               <div className="text-cyan-400 font-black text-xl sm:text-2xl">Instant</div>
-              <div className="text-[11px] text-slate-400 font-medium mt-0.5">ABHA Issuance</div>
+              <div className="text-[11px] text-slate-400 font-medium mt-0.5">Health ID Issuance</div>
             </div>
           </div>
 
@@ -168,7 +168,7 @@ export default function LoginPage() {
                 </div>
                 <div>
                   <div className="text-xs font-bold text-white">Rameshwar Gowda</div>
-                  <div className="text-[10px] text-slate-400">Patient • ABHA #91-4421...</div>
+                  <div className="text-[10px] text-slate-400">Patient • Health ID #91-4421...</div>
                 </div>
               </button>
             </div>
@@ -188,7 +188,7 @@ export default function LoginPage() {
                   <h2 className="text-lg font-black text-slate-900 tracking-tight leading-none">
                     QR HEALTH <span className="text-teal-600">PASSPORT</span>
                   </h2>
-                  <p className="text-[11px] text-slate-500 font-medium mt-0.5">National Digital Health Network</p>
+                  <p className="text-[11px] text-slate-500 font-medium mt-0.5">Universal Clinical Health Network</p>
                 </div>
               </div>
 
@@ -282,7 +282,7 @@ export default function LoginPage() {
                 </button>
 
                 <p className="text-center text-[11px] text-slate-400 pt-2">
-                  Protected by 256-bit encryption • Compliant with ABDM & HIPAA standards
+                  Protected by 256-bit encryption • Compliant with HIPAA & HL7/FHIR Security Standards
                 </p>
               </form>
             )}
@@ -377,7 +377,7 @@ export default function LoginPage() {
                 <div className="p-3 bg-teal-50/80 border border-teal-200/60 rounded-2xl text-[11px] text-teal-900 flex items-start gap-2">
                   <CheckCircle2 className="w-4 h-4 text-teal-600 flex-shrink-0 mt-0.5" />
                   <span>
-                    Upon registration, an <strong>ABHA-compliant Health ID</strong> and dynamic <strong>Health Passport QR Code</strong> will be generated automatically.
+                    Upon registration, an official <strong>Universal Health ID (UHID)</strong> and dynamic <strong>Health Passport QR Code</strong> will be generated automatically.
                   </span>
                 </div>
 

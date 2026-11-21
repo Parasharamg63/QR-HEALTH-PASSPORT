@@ -18,7 +18,7 @@ export default function Navbar({ activeTab, setActiveTab }) {
 
   return (
     <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-xl border-b border-slate-200/80 shadow-xs">
-      {/* Top ABDM Network Status Ribbon */}
+      {/* Top Global Health Network Ribbon */}
       <div className="bg-slate-950 text-slate-200 text-xs py-1.5 px-4 sm:px-8 border-b border-white/5">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2.5">
@@ -27,7 +27,7 @@ export default function Navbar({ activeTab, setActiveTab }) {
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </span>
             <span className="font-semibold text-slate-200 tracking-wide text-[11px]">
-              Ayushman Bharat Digital Mission (ABDM) • Encrypted TLS 1.3
+              Encrypted Clinical Health Network • TLS 1.3 Verified
             </span>
             <span className="hidden md:inline text-slate-600">|</span>
             <span className="hidden md:inline text-teal-400 text-[11px] font-medium">

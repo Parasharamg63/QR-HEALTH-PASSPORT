@@ -172,7 +172,7 @@ export default function DoctorConsultationForm({ patient, sessionId, onTreatment
             Doctor Clinical Examination
           </h3>
           <p className="text-xs text-slate-500 font-medium">
-            Active Patient: <strong className="text-slate-900">{patient?.name}</strong> (ABHA: <span className="font-mono text-teal-700">{patient?.abhaId}</span>)
+            Active Patient: <strong className="text-slate-900">{patient?.name}</strong> (Health ID: <span className="font-mono text-teal-700">{patient?.abhaId}</span>)
           </p>
         </div>
 
@@ -493,7 +493,7 @@ export default function DoctorConsultationForm({ patient, sessionId, onTreatment
           )}
         </button>
         <p className="text-center text-[11px] text-slate-400 mt-2 font-medium">
-          Commits diagnosis, vitals, and prescription permanently to the patient's Ayushman Bharat Health Passport.
+          Commits diagnosis, vitals, and prescription permanently to the patient's Digital Health Passport.
         </p>
       </div>
     </form>

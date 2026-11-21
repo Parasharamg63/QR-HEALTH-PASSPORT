@@ -62,7 +62,7 @@ export default function ConsentModal({ isOpen, onClose, sessionId, patientPrevie
               <span className="text-slate-950 font-black">{patientPreview.name}</span>
             </div>
             <div className="flex justify-between items-center text-slate-600">
-              <span className="text-slate-400 font-semibold">ABHA ID:</span>
+              <span className="text-slate-400 font-semibold">Health ID:</span>
               <span className="font-mono font-bold text-teal-800">{patientPreview.abhaId}</span>
             </div>
             <div className="flex justify-between items-center text-slate-600">

@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+}
+
+/* Accessibility Large Text Mode */
+body.accessibility-large-text {
+  font-size: 1.15rem;
+}
+
+body.accessibility-large-text button,
+body.accessibility-large-text input,
+body.accessibility-large-text select {
+  font-size: 1.1rem;
+}
+
+/* Custom clinical card styling */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+/* Print badge layout */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #printable-passport, #printable-passport * {
+    visibility: visible;
+  }
+  #printable-passport {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+}

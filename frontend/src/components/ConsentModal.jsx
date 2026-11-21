@@ -27,10 +27,10 @@ export default function ConsentModal({ isOpen, onClose, sessionId, patientPrevie
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4">
-      <div className="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border-2 border-teal-500/40 animate-in fade-in zoom-in duration-200 space-y-5">
+      <div className="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-slate-200 animate-in fade-in zoom-in duration-200 space-y-5">
         {/* Top Handshake Header */}
         <div className="flex items-start justify-between">
-          <div className="w-12 h-12 rounded-2xl bg-teal-50 border border-teal-200 flex items-center justify-center text-teal-600 shadow-xs">
+          <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-700 shadow-xs">
             <ShieldCheck className="w-7 h-7" />
           </div>
           <button 
@@ -42,7 +42,7 @@ export default function ConsentModal({ isOpen, onClose, sessionId, patientPrevie
         </div>
 
         <div>
-          <div className="inline-flex items-center gap-1.5 text-xs font-black text-teal-700 uppercase tracking-wider">
+          <div className="inline-flex items-center gap-1.5 text-xs font-black text-blue-800 uppercase tracking-wider">
             <Lock className="w-3.5 h-3.5" />
             <span>FHIR Consent Handshake Protocol</span>
           </div>
@@ -50,7 +50,7 @@ export default function ConsentModal({ isOpen, onClose, sessionId, patientPrevie
             Authorize Clinical Record Access
           </h3>
           <p className="text-xs text-slate-500 mt-1.5 leading-relaxed font-medium">
-            <strong className="text-slate-900">Dr. Rajesh Sharma (Cardiologist)</strong> is requesting explicit consent to decrypt past clinical encounters, diagnostic reports, and record new treatment.
+            <strong className="text-slate-900">Attending Physician</strong> is requesting explicit consent to decrypt past clinical encounters, diagnostic reports, and record new treatment.
           </p>
         </div>
 
@@ -63,7 +63,7 @@ export default function ConsentModal({ isOpen, onClose, sessionId, patientPrevie
             </div>
             <div className="flex justify-between items-center text-slate-600">
               <span className="text-slate-400 font-semibold">Health ID:</span>
-              <span className="font-mono font-bold text-teal-800">{patientPreview.abhaId}</span>
+              <span className="font-mono font-bold text-slate-900">{patientPreview.abhaId}</span>
             </div>
             <div className="flex justify-between items-center text-slate-600">
               <span className="text-slate-400 font-semibold">Blood Group:</span>
@@ -71,7 +71,7 @@ export default function ConsentModal({ isOpen, onClose, sessionId, patientPrevie
             </div>
             <div className="flex justify-between items-center text-slate-600">
               <span className="text-slate-400 font-semibold">Access Scope:</span>
-              <span className="font-bold text-emerald-600">60 Minutes Session (Ephemeral)</span>
+              <span className="font-bold text-emerald-700">60 Minutes Session (Ephemeral)</span>
             </div>
           </div>
         )}
@@ -87,13 +87,13 @@ export default function ConsentModal({ isOpen, onClose, sessionId, patientPrevie
         <div className="space-y-2">
           <label className="block text-xs font-black text-slate-800 flex items-center justify-between">
             <span className="flex items-center gap-1.5">
-              <KeyRound className="w-3.5 h-3.5 text-teal-600" />
+              <KeyRound className="w-3.5 h-3.5 text-blue-700" />
               Patient 4-Digit Security PIN:
             </span>
             <button
               type="button"
               onClick={() => setPin('1234')}
-              className="text-[11px] text-teal-600 hover:text-teal-700 font-bold underline"
+              className="text-[11px] text-blue-700 hover:text-blue-800 font-bold underline"
             >
               Fill '1234'
             </button>
@@ -104,7 +104,7 @@ export default function ConsentModal({ isOpen, onClose, sessionId, patientPrevie
             value={pin}
             onChange={(e) => setPin(e.target.value)}
             placeholder="1234"
-            className="w-full text-center tracking-[0.5em] font-mono text-2xl py-3 px-4 rounded-2xl border border-slate-300 focus:border-teal-500 focus:ring-2 focus:ring-teal-200 outline-none font-black text-slate-900 bg-slate-50/50"
+            className="w-full text-center tracking-[0.5em] font-mono text-2xl py-3 px-4 rounded-2xl border border-slate-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none font-black text-slate-900 bg-slate-50/50"
           />
           <p className="text-center text-[10px] text-slate-400 font-medium">
             The patient must verbally or physically authorize this PIN to decrypt records.
@@ -122,7 +122,7 @@ export default function ConsentModal({ isOpen, onClose, sessionId, patientPrevie
           <button
             onClick={handleGrant}
             disabled={loading}
-            className="flex-1 py-3 rounded-2xl bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white text-xs font-black shadow-lg shadow-teal-600/25 transition flex items-center justify-center gap-2 disabled:opacity-50"
+            className="flex-1 py-3 rounded-2xl bg-blue-700 hover:bg-blue-800 text-white text-xs font-bold shadow-sm transition flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
           >
             <CheckCircle className="w-4 h-4" />
             <span>{loading ? 'Authorizing...' : 'Grant Access (60m)'}</span>

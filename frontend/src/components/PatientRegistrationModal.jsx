@@ -85,7 +85,7 @@ export default function PatientRegistrationModal({ isOpen, onClose, onRegistered
       <div className="bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl border border-slate-200 animate-in fade-in zoom-in duration-200 my-8">
         <div className="flex items-center justify-between border-b border-slate-100 pb-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-2xl bg-blue-50 text-blue-700 flex items-center justify-center">
               <UserPlus className="w-5 h-5" />
             </div>
             <div>
@@ -122,7 +122,7 @@ export default function PatientRegistrationModal({ isOpen, onClose, onRegistered
                 Registration Successful!
               </h4>
               <p className="text-xs text-slate-500 mt-1">
-                Generated Universal Health ID: <strong className="font-mono text-teal-700">{newPassport.abhaId}</strong>
+                Generated Universal Health ID: <strong className="font-mono text-slate-900">{newPassport.abhaId}</strong>
               </p>
             </div>
 
@@ -252,7 +252,7 @@ export default function PatientRegistrationModal({ isOpen, onClose, onRegistered
               <button
                 type="submit"
                 disabled={loading}
-                className="px-6 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs shadow-md shadow-teal-600/30 transition flex items-center gap-1.5"
+                className="px-6 py-2.5 rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-bold text-xs shadow-sm hover:shadow transition flex items-center gap-1.5 cursor-pointer"
               >
                 <QrCode className="w-4 h-4" />
                 {loading ? 'Registering...' : 'Register & Generate QR Passport'}

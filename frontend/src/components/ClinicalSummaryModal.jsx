@@ -19,7 +19,7 @@ export default function ClinicalSummaryModal({ isOpen, onClose, record, patient 
       <div className="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-slate-200 my-8">
         <div className="flex items-center justify-between border-b border-slate-100 pb-4">
           <div className="flex items-center gap-2.5">
-            <div className="w-10 h-10 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-2xl bg-blue-50 text-blue-700 flex items-center justify-center">
               <Stethoscope className="w-5 h-5" />
             </div>
             <div>
@@ -41,17 +41,17 @@ export default function ClinicalSummaryModal({ isOpen, onClose, record, patient 
           <div className="border-b border-slate-200 pb-4 flex flex-wrap items-start justify-between gap-3">
             <div>
               <h4 className="text-base font-extrabold text-slate-900">
-                {record.hospitalName || 'Apex Heart & Super-Specialty Institute'}
+                {record.hospitalName || 'Clinical Consultation Facility'}
               </h4>
               <p className="text-xs text-slate-600 font-semibold mt-0.5">
-                Attending Physician: {record.doctorName || 'Dr. Rajesh Sharma, MD, DM'}
+                Attending Physician: {record.doctorName || 'Attending Physician'}
               </p>
               <p className="text-[11px] text-slate-400">
-                Specialization: {record.doctorSpecialization || 'Consultant Cardiologist'}
+                Specialization: {record.doctorSpecialization || 'General / Specialist Consultation'}
               </p>
             </div>
             <div className="text-right">
-              <span className="text-[10px] font-bold uppercase bg-teal-100 text-teal-800 px-2 py-0.5 rounded">
+              <span className="text-[10px] font-bold uppercase bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.5 rounded">
                 Verified Record
               </span>
               <p className="text-xs text-slate-500 mt-1">Date: {visitDate}</p>
@@ -62,15 +62,15 @@ export default function ClinicalSummaryModal({ isOpen, onClose, record, patient 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-white p-3 rounded-xl border border-slate-200">
             <div>
               <span className="text-slate-400 block text-[10px] font-semibold">PATIENT NAME</span>
-              <strong className="text-slate-900 font-bold">{patient?.name || 'Rameshwar Gowda'}</strong>
+              <strong className="text-slate-900 font-bold">{patient?.name || 'Patient'}</strong>
             </div>
             <div>
               <span className="text-slate-400 block text-[10px] font-semibold">HEALTH ID (UHID)</span>
-              <strong className="font-mono text-teal-700">{patient?.abhaId || '91-4421-8890-1204'}</strong>
+              <strong className="font-mono text-slate-900">{patient?.abhaId}</strong>
             </div>
             <div>
               <span className="text-slate-400 block text-[10px] font-semibold">BLOOD GROUP</span>
-              <strong className="text-rose-600 font-bold">{patient?.bloodGroup || 'B+'}</strong>
+              <strong className="text-rose-600 font-bold">{patient?.bloodGroup || 'Not Specified'}</strong>
             </div>
             <div>
               <span className="text-slate-400 block text-[10px] font-semibold">CONSULTATION</span>
@@ -129,7 +129,7 @@ export default function ClinicalSummaryModal({ isOpen, onClose, record, patient 
             </button>
             <button
               onClick={handlePrint}
-              className="px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs shadow-md shadow-teal-600/25 transition flex items-center gap-1.5"
+              className="px-4 py-2 rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-bold text-xs shadow-sm transition flex items-center gap-1.5 cursor-pointer"
             >
               <Printer className="w-4 h-4" />
               <span>Print Clinical Summary</span>

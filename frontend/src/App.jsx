@@ -98,7 +98,7 @@ export default function App() {
     return (
       <div className="min-h-screen bg-slate-950 flex items-center justify-center text-white">
         <div className="text-center space-y-3">
-          <Activity className="w-10 h-10 text-teal-400 animate-spin mx-auto" />
+          <Activity className="w-10 h-10 text-blue-500 animate-spin mx-auto" />
           <p className="text-xs text-slate-400 font-semibold tracking-wider uppercase">
             Initializing Secure Health Passport Session...
           </p>
@@ -115,7 +115,7 @@ export default function App() {
   const isDoctor = user.role === 'doctor';
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-slate-800 flex flex-col font-sans selection:bg-teal-500 selection:text-white">
+    <div className="min-h-screen bg-[#F8FAFC] text-slate-800 flex flex-col font-sans selection:bg-blue-600 selection:text-white">
       {/* Top Navbar */}
       <Navbar 
         activeTab={activeTab} 
@@ -131,10 +131,10 @@ export default function App() {
             <HealthPassportCard />
 
             {/* Quick Visit Banner */}
-            <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-md flex flex-wrap items-center justify-between gap-4">
+            <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-sm flex flex-wrap items-center justify-between gap-4">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-teal-500"></span>
+                  <span className="w-2.5 h-2.5 rounded-full bg-blue-600"></span>
                   <h4 className="text-base font-extrabold text-slate-950">Visiting a Doctor or Hospital?</h4>
                 </div>
                 <p className="text-xs text-slate-500 font-medium max-w-2xl">
@@ -143,10 +143,10 @@ export default function App() {
               </div>
               <button
                 onClick={() => setActiveTab('history')}
-                className="px-5 py-3 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs shadow-md shadow-slate-900/10 transition flex items-center gap-2 cursor-pointer"
+                className="px-5 py-3 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs shadow-sm transition flex items-center gap-2 cursor-pointer"
               >
                 <span>View Full Medical Ledger</span>
-                <ArrowRight className="w-3.5 h-3.5 text-teal-400" />
+                <ArrowRight className="w-3.5 h-3.5 text-blue-300" />
               </button>
             </div>
           </div>
@@ -155,9 +155,9 @@ export default function App() {
         {/* PATIENT VIEW: Tab 2 - Medical History Ledger */}
         {!isDoctor && activeTab === 'history' && (
           <div className="space-y-6">
-            <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-md flex flex-wrap items-center justify-between gap-4">
+            <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm flex flex-wrap items-center justify-between gap-4">
               <div>
-                <span className="text-[10px] font-black uppercase tracking-wider text-teal-800 bg-teal-50 px-2.5 py-0.5 rounded-full border border-teal-200">
+                <span className="text-[10px] font-black uppercase tracking-wider text-blue-800 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-200">
                   Patient Medical Dossier
                 </span>
                 <h3 className="text-xl font-black text-slate-950 tracking-tight mt-1">
@@ -188,19 +188,16 @@ export default function App() {
           <div className="space-y-6">
             {!consultationDossier ? (
               /* Doctor Scan Prompt Hero Card */
-              <div className="bg-white rounded-3xl border border-slate-200/80 p-8 sm:p-14 text-center max-w-3xl mx-auto shadow-xl space-y-7 relative overflow-hidden">
-                {/* Ambient glow in card */}
-                <div className="absolute top-0 right-0 w-64 h-64 rounded-full bg-teal-500/10 blur-3xl pointer-events-none"></div>
-
+              <div className="bg-white rounded-3xl border border-slate-200/80 p-8 sm:p-14 text-center max-w-3xl mx-auto shadow-md space-y-7 relative overflow-hidden">
                 <div className="relative">
-                  <div className="w-24 h-24 rounded-3xl bg-gradient-to-tr from-teal-500 to-emerald-400 flex items-center justify-center mx-auto shadow-xl shadow-teal-500/25 text-white">
-                    <QrCode className="w-12 h-12" />
+                  <div className="w-20 h-20 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-center mx-auto text-blue-700 shadow-sm">
+                    <QrCode className="w-10 h-10" />
                   </div>
-                  <div className="absolute top-0 right-1/2 translate-x-12 w-4 h-4 rounded-full bg-emerald-400 border-2 border-white animate-pulse"></div>
+                  <div className="absolute top-0 right-1/2 translate-x-10 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-white"></div>
                 </div>
 
                 <div className="space-y-2">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-teal-700 bg-teal-50 px-3 py-1 rounded-full border border-teal-200">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-blue-800 bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
                     Clinical Workflow Engine
                   </span>
                   <h3 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">
@@ -214,7 +211,7 @@ export default function App() {
                 <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
                   <button
                     onClick={() => setShowScanner(true)}
-                    className="px-8 py-4 rounded-2xl bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white font-black text-sm sm:text-base shadow-xl shadow-teal-600/30 transition transform hover:-translate-y-0.5 flex items-center gap-2.5 cursor-pointer"
+                    className="px-8 py-4 rounded-2xl bg-blue-700 hover:bg-blue-800 text-white font-bold text-sm sm:text-base shadow-sm hover:shadow transition flex items-center gap-2.5 cursor-pointer"
                   >
                     <QrCode className="w-5 h-5" />
                     <span>Scan Patient QR Code</span>
@@ -229,7 +226,7 @@ export default function App() {
                 </div>
 
                 <div className="p-3.5 bg-slate-50/80 rounded-2xl border border-slate-200 text-xs text-slate-600 flex items-center justify-center gap-2.5 max-w-xl mx-auto">
-                  <Lock className="w-4 h-4 text-teal-600 flex-shrink-0" />
+                  <Lock className="w-4 h-4 text-blue-700 flex-shrink-0" />
                   <span className="font-medium">
                     Consent-Governed Security: Decryption keys are issued only after explicit patient consent handshake.
                   </span>
@@ -239,9 +236,9 @@ export default function App() {
               /* Doctor Consultation Workspace (Unlocked after Consent) */
               <div className="space-y-6">
                 {/* Active Patient Dossier Header Banner */}
-                <div className="bg-white rounded-3xl border-2 border-teal-500/40 p-6 shadow-md flex flex-wrap items-center justify-between gap-4">
+                <div className="bg-white rounded-3xl border border-slate-200/80 p-6 shadow-sm flex flex-wrap items-center justify-between gap-4">
                   <div className="flex items-center gap-4">
-                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-teal-600 to-emerald-600 text-white flex items-center justify-center text-2xl font-black shadow-md">
+                    <div className="w-14 h-14 rounded-2xl bg-blue-700 text-white flex items-center justify-center text-2xl font-black shadow-sm">
                       {consultationDossier.patient?.name?.charAt(0) || 'P'}
                     </div>
                     <div>
@@ -273,7 +270,7 @@ export default function App() {
                     </button>
                     <button
                       onClick={() => setShowScanner(true)}
-                      className="px-4 py-2.5 rounded-2xl bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs transition shadow-md shadow-teal-600/20 cursor-pointer"
+                      className="px-4 py-2.5 rounded-2xl bg-blue-700 hover:bg-blue-800 text-white font-bold text-xs transition shadow-sm cursor-pointer"
                     >
                       Scan Next Patient
                     </button>
@@ -299,13 +296,13 @@ export default function App() {
                 />
 
                 {/* Patient's Full Medical History (Unlocked with Consent) */}
-                <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-md space-y-4">
+                <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-sm space-y-4">
                   <div className="flex items-center justify-between border-b border-slate-100 pb-4">
                     <h4 className="font-black text-slate-950 text-base sm:text-lg flex items-center gap-2">
-                      <FileText className="w-5 h-5 text-teal-600" />
+                      <FileText className="w-5 h-5 text-blue-700" />
                       Patient's Historical Clinical Dossier
                     </h4>
-                    <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+                    <span className="text-xs font-bold text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
                       Unlocked with Patient Consent
                     </span>
                   </div>
@@ -325,7 +322,7 @@ export default function App() {
       <footer className="mt-auto border-t border-slate-200/80 bg-white py-6 px-4 sm:px-8 text-xs text-slate-500">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-teal-600" />
+            <ShieldCheck className="w-4 h-4 text-blue-700" />
             <span className="font-black text-slate-800">QR Health Passport</span>
             <span>• Built on MERN Stack</span>
           </div>

@@ -307,7 +307,7 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
         {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-100 pb-4">
           <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center shadow-xs">
+            <div className="w-11 h-11 rounded-2xl bg-blue-50 text-blue-700 flex items-center justify-center shadow-xs">
               <QrCode className="w-6 h-6" />
             </div>
             <div>
@@ -331,7 +331,7 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
               activeMode === 'camera' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-900'
             }`}
           >
-            <Camera className="w-4 h-4 text-teal-600" />
+            <Camera className="w-4 h-4 text-blue-700" />
             <span>Live Camera</span>
           </button>
           
@@ -341,7 +341,7 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
               activeMode === 'file' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-900'
             }`}
           >
-            <FileImage className="w-4 h-4 text-emerald-600" />
+            <FileImage className="w-4 h-4 text-emerald-700" />
             <span>Upload Image</span>
           </button>
 
@@ -351,7 +351,7 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
               activeMode === 'manual' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-900'
             }`}
           >
-            <Upload className="w-4 h-4 text-blue-600" />
+            <Upload className="w-4 h-4 text-slate-700" />
             <span>Health ID Lookup</span>
           </button>
         </div>
@@ -383,7 +383,7 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
             {cameras.length > 1 && (
               <div className="flex items-center justify-between text-xs font-semibold bg-slate-50 p-2.5 rounded-xl border border-slate-200">
                 <span className="text-slate-500 flex items-center gap-1.5">
-                  <Video className="w-3.5 h-3.5 text-teal-600" />
+                  <Video className="w-3.5 h-3.5 text-blue-700" />
                   Select Device:
                 </span>
                 <select
@@ -402,22 +402,22 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
 
             {/* Video Viewport Frame */}
             <div className="relative overflow-hidden rounded-2xl border-2 border-slate-900 bg-slate-950 min-h-[280px]">
-              {/* Laser Sweep Animation when scanning */}
+              {/* Clinical viewfinder targeting guide */}
               {cameraActive && (
-                <div className="absolute inset-x-0 h-1 bg-gradient-to-r from-transparent via-teal-400 to-transparent shadow-[0_0_15px_rgba(45,212,191,0.8)] animate-laser pointer-events-none z-20"></div>
+                <div className="absolute inset-x-0 h-0.5 bg-gradient-to-r from-transparent via-blue-500 to-transparent shadow-[0_0_8px_rgba(59,130,246,0.6)] animate-laser pointer-events-none z-20"></div>
               )}
 
-              {/* Status overlay (OUTSIDE the viewport container to avoid React reconciliation wipe) */}
+              {/* Status overlay */}
               {startingCamera && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-950/90 z-20 text-slate-300 text-xs gap-2">
-                  <RefreshCw className="w-6 h-6 animate-spin text-teal-400" />
+                  <RefreshCw className="w-6 h-6 animate-spin text-blue-400" />
                   <span className="font-bold">Opening camera stream...</span>
                 </div>
               )}
 
               {loading && (
-                <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-950/90 z-20 text-teal-300 text-xs gap-2">
-                  <RefreshCw className="w-6 h-6 animate-spin text-teal-400" />
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-950/90 z-20 text-blue-300 text-xs gap-2">
+                  <RefreshCw className="w-6 h-6 animate-spin text-blue-400" />
                   <span className="font-bold">Verifying cryptographic passport...</span>
                 </div>
               )}
@@ -435,7 +435,7 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
         {/* TAB 2: Upload Image File (QR Screenshot / Photo) */}
         {activeMode === 'file' && (
           <div className="mt-4 space-y-3">
-            <label className="border-2 border-dashed border-slate-300 hover:border-teal-500 rounded-2xl p-6 flex flex-col items-center justify-center cursor-pointer bg-slate-50/50 hover:bg-teal-50/30 transition text-center min-h-[220px]">
+            <label className="border-2 border-dashed border-slate-300 hover:border-blue-600 rounded-2xl p-6 flex flex-col items-center justify-center cursor-pointer bg-slate-50/50 hover:bg-blue-50/40 transition text-center min-h-[220px]">
               <input 
                 type="file" 
                 accept="image/*" 
@@ -449,13 +449,13 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
                     alt="Uploaded QR" 
                     className="max-h-36 rounded-xl mx-auto shadow-sm border border-slate-200" 
                   />
-                  <p className="text-xs text-teal-700 font-bold">
+                  <p className="text-xs text-blue-700 font-bold">
                     {loading ? 'Decoding QR image with multi-tier engine...' : 'Click or drop another image to change'}
                   </p>
                 </div>
               ) : (
                 <div className="space-y-2">
-                  <div className="w-12 h-12 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center mx-auto">
+                  <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-700 flex items-center justify-center mx-auto">
                     <FileImage className="w-6 h-6" />
                   </div>
                   <div>
@@ -487,14 +487,14 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
                 value={manualHealthId}
                 onChange={(e) => setManualHealthId(e.target.value)}
                 placeholder="e.g. 91-4421-8890-1204"
-                className="w-full px-4 py-3 rounded-2xl border border-slate-200 font-mono font-bold text-slate-900 text-sm focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 outline-none"
+                className="w-full px-4 py-3 rounded-2xl border border-slate-200 font-mono font-bold text-slate-900 text-sm focus:ring-2 focus:ring-blue-100 focus:border-blue-600 outline-none"
               />
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 rounded-2xl bg-teal-600 hover:bg-teal-700 text-white font-black text-xs shadow-lg shadow-teal-600/25 transition disabled:opacity-50 cursor-pointer"
+              className="w-full py-3.5 rounded-2xl bg-blue-700 hover:bg-blue-800 text-white font-bold text-xs shadow-sm hover:shadow transition disabled:opacity-50 cursor-pointer"
             >
               {loading ? 'Querying Universal Health Registry...' : 'Lookup Patient & Request Consent'}
             </button>

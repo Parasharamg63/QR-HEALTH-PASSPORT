@@ -253,9 +253,9 @@ export default function HealthPassportCard() {
             <div className="absolute bottom-2 left-2 w-3 h-3 border-b-2 border-l-2 border-teal-400"></div>
             <div className="absolute bottom-2 right-2 w-3 h-3 border-b-2 border-r-2 border-teal-400"></div>
 
-            {passport.qrCode ? (
+            {passport.qrCode || passport.qrCodeDataUrl ? (
               <img 
-                src={passport.qrCode} 
+                src={passport.qrCode || passport.qrCodeDataUrl} 
                 alt="Health Passport QR Code" 
                 className="w-full h-auto rounded-xl shadow-md bg-white p-2"
               />

@@ -83,6 +83,14 @@ const healthPassportSchema = new mongoose.Schema({
     recordedAt: { type: Date, default: Date.now },
     recordedBy: String,
   }],
-}, { timestamps: true });
+}, { 
+  timestamps: true,
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true },
+});
+
+healthPassportSchema.virtual('qrCode').get(function() {
+  return this.qrCodeDataUrl;
+});
 
 module.exports = mongoose.model('HealthPassport', healthPassportSchema);

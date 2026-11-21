@@ -68,7 +68,7 @@ export default function HealthPassportCard() {
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E6F7F8] border border-[#B2E5E8] text-[#005F66] text-xs font-bold">
             <ShieldCheck className="w-3.5 h-3.5 text-[#00838C]" />
-            <span>GoDaddy Verified Patient Credential</span>
+            <span>Verified Patient Health Credential</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight mt-1">
             Digital Health Passport

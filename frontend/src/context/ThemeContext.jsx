@@ -2,19 +2,19 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const ThemeContext = createContext();
 
-export const GODADDY_THEMES = [
+export const APP_THEMES = [
   {
     id: 'pulse',
-    name: 'GoDaddy Pulse',
+    name: 'Modern Pulse',
     tagline: 'Modern & Bold',
     primaryColor: '#111111',
     accentColor: '#00838C',
     accentBg: '#E6F7F8',
-    description: 'High-contrast obsidian & GoDaddy signature brand teal with energetic CTAs.'
+    description: 'High-contrast obsidian & signature clinical teal with energetic CTAs.'
   },
   {
     id: 'citadel',
-    name: 'GoDaddy Citadel',
+    name: 'Citadel Pro',
     tagline: 'Corporate Pro',
     primaryColor: '#0F2942',
     accentColor: '#1D4ED8',
@@ -23,7 +23,7 @@ export const GODADDY_THEMES = [
   },
   {
     id: 'minimal',
-    name: 'GoDaddy Minimal',
+    name: 'Minimal Slate',
     tagline: 'Pure Paper & Mono',
     primaryColor: '#18181B',
     accentColor: '#3F3F46',
@@ -34,18 +34,18 @@ export const GODADDY_THEMES = [
 
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(() => {
-    return localStorage.getItem('godaddy_theme') || 'pulse';
+    return localStorage.getItem('health_passport_theme') || 'pulse';
   });
 
   useEffect(() => {
-    localStorage.setItem('godaddy_theme', theme);
+    localStorage.setItem('health_passport_theme', theme);
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
 
-  const currentTheme = GODADDY_THEMES.find(t => t.id === theme) || GODADDY_THEMES[0];
+  const currentTheme = APP_THEMES.find(t => t.id === theme) || APP_THEMES[0];
 
   return (
-    <ThemeContext.Provider value={{ theme, setTheme, currentTheme, themes: GODADDY_THEMES }}>
+    <ThemeContext.Provider value={{ theme, setTheme, currentTheme, themes: APP_THEMES }}>
       {children}
     </ThemeContext.Provider>
   );

@@ -130,7 +130,7 @@ export default function App() {
           <div className="space-y-6">
             <HealthPassportCard />
 
-            {/* Quick Visit Banner - GoDaddy Modern Service Banner */}
+            {/* Quick Visit Banner - Modern Service Banner */}
             <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/90 shadow-[0_2px_12px_rgba(0,0,0,0.04)] flex flex-wrap items-center justify-between gap-4">
               <div className="space-y-1.5">
                 <div className="flex items-center gap-2">
@@ -190,7 +190,7 @@ export default function App() {
         {isDoctor && (
           <div className="space-y-6">
             {!consultationDossier ? (
-              /* Doctor Scan Prompt Hero Card - GoDaddy Modern Studio Card */
+              /* Doctor Scan Prompt Hero Card - Modern Studio Card */
               <div className="bg-white rounded-3xl border border-slate-200/90 p-8 sm:p-14 text-center max-w-3xl mx-auto shadow-[0_4px_24px_rgba(0,0,0,0.06)] space-y-7 relative overflow-hidden">
                 <div className="relative">
                   <div className="w-20 h-20 rounded-2xl bg-[#111111] flex items-center justify-center mx-auto text-[#00A4A6] shadow-sm border border-slate-800">
@@ -201,7 +201,7 @@ export default function App() {
 
                 <div className="space-y-2">
                   <span className="text-[10px] font-black uppercase tracking-widest text-[#005F66] bg-[#E6F7F8] px-3 py-1 rounded-full border border-[#B2E5E8]">
-                    GoDaddy Clinical Engine
+                    Clinical Workflow Engine
                   </span>
                   <h3 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">
                     Doctor Clinical QR Scanner
@@ -321,13 +321,13 @@ export default function App() {
         )}
       </main>
 
-      {/* GoDaddy Modern Footer */}
+      {/* Modern Footer */}
       <footer className="mt-auto border-t border-slate-200/90 bg-white py-6 px-4 sm:px-8 text-xs text-slate-500">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-4 h-4 text-[#00838C]" />
             <span className="font-black text-slate-900">QR Health Passport</span>
-            <span className="text-slate-400">• Built with GoDaddy UI Design System</span>
+            <span className="text-slate-400">• Universal Clinical Healthcare Network</span>
           </div>
           <p className="text-[11px] text-slate-500 font-medium">
             Smart Patient-Centric Healthcare • Consent-Governed Medical History Synchronization • 256-Bit TLS

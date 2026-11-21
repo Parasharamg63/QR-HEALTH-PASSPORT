@@ -140,7 +140,7 @@ export default function LoginPage() {
         <div className="lg:col-span-5 space-y-6 text-slate-800 text-center lg:text-left">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#E6F7F8] border border-[#B2E5E8] text-[#005F66] text-xs font-bold">
             <HeartHandshake className="w-3.5 h-3.5 text-[#00838C]" />
-            <span>GoDaddy Verified Health Architecture</span>
+            <span>Universal Health Network</span>
           </div>
 
           <div className="space-y-3">
@@ -153,7 +153,7 @@ export default function LoginPage() {
             </p>
           </div>
 
-          {/* GoDaddy Modern Feature Cards */}
+          {/* Modern Feature Cards */}
           <div className="space-y-3 pt-2 text-left">
             <div className="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs flex items-start gap-3.5">
               <div className="w-9 h-9 rounded-xl bg-[#111111] text-[#00A4A6] flex items-center justify-center flex-shrink-0 mt-0.5 border border-slate-800">
@@ -205,7 +205,7 @@ export default function LoginPage() {
               </div>
 
               <span className="text-[11px] font-black text-slate-700 bg-slate-100 px-3 py-1 rounded-full border border-slate-200">
-                GoDaddy Protected
+                256-Bit TLS Protected
               </span>
             </div>
 

@@ -44,7 +44,7 @@ export default function ConsentModal({ isOpen, onClose, sessionId, patientPrevie
         <div>
           <div className="inline-flex items-center gap-1.5 text-xs font-black text-[#005F66] uppercase tracking-wider bg-[#E6F7F8] border border-[#B2E5E8] px-3 py-0.5 rounded-full">
             <Lock className="w-3.5 h-3.5 text-[#00838C]" />
-            <span>GoDaddy Consent Handshake</span>
+            <span>Consent Handshake Protocol</span>
           </div>
           <h3 className="text-xl font-black text-slate-950 tracking-tight mt-1.5">
             Authorize Clinical Record Access

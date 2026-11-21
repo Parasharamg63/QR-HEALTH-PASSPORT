@@ -24,13 +24,13 @@ export default function Navbar({ activeTab, setActiveTab }) {
 
   return (
     <header className="sticky top-0 z-40 bg-white border-b border-slate-200/80 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
-      {/* GoDaddy Reassuring Top Sub-Bar with Live Theme Selector */}
+      {/* Reassuring Top Sub-Bar with Live Theme Selector */}
       <div className="bg-[#111111] text-slate-300 text-xs py-1.5 px-4 sm:px-8 border-b border-black">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block animate-pulse"></span>
             <span className="font-bold text-white text-[11px] tracking-wide">
-              GoDaddy Verified Health Engine
+              Universal Clinical Health Network
             </span>
             <span className="hidden md:inline text-slate-600">•</span>
             <span className="hidden md:inline text-slate-400 text-[11px]">
@@ -38,7 +38,7 @@ export default function Navbar({ activeTab, setActiveTab }) {
             </span>
           </div>
 
-          {/* GoDaddy Theme Selector Dropdown */}
+          {/* Theme Selector Dropdown */}
           <div className="relative">
             <button
               onClick={() => setShowThemeMenu(!showThemeMenu)}
@@ -57,9 +57,9 @@ export default function Navbar({ activeTab, setActiveTab }) {
               >
                 <div className="px-3 py-2 border-b border-slate-100 mb-1">
                   <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 block">
-                    GoDaddy Design System Themes
+                    Visual Interface Themes
                   </span>
-                  <span className="text-xs font-bold text-slate-800">Choose Visual Architecture</span>
+                  <span className="text-xs font-bold text-slate-800">Choose Interface Style</span>
                 </div>
 
                 <div className="space-y-1">
@@ -99,7 +99,7 @@ export default function Navbar({ activeTab, setActiveTab }) {
         </div>
       </div>
 
-      {/* Main GoDaddy Header */}
+      {/* Main Header */}
       <div className="max-w-7xl mx-auto px-4 sm:px-8 py-3.5 flex items-center justify-between gap-4">
         {/* Brand & Organization Identity */}
         <div className="flex items-center gap-3.5">
@@ -113,7 +113,7 @@ export default function Navbar({ activeTab, setActiveTab }) {
                 QR HEALTH <span className="text-[#00838C]">PASSPORT</span>
               </h1>
               <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-800 border border-slate-200">
-                {currentTheme.name}
+                Universal Health ID
               </span>
             </div>
             <p className="text-[11px] text-slate-500 font-medium hidden sm:block mt-0.5">
@@ -150,7 +150,7 @@ export default function Navbar({ activeTab, setActiveTab }) {
         </div>
       </div>
 
-      {/* GoDaddy Navigation Tabs */}
+      {/* Navigation Tabs */}
       <nav className="max-w-7xl mx-auto px-4 sm:px-8 flex items-center space-x-2 border-t border-slate-100 py-2 text-xs sm:text-sm font-semibold">
         {!isDoctor ? (
           <>

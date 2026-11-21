@@ -1,7 +1,116 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Html5Qrcode } from 'html5-qrcode';
-import { QrCode, Camera, Upload, X, AlertCircle, FileImage, RefreshCw, Video, VideoOff } from 'lucide-react';
+import jsQR from 'jsqr';
+import { QrCode, Camera, Upload, X, AlertCircle, FileImage, RefreshCw, Video, CheckCircle2 } from 'lucide-react';
 import { api } from '../services/api';
+
+// Multi-Tier QR Decoder (Native BarcodeDetector -> jsQR with Inversion -> Scaled Canvas -> Binarized Contrast)
+async function decodeQRFromImageFile(file) {
+  // 1. Try Native Browser Hardware BarcodeDetector (Chrome, Edge, Chromium)
+  if ('BarcodeDetector' in window) {
+    try {
+      const detector = new window.BarcodeDetector({ formats: ['qr_code'] });
+      const imageBitmap = await createImageBitmap(file);
+      const barcodes = await detector.detect(imageBitmap);
+      if (barcodes && barcodes.length > 0 && barcodes[0].rawValue) {
+        return barcodes[0].rawValue;
+      }
+    } catch (e) {
+      console.warn('Native BarcodeDetector pass:', e);
+    }
+  }
+
+  // Helper to load image element from file
+  const img = await new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const image = new Image();
+      image.onload = () => resolve(image);
+      image.onerror = () => reject(new Error('Failed to load image file.'));
+      image.src = e.target.result;
+    };
+    reader.onerror = () => reject(new Error('Failed to read file.'));
+    reader.readAsDataURL(file);
+  });
+
+  const naturalWidth = img.naturalWidth || img.width;
+  const naturalHeight = img.naturalHeight || img.height;
+
+  // 2. jsQR Pass at Native Resolution (supports both light and dark inverted QR codes)
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d', { willReadFrequently: true });
+  canvas.width = naturalWidth;
+  canvas.height = naturalHeight;
+  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+  try {
+    const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const code = jsQR(imgData.data, imgData.width, imgData.height, {
+      inversionAttempts: 'attemptBoth',
+    });
+    if (code && code.data) {
+      return code.data;
+    }
+  } catch (e) {
+    console.warn('jsQR native pass:', e);
+  }
+
+  // 3. High-Resolution Downscale Pass (Scales to 800px sweet spot for mobile 4K screenshots)
+  const maxDim = 800;
+  if (naturalWidth > maxDim || naturalHeight > maxDim) {
+    try {
+      const scale = Math.min(maxDim / naturalWidth, maxDim / naturalHeight);
+      const scaledCanvas = document.createElement('canvas');
+      const scaledCtx = scaledCanvas.getContext('2d', { willReadFrequently: true });
+      scaledCanvas.width = Math.round(naturalWidth * scale);
+      scaledCanvas.height = Math.round(naturalHeight * scale);
+      scaledCtx.drawImage(img, 0, 0, scaledCanvas.width, scaledCanvas.height);
+
+      const scaledData = scaledCtx.getImageData(0, 0, scaledCanvas.width, scaledCanvas.height);
+      const code = jsQR(scaledData.data, scaledData.width, scaledData.height, {
+        inversionAttempts: 'attemptBoth',
+      });
+      if (code && code.data) {
+        return code.data;
+      }
+    } catch (e) {
+      console.warn('jsQR scaled pass:', e);
+    }
+  }
+
+  // 4. Binarized Contrast Pass (For low-contrast or glare photos)
+  try {
+    const contrastCanvas = document.createElement('canvas');
+    const contrastCtx = contrastCanvas.getContext('2d', { willReadFrequently: true });
+    const targetW = Math.min(naturalWidth, 900);
+    const targetH = Math.min(naturalHeight, 900);
+    contrastCanvas.width = targetW;
+    contrastCanvas.height = targetH;
+    contrastCtx.drawImage(img, 0, 0, targetW, targetH);
+
+    const cImgData = contrastCtx.getImageData(0, 0, targetW, targetH);
+    const d = cImgData.data;
+    for (let i = 0; i < d.length; i += 4) {
+      const brightness = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
+      const val = brightness > 128 ? 255 : 0;
+      d[i] = val;
+      d[i + 1] = val;
+      d[i + 2] = val;
+    }
+    contrastCtx.putImageData(cImgData, 0, 0);
+
+    const code = jsQR(cImgData.data, targetW, targetH, {
+      inversionAttempts: 'attemptBoth',
+    });
+    if (code && code.data) {
+      return code.data;
+    }
+  } catch (e) {
+    console.warn('jsQR binarized pass:', e);
+  }
+
+  return null;
+}
 
 export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
   const [activeMode, setActiveMode] = useState('camera'); // 'camera' | 'file' | 'manual'
@@ -50,7 +159,6 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
   }, [isOpen, activeMode, selectedCameraId]);
 
   const startCameraStream = async (camId) => {
-    // If already running or starting, stop first
     await stopCamera();
 
     setStartingCamera(true);
@@ -62,7 +170,6 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
       });
       html5QrCodeRef.current = qrInstance;
 
-      // Select camera: Use device id if available, otherwise try universal constraints
       const cameraConfig = camId ? camId : { facingMode: 'user' };
 
       await qrInstance.start(
@@ -72,7 +179,6 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
           qrbox: { width: 250, height: 250 },
         },
         (decodedText) => {
-          // QR detected
           stopCamera();
           handleProcessQR(decodedText);
         },
@@ -107,7 +213,7 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
         }
         html5QrCodeRef.current.clear();
       } catch (e) {
-        // Safe ignore on unmount
+        // Safe ignore
       }
       html5QrCodeRef.current = null;
     }
@@ -131,7 +237,7 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
     }
   };
 
-  // Image File Upload QR Decoding
+  // Image File Upload Multi-Tier QR Decoding
   const handleFileUpload = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -143,23 +249,28 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
     setUploadedPreview(previewUrl);
 
     try {
-      const tempScanner = new Html5Qrcode('qr-file-scan-sandbox', {
-        experimentalFeatures: { useBarCodeDetectorIfSupported: true },
-      });
+      // Run robust multi-tier decoder (BarcodeDetector -> jsQR normal/inverted -> downscaled -> contrast)
+      const decodedText = await decodeQRFromImageFile(file);
 
-      const decodedText = await tempScanner.scanFile(file, false);
-      tempScanner.clear();
-
-      await handleProcessQR(decodedText);
-    } catch (err) {
-      const errStr = typeof err === 'string' ? err : err?.message || '';
-      console.warn('File decode error:', errStr);
-
-      if (errStr.includes('No MultiFormat Readers') || errStr.includes('NotFoundException')) {
-        setScanningError('Could not detect a readable QR code in this image. Please ensure the QR code is centered, well-lit, and not cropped, or enter the Health ID manually.');
+      if (decodedText) {
+        await handleProcessQR(decodedText);
       } else {
-        setScanningError('Unable to read QR code from this file: ' + (errStr || 'Format unrecognized'));
+        // Fallback: try Html5Qrcode.scanFile
+        const tempScanner = new Html5Qrcode('qr-file-scan-sandbox', {
+          experimentalFeatures: { useBarCodeDetectorIfSupported: true },
+        });
+        const fallbackText = await tempScanner.scanFile(file, false);
+        tempScanner.clear();
+
+        if (fallbackText) {
+          await handleProcessQR(fallbackText);
+        } else {
+          throw new Error('No readable QR code found');
+        }
       }
+    } catch (err) {
+      console.warn('QR file decoding error:', err);
+      setScanningError('Could not detect a clear QR code in this image. Please ensure the QR code is centered, well-lit, and not cropped, or enter the patient\'s Universal Health ID directly.');
     } finally {
       setLoading(false);
     }
@@ -255,7 +366,7 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
                 <button
                   type="button"
                   onClick={() => startCameraStream(selectedCameraId)}
-                  className="mt-2 text-xs font-bold text-rose-900 underline hover:text-rose-950 flex items-center gap-1"
+                  className="mt-2 text-xs font-bold text-rose-900 underline hover:text-rose-950 flex items-center gap-1 cursor-pointer"
                 >
                   <RefreshCw className="w-3 h-3" />
                   <span>Retry Camera Connection</span>
@@ -339,7 +450,7 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
                     className="max-h-36 rounded-xl mx-auto shadow-sm border border-slate-200" 
                   />
                   <p className="text-xs text-teal-700 font-bold">
-                    {loading ? 'Decoding QR image...' : 'Click or drop another image to change'}
+                    {loading ? 'Decoding QR image with multi-tier engine...' : 'Click or drop another image to change'}
                   </p>
                 </div>
               ) : (
@@ -359,7 +470,7 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
               )}
             </label>
             <p className="text-center text-[11px] text-slate-400 font-medium">
-              Images are decoded client-side and verified against cryptographic signatures.
+              Decoded with multi-tier hardware acceleration, resolution scaling, and inversion detection.
             </p>
           </div>
         )}

@@ -10,7 +10,12 @@ import {
   FileText, 
   Save, 
   Calendar, 
-  AlertCircle 
+  AlertCircle,
+  Sparkles,
+  ShieldCheck,
+  Lock,
+  Clock,
+  ClipboardList
 } from 'lucide-react';
 import { api } from '../services/api';
 
@@ -77,6 +82,41 @@ export default function DoctorConsultationForm({ patient, sessionId, onTreatment
     setMedicines(updated);
   };
 
+  const handleApplyPreset = (type) => {
+    if (type === 'diabetes') {
+      setDiagnosis('Type 2 Diabetes Mellitus with Dyslipidemia');
+      setIcdCode('E11.9 / E78.5');
+      setMedicines([
+        {
+          name: 'Metformin Sustained Release',
+          dosage: '500 mg',
+          frequency: 'Twice Daily (1-0-1)',
+          mealTiming: 'After Food',
+          instructions: 'Take immediately with meals to minimize gastric distress.',
+        },
+        {
+          name: 'Atorvastatin IP',
+          dosage: '10 mg',
+          frequency: 'Once Daily (0-0-1)',
+          mealTiming: 'After Food',
+          instructions: 'Take at bedtime.',
+        },
+      ]);
+    } else if (type === 'hypertension') {
+      setDiagnosis('Primary Essential Hypertension');
+      setIcdCode('I10');
+      setMedicines([
+        {
+          name: 'Amlodipine Tablets IP',
+          dosage: '5 mg',
+          frequency: 'Once Daily (1-0-0)',
+          mealTiming: 'After Food',
+          instructions: 'Take every morning.',
+        },
+      ]);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!diagnosis) {
@@ -102,8 +142,8 @@ export default function DoctorConsultationForm({ patient, sessionId, onTreatment
       const res = await api.addTreatment(payload);
       if (res.success) {
         confetti({
-          particleCount: 80,
-          spread: 60,
+          particleCount: 100,
+          spread: 70,
           origin: { y: 0.6 },
         });
         setSaveSuccess(true);
@@ -120,249 +160,263 @@ export default function DoctorConsultationForm({ patient, sessionId, onTreatment
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-6">
-      {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
+    <form onSubmit={handleSubmit} className="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-8 shadow-xl space-y-7">
+      {/* Header Clinical Ribbon */}
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 pb-5">
         <div>
-          <span className="text-xs font-bold text-teal-700 bg-teal-50 px-2.5 py-0.5 rounded-full border border-teal-100 uppercase tracking-wider">
-            Clinical Treatment & Medical Record Update
-          </span>
-          <h3 className="text-xl font-extrabold text-slate-900 mt-1 flex items-center gap-2">
-            <Stethoscope className="w-5 h-5 text-teal-600" />
-            Doctor Clinical Consultation
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 border border-teal-200/60 text-teal-800 text-xs font-bold">
+            <Stethoscope className="w-3.5 h-3.5 text-teal-600" />
+            <span>Consultation & Treatment Pad</span>
+          </div>
+          <h3 className="text-xl sm:text-2xl font-black text-slate-950 tracking-tight mt-1.5 flex items-center gap-2.5">
+            Doctor Clinical Examination
           </h3>
-          <p className="text-xs text-slate-500">
-            Active patient: <strong className="text-slate-800">{patient?.name}</strong> (ABHA: {patient?.abhaId})
+          <p className="text-xs text-slate-500 font-medium">
+            Active Patient: <strong className="text-slate-900">{patient?.name}</strong> (ABHA: <span className="font-mono text-teal-700">{patient?.abhaId}</span>)
           </p>
         </div>
 
-        <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
-          Consent Verified & Active
-        </span>
+        <div className="flex items-center gap-2">
+          <span className="text-xs font-bold px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            Patient Consent Verified (60m)
+          </span>
+        </div>
       </div>
 
-      {/* Vitals Recording Strip */}
-      <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4">
-        <span className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-2.5 flex items-center gap-1.5">
-          <Activity className="w-3.5 h-3.5 text-teal-600" />
-          Record Patient Clinical Vitals:
-        </span>
+      {/* SECTION 1: Vitals Recording Strip */}
+      <div className="bg-slate-50/80 border border-slate-200/80 rounded-2xl p-5 space-y-3">
+        <div className="flex items-center justify-between">
+          <span className="text-xs font-black text-slate-800 uppercase tracking-wider flex items-center gap-2">
+            <Activity className="w-4 h-4 text-teal-600" />
+            Record Biometric Vitals at Encounter
+          </span>
+          <span className="text-[11px] text-slate-400 font-medium">Real-time telemetry</span>
+        </div>
+
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 text-xs">
-          <div>
-            <label className="text-slate-500 block mb-1">Blood Pressure (mmHg)</label>
+          <div className="bg-white p-3 rounded-xl border border-slate-200">
+            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+              BP (mmHg)
+            </label>
             <input
               type="text"
               value={vitals.bp}
               onChange={(e) => setVitals({ ...vitals, bp: e.target.value })}
-              className="w-full px-3 py-1.5 rounded-lg border border-slate-300 font-mono font-bold text-slate-900"
+              className="w-full px-2.5 py-1.5 rounded-lg border border-slate-200 font-mono font-black text-slate-900 text-sm focus:border-teal-500 outline-none"
               placeholder="120/80"
             />
           </div>
-          <div>
-            <label className="text-slate-500 block mb-1">Heart Rate (bpm)</label>
+
+          <div className="bg-white p-3 rounded-xl border border-slate-200">
+            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+              Pulse (bpm)
+            </label>
             <input
               type="number"
               value={vitals.pulse}
               onChange={(e) => setVitals({ ...vitals, pulse: e.target.value })}
-              className="w-full px-3 py-1.5 rounded-lg border border-slate-300 font-mono font-bold text-slate-900"
+              className="w-full px-2.5 py-1.5 rounded-lg border border-slate-200 font-mono font-black text-slate-900 text-sm focus:border-teal-500 outline-none"
               placeholder="72"
             />
           </div>
-          <div>
-            <label className="text-slate-500 block mb-1">SpO2 Oxygen (%)</label>
+
+          <div className="bg-white p-3 rounded-xl border border-slate-200">
+            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+              SpO2 Oxygen (%)
+            </label>
             <input
               type="number"
               value={vitals.spo2}
               onChange={(e) => setVitals({ ...vitals, spo2: e.target.value })}
-              className="w-full px-3 py-1.5 rounded-lg border border-slate-300 font-mono font-bold text-emerald-700"
+              className="w-full px-2.5 py-1.5 rounded-lg border border-slate-200 font-mono font-black text-teal-700 text-sm focus:border-teal-500 outline-none"
               placeholder="98"
             />
           </div>
-          <div>
-            <label className="text-slate-500 block mb-1">Blood Glucose (mg/dL)</label>
+
+          <div className="bg-white p-3 rounded-xl border border-slate-200">
+            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+              Blood Sugar (mg/dL)
+            </label>
             <input
               type="number"
               value={vitals.glucose}
               onChange={(e) => setVitals({ ...vitals, glucose: e.target.value })}
-              className="w-full px-3 py-1.5 rounded-lg border border-slate-300 font-mono font-bold text-amber-700"
-              placeholder="110"
+              className="w-full px-2.5 py-1.5 rounded-lg border border-slate-200 font-mono font-black text-slate-900 text-sm focus:border-teal-500 outline-none"
+              placeholder="120"
             />
           </div>
-          <div>
-            <label className="text-slate-500 block mb-1">Temperature (°F)</label>
+
+          <div className="bg-white p-3 rounded-xl border border-slate-200">
+            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+              Temp (°F)
+            </label>
             <input
-              type="number"
-              step="0.1"
+              type="text"
               value={vitals.temp}
               onChange={(e) => setVitals({ ...vitals, temp: e.target.value })}
-              className="w-full px-3 py-1.5 rounded-lg border border-slate-300 font-mono font-bold text-slate-900"
+              className="w-full px-2.5 py-1.5 rounded-lg border border-slate-200 font-mono font-black text-slate-900 text-sm focus:border-teal-500 outline-none"
               placeholder="98.6"
             />
           </div>
         </div>
       </div>
 
-      {/* Diagnosis & Examination */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-        <div>
-          <label className="font-bold text-slate-700 block mb-1">Chief Complaints / Reason for Visit:</label>
-          <input
-            type="text"
-            value={chiefComplaints}
-            onChange={(e) => setChiefComplaints(e.target.value)}
-            className="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-slate-900"
-            placeholder="e.g. Chest pain, high sugar, routine checkup..."
-            required
-          />
+      {/* SECTION 2: Diagnosis, ICD Tag, and Clinical Observations */}
+      <div className="space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <label className="text-xs font-black text-slate-800 uppercase tracking-wider flex items-center gap-2">
+            <FileText className="w-4 h-4 text-teal-600" />
+            Clinical Diagnosis & ICD-10 Classification
+          </label>
+          {/* Quick preset chips */}
+          <div className="flex items-center gap-2 text-[11px]">
+            <span className="text-slate-400 font-semibold">Quick Presets:</span>
+            <button
+              type="button"
+              onClick={() => handleApplyPreset('diabetes')}
+              className="px-2.5 py-1 rounded-lg bg-teal-50 hover:bg-teal-100 text-teal-800 font-bold transition"
+            >
+              + Diabetic Review
+            </button>
+            <button
+              type="button"
+              onClick={() => handleApplyPreset('hypertension')}
+              className="px-2.5 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-800 font-bold transition"
+            >
+              + Hypertension Review
+            </button>
+          </div>
         </div>
 
-        <div>
-          <label className="font-bold text-slate-700 block mb-1">Clinical Diagnosis & ICD-10 Tag:</label>
-          <div className="flex gap-2">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div className="md:col-span-2">
             <input
               type="text"
+              required
               value={diagnosis}
               onChange={(e) => setDiagnosis(e.target.value)}
-              className="flex-1 px-3.5 py-2 rounded-xl border border-slate-300 font-bold text-slate-900"
-              placeholder="Primary Diagnosis (e.g. Type 2 Diabetes Mellitus)"
-              required
+              placeholder="Clinical Diagnosis (e.g. Type 2 Diabetes Mellitus with Essential Hypertension)"
+              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 font-bold text-slate-900 text-xs focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 outline-none"
             />
+          </div>
+          <div>
             <input
               type="text"
               value={icdCode}
               onChange={(e) => setIcdCode(e.target.value)}
-              className="w-24 px-2 py-2 rounded-xl border border-slate-300 font-mono text-center font-bold text-slate-600"
-              placeholder="ICD-10"
+              placeholder="ICD-10 Code (e.g. E11.9 / I10)"
+              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 font-mono font-bold text-teal-800 text-xs focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 outline-none"
             />
           </div>
         </div>
 
-        <div className="md:col-span-2">
-          <label className="font-bold text-slate-700 block mb-1">Physical Examination & Clinical Observations:</label>
+        <div>
+          <label className="text-xs font-bold text-slate-700 block mb-1">
+            Chief Complaints / Symptoms:
+          </label>
+          <input
+            type="text"
+            value={chiefComplaints}
+            onChange={(e) => setChiefComplaints(e.target.value)}
+            placeholder="Comma separated symptoms (e.g. mild lethargy, blood pressure monitoring)"
+            className="w-full px-4 py-2.5 rounded-xl border border-slate-200 font-medium text-slate-800 text-xs focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 outline-none"
+          />
+        </div>
+
+        <div>
+          <label className="text-xs font-bold text-slate-700 block mb-1">
+            Physician Clinical Observations & Physical Examination:
+          </label>
           <textarea
             rows={2}
             value={clinicalObservations}
             onChange={(e) => setClinicalObservations(e.target.value)}
-            className="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-slate-900"
-            placeholder="Clinical observations, chest findings, cardiovascular examination..."
-          />
-        </div>
-
-        <div>
-          <label className="font-bold text-slate-700 block mb-1">Investigations / Lab Tests Ordered:</label>
-          <input
-            type="text"
-            value={investigationsOrdered}
-            onChange={(e) => setInvestigationsOrdered(e.target.value)}
-            className="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-slate-900"
-            placeholder="e.g. HbA1c, Serum Creatinine, ECG..."
-          />
-        </div>
-
-        <div>
-          <label className="font-bold text-slate-700 block mb-1">Recommended Follow-up Date:</label>
-          <input
-            type="date"
-            value={followUpDate}
-            onChange={(e) => setFollowUpDate(e.target.value)}
-            className="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-slate-900"
-          />
-        </div>
-
-        <div className="md:col-span-2">
-          <label className="font-bold text-slate-700 block mb-1">Treatment Plan, Physician Advice & Diet Guidance:</label>
-          <textarea
-            rows={2}
-            value={treatmentPlan}
-            onChange={(e) => setTreatmentPlan(e.target.value)}
-            className="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-slate-900"
-            placeholder="Lifestyle guidance, precautions, emergency warning signs..."
+            placeholder="Heart sounds normal S1/S2 audible, chest clear to auscultation..."
+            className="w-full px-4 py-2.5 rounded-xl border border-slate-200 font-medium text-slate-800 text-xs focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 outline-none"
           />
         </div>
       </div>
 
-      {/* Prescribed Medications Section */}
-      <div className="space-y-3 pt-2">
+      {/* SECTION 3: Medication Prescription Pad */}
+      <div className="space-y-3 pt-3 border-t border-slate-100">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Pill className="w-4 h-4 text-teal-600" />
-            <h4 className="font-bold text-sm text-slate-900">
-              Prescription Orders
-            </h4>
+          <div>
+            <label className="text-xs font-black text-slate-800 uppercase tracking-wider flex items-center gap-2">
+              <Pill className="w-4 h-4 text-teal-600" />
+              Medication Prescription Pad
+            </label>
+            <p className="text-[11px] text-slate-400 font-medium">
+              Dispensed medications are automatically clash-checked and logged to patient history.
+            </p>
           </div>
 
           <button
             type="button"
             onClick={addMedicineRow}
-            className="px-3 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-bold hover:bg-slate-800 transition flex items-center gap-1.5"
+            className="px-3.5 py-1.5 rounded-xl bg-teal-50 hover:bg-teal-100 text-teal-800 font-bold text-xs transition flex items-center gap-1.5 border border-teal-200/60"
           >
             <Plus className="w-3.5 h-3.5" />
-            <span>Add Medicine</span>
+            <span>Add Medication</span>
           </button>
         </div>
 
-        {/* Medicines List */}
         <div className="space-y-2.5">
-          {medicines.map((med, mIdx) => (
-            <div key={mIdx} className="bg-slate-50 border border-slate-200 rounded-2xl p-3.5 text-xs grid grid-cols-1 sm:grid-cols-12 gap-3 items-center">
+          {medicines.map((med, idx) => (
+            <div key={idx} className="bg-slate-50/80 border border-slate-200/80 rounded-2xl p-3.5 grid grid-cols-1 sm:grid-cols-12 gap-2.5 items-center">
               <div className="sm:col-span-4">
-                <label className="text-[10px] text-slate-500 block mb-0.5 font-semibold">Medicine Name & Strength</label>
                 <input
                   type="text"
+                  placeholder="Medicine Name (e.g. Metformin SR)"
                   value={med.name}
-                  onChange={(e) => updateMedicine(mIdx, 'name', e.target.value)}
-                  placeholder="e.g. Metformin 500mg SR"
-                  className="w-full px-3 py-1.5 rounded-lg border border-slate-300 font-semibold text-slate-900"
-                  required
+                  onChange={(e) => updateMedicine(idx, 'name', e.target.value)}
+                  className="w-full px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-bold text-slate-900"
                 />
               </div>
 
               <div className="sm:col-span-2">
-                <label className="text-[10px] text-slate-500 block mb-0.5 font-semibold">Dosage</label>
                 <input
                   type="text"
+                  placeholder="Dosage (500 mg)"
                   value={med.dosage}
-                  onChange={(e) => updateMedicine(mIdx, 'dosage', e.target.value)}
-                  placeholder="500 mg"
-                  className="w-full px-3 py-1.5 rounded-lg border border-slate-300 font-mono text-slate-900"
+                  onChange={(e) => updateMedicine(idx, 'dosage', e.target.value)}
+                  className="w-full px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-mono font-semibold text-slate-700"
                 />
               </div>
 
               <div className="sm:col-span-3">
-                <label className="text-[10px] text-slate-500 block mb-0.5 font-semibold">Frequency</label>
                 <select
                   value={med.frequency}
-                  onChange={(e) => updateMedicine(mIdx, 'frequency', e.target.value)}
-                  className="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 bg-white text-slate-900 font-medium"
+                  onChange={(e) => updateMedicine(idx, 'frequency', e.target.value)}
+                  className="w-full px-2 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-700"
                 >
-                  <option value="Once Daily (1-0-0)">Once Daily (Morning)</option>
-                  <option value="Twice Daily (1-0-1)">Twice Daily (Morning-Night)</option>
-                  <option value="Thrice Daily (1-1-1)">Thrice Daily (M-A-N)</option>
-                  <option value="Bedtime (0-0-0-1)">Bedtime Only (Night)</option>
+                  <option value="Once Daily (1-0-0)">Once Daily (1-0-0)</option>
+                  <option value="Twice Daily (1-0-1)">Twice Daily (1-0-1)</option>
+                  <option value="Thrice Daily (1-1-1)">Thrice Daily (1-1-1)</option>
+                  <option value="At Bedtime (0-0-1)">At Bedtime (0-0-1)</option>
                   <option value="As Needed (SOS)">As Needed (SOS)</option>
                 </select>
               </div>
 
               <div className="sm:col-span-2">
-                <label className="text-[10px] text-slate-500 block mb-0.5 font-semibold">Meal Timing</label>
                 <select
                   value={med.mealTiming}
-                  onChange={(e) => updateMedicine(mIdx, 'mealTiming', e.target.value)}
-                  className="w-full px-2 py-1.5 rounded-lg border border-slate-300 bg-white text-slate-900 font-medium"
+                  onChange={(e) => updateMedicine(idx, 'mealTiming', e.target.value)}
+                  className="w-full px-2 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-700"
                 >
                   <option value="After Food">After Food</option>
-                  <option value="Before Food (Empty Stomach)">Before Food</option>
+                  <option value="Before Food">Before Food</option>
                   <option value="With Food">With Food</option>
-                  <option value="Bedtime">Bedtime</option>
+                  <option value="Empty Stomach">Empty Stomach</option>
                 </select>
               </div>
 
-              <div className="sm:col-span-1 flex justify-end">
+              <div className="sm:col-span-1 text-right">
                 <button
                   type="button"
-                  onClick={() => removeMedicineRow(mIdx)}
-                  className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition"
-                  title="Remove medicine"
+                  onClick={() => removeMedicineRow(idx)}
+                  className="p-1.5 text-slate-400 hover:text-rose-600 rounded-lg hover:bg-rose-50 transition"
+                  title="Remove medication"
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>
@@ -372,29 +426,75 @@ export default function DoctorConsultationForm({ patient, sessionId, onTreatment
         </div>
       </div>
 
-      {/* Submit Button */}
-      <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-        <span className="text-xs text-slate-500">
-          This treatment will be immutably recorded in the patient's Health Passport history.
-        </span>
+      {/* SECTION 4: Treatment Plan, Tests & Follow-Up */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-3 border-t border-slate-100 text-xs">
+        <div>
+          <label className="font-bold text-slate-700 block mb-1">
+            Ordered Diagnostic Tests / Investigations:
+          </label>
+          <input
+            type="text"
+            value={investigationsOrdered}
+            onChange={(e) => setInvestigationsOrdered(e.target.value)}
+            placeholder="HbA1c, Fasting Lipid Profile, Creatinine"
+            className="w-full px-3.5 py-2 rounded-xl border border-slate-200 font-medium text-slate-800"
+          />
+        </div>
 
+        <div>
+          <label className="font-bold text-slate-700 block mb-1 flex items-center gap-1.5">
+            <Calendar className="w-3.5 h-3.5 text-teal-600" />
+            Next Recommended Follow-Up Date:
+          </label>
+          <input
+            type="date"
+            value={followUpDate}
+            onChange={(e) => setFollowUpDate(e.target.value)}
+            className="w-full px-3.5 py-2 rounded-xl border border-slate-200 font-medium text-slate-800"
+          />
+        </div>
+
+        <div className="md:col-span-2">
+          <label className="font-bold text-slate-700 block mb-1">
+            Lifestyle Advice & Treatment Plan:
+          </label>
+          <textarea
+            rows={2}
+            value={treatmentPlan}
+            onChange={(e) => setTreatmentPlan(e.target.value)}
+            placeholder="Maintain low-glycemic, low-sodium diabetic diet. Continue brisk walking 30 mins daily..."
+            className="w-full px-3.5 py-2 rounded-xl border border-slate-200 font-medium text-slate-800"
+          />
+        </div>
+      </div>
+
+      {/* SUBMIT BUTTON: Give Treatment & Update Medical History */}
+      <div className="pt-2">
         <button
           type="submit"
-          disabled={saving || saveSuccess}
-          className="px-6 py-3 rounded-2xl bg-teal-600 hover:bg-teal-700 text-white font-extrabold text-sm shadow-lg shadow-teal-600/30 transition flex items-center gap-2"
+          disabled={saving}
+          className="w-full py-4 rounded-2xl bg-gradient-to-r from-teal-600 via-teal-500 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white font-black text-sm sm:text-base shadow-xl shadow-teal-600/30 transition transform active:scale-[0.99] flex items-center justify-center gap-3 disabled:opacity-50 cursor-pointer"
         >
-          {saveSuccess ? (
+          {saving ? (
             <>
-              <CheckCircle className="w-5 h-5 text-emerald-300" />
-              <span>Medical History Updated Successfully!</span>
+              <Activity className="w-5 h-5 animate-spin" />
+              <span>Cryptographically Committing Treatment to Ledger...</span>
+            </>
+          ) : saveSuccess ? (
+            <>
+              <CheckCircle className="w-5 h-5 text-emerald-200" />
+              <span>Treatment Immutably Recorded in Patient Passport!</span>
             </>
           ) : (
             <>
-              <Save className="w-5 h-5" />
-              <span>{saving ? 'Recording Treatment...' : 'Give Treatment & Update Medical History'}</span>
+              <Lock className="w-5 h-5 text-teal-200" />
+              <span>Give Treatment & Update Medical History</span>
             </>
           )}
         </button>
+        <p className="text-center text-[11px] text-slate-400 mt-2 font-medium">
+          Commits diagnosis, vitals, and prescription permanently to the patient's Ayushman Bharat Health Passport.
+        </p>
       </div>
     </form>
   );

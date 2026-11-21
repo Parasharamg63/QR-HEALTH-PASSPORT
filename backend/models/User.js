@@ -42,25 +42,18 @@ const userSchema = new mongoose.Schema({
     department: String,
     experienceYears: Number,
   },
-  caregiverDetails: {
-    patientRelation: String,
-    assignedPatientId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-    },
-    notificationsEnabled: {
-      type: Boolean,
-      default: true,
-    },
-  },
   isDemoUser: {
     type: Boolean,
     default: false,
   },
 }, { timestamps: true });
 
+// Prevent double-hashing if password is already hashed
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
+  if (this.password && (this.password.startsWith('$2a$') || this.password.startsWith('$2b$'))) {
+    return next();
+  }
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
   next();

@@ -8,22 +8,73 @@
   }
 }
 
-/* Accessibility Large Text Mode */
-body.accessibility-large-text {
-  font-size: 1.15rem;
+/* Custom Dribbble MedTech Animations & Glassmorphism */
+@keyframes laserSweep {
+  0% {
+    top: 5%;
+    opacity: 0.2;
+  }
+  50% {
+    top: 90%;
+    opacity: 1;
+  }
+  100% {
+    top: 5%;
+    opacity: 0.2;
+  }
 }
 
-body.accessibility-large-text button,
-body.accessibility-large-text input,
-body.accessibility-large-text select {
-  font-size: 1.1rem;
+@keyframes holographicShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
 
-/* Custom clinical card styling */
-.glass-panel {
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(20, 184, 166, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(20, 184, 166, 0.7);
+  }
+}
+
+.animate-laser {
+  animation: laserSweep 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0) 100%);
+  background-size: 200% 100%;
+  animation: holographicShimmer 4s infinite linear;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2.5s infinite ease-in-out;
+}
+
+/* Glassmorphic Panels */
+.glass-panel-light {
   background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.glass-panel-dark {
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Metallic ID Card Gradient */
+.metal-card {
+  background: linear-gradient(135deg, #090e17 0%, #111a2e 40%, #0d2528 80%, #081a1c 100%);
+  box-shadow: 0 25px 50px -12px rgba(2, 44, 34, 0.4), 0 0 0 1px rgba(20, 184, 166, 0.25);
 }
 
 /* Print badge layout */
@@ -31,13 +82,18 @@ body.accessibility-large-text select {
   body * {
     visibility: hidden;
   }
-  #printable-passport, #printable-passport * {
+  #printable-passport, #printable-passport *,
+  #printable-summary, #printable-summary * {
     visibility: visible;
   }
-  #printable-passport {
+  #printable-passport, #printable-summary {
     position: absolute;
     left: 0;
     top: 0;
     width: 100%;
+    margin: 0;
+    padding: 20px;
+    box-shadow: none;
+    border: none;
   }
 }

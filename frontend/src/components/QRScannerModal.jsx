@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Html5Qrcode } from 'html5-qrcode';
-import { QrCode, Camera, Upload, X, AlertCircle, FileImage, CheckCircle2, ArrowRight } from 'lucide-react';
+import { QrCode, Camera, Upload, X, AlertCircle, FileImage, RefreshCw, Video, VideoOff } from 'lucide-react';
 import { api } from '../services/api';
 
 export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
@@ -9,56 +9,36 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
   const [scanningError, setScanningError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [cameraActive, setCameraActive] = useState(false);
+  const [startingCamera, setStartingCamera] = useState(false);
+  const [cameras, setCameras] = useState([]);
+  const [selectedCameraId, setSelectedCameraId] = useState('');
   const [uploadedPreview, setUploadedPreview] = useState(null);
 
   const html5QrCodeRef = useRef(null);
+  const containerId = 'qr-reader-viewport';
 
-  // Initialize and clean up camera scanner
+  // Load available camera devices when modal opens
   useEffect(() => {
-    let qrInstance = null;
-
-    if (isOpen && activeMode === 'camera') {
-      const containerId = 'qr-reader-viewport';
-      
-      const startScanner = async () => {
-        try {
-          qrInstance = new Html5Qrcode(containerId, {
-            experimentalFeatures: {
-              useBarCodeDetectorIfSupported: true,
-            },
-          });
-          html5QrCodeRef.current = qrInstance;
-
-          await qrInstance.start(
-            { facingMode: 'environment' },
-            {
-              fps: 10,
-              qrbox: { width: 250, height: 250 },
-            },
-            (decodedText) => {
-              // Successful QR scan from camera
-              stopCamera();
-              handleProcessQR(decodedText);
-            },
-            (errorMessage) => {
-              // Frame-by-frame NotFoundExceptions are normal while searching for QR; ignore them completely.
-            }
-          );
-          setCameraActive(true);
-          setScanningError(null);
-        } catch (err) {
-          console.warn('Camera start issue:', err);
-          setCameraActive(false);
-          // Friendly explanation instead of raw browser exception
-          if (err.name === 'NotAllowedError' || err.message?.includes('Permission')) {
-            setScanningError('Camera permission was denied. Please allow camera access in your browser or switch to "Upload QR Image" / "Manual Health ID".');
-          } else {
-            setScanningError('Live camera is not accessible in this environment. You can upload a QR image or enter the Health ID manually.');
+    if (isOpen) {
+      Html5Qrcode.getCameras()
+        .then((devices) => {
+          if (devices && devices.length > 0) {
+            setCameras(devices);
+            setSelectedCameraId(devices[0].id);
           }
-        }
-      };
+        })
+        .catch((err) => {
+          console.warn('Could not list cameras:', err);
+        });
+    }
+  }, [isOpen]);
 
-      const timer = setTimeout(startScanner, 200);
+  // Start or stop live camera depending on mode and modal visibility
+  useEffect(() => {
+    if (isOpen && activeMode === 'camera') {
+      const timer = setTimeout(() => {
+        startCameraStream(selectedCameraId);
+      }, 250);
 
       return () => {
         clearTimeout(timer);
@@ -67,7 +47,57 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
     } else {
       stopCamera();
     }
-  }, [isOpen, activeMode]);
+  }, [isOpen, activeMode, selectedCameraId]);
+
+  const startCameraStream = async (camId) => {
+    // If already running or starting, stop first
+    await stopCamera();
+
+    setStartingCamera(true);
+    setScanningError(null);
+
+    try {
+      const qrInstance = new Html5Qrcode(containerId, {
+        experimentalFeatures: { useBarCodeDetectorIfSupported: true },
+      });
+      html5QrCodeRef.current = qrInstance;
+
+      // Select camera: Use device id if available, otherwise try universal constraints
+      const cameraConfig = camId ? camId : { facingMode: 'user' };
+
+      await qrInstance.start(
+        cameraConfig,
+        {
+          fps: 10,
+          qrbox: { width: 250, height: 250 },
+        },
+        (decodedText) => {
+          // QR detected
+          stopCamera();
+          handleProcessQR(decodedText);
+        },
+        (errorMessage) => {
+          // Normal frame search misses - silent
+        }
+      );
+
+      setCameraActive(true);
+      setStartingCamera(false);
+    } catch (err) {
+      console.warn('Camera initiation failed:', err);
+      setCameraActive(false);
+      setStartingCamera(false);
+
+      const msg = err?.message || String(err);
+      if (msg.includes('NotAllowedError') || msg.includes('Permission')) {
+        setScanningError('Camera access was blocked by your browser. Please allow camera permissions in your address bar, or use the "Upload Image" / "Health ID" tabs.');
+      } else if (msg.includes('OverconstrainedError') || msg.includes('NotFoundException')) {
+        setScanningError('Selected camera is not accessible. Try switching cameras or uploading an image of the QR code.');
+      } else {
+        setScanningError('Unable to open live camera on this device. You can upload a QR image or enter the patient\'s Health ID manually.');
+      }
+    }
+  };
 
   const stopCamera = async () => {
     if (html5QrCodeRef.current) {
@@ -77,11 +107,12 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
         }
         html5QrCodeRef.current.clear();
       } catch (e) {
-        // Ignore stop errors on unmount
+        // Safe ignore on unmount
       }
       html5QrCodeRef.current = null;
-      setCameraActive(false);
     }
+    setCameraActive(false);
+    setStartingCamera(false);
   };
 
   const handleProcessQR = async (qrPayload) => {
@@ -100,7 +131,7 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
     }
   };
 
-  // File Upload QR Scanning
+  // Image File Upload QR Decoding
   const handleFileUpload = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -108,14 +139,12 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
     setLoading(true);
     setScanningError(null);
 
-    // Show image preview
     const previewUrl = URL.createObjectURL(file);
     setUploadedPreview(previewUrl);
 
     try {
-      // Create temporary dedicated scanner instance for file decode
       const tempScanner = new Html5Qrcode('qr-file-scan-sandbox', {
-        experimentalFeatures: { useBarCodeDetectorIfSupported: true }
+        experimentalFeatures: { useBarCodeDetectorIfSupported: true },
       });
 
       const decodedText = await tempScanner.scanFile(file, false);
@@ -124,7 +153,7 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
       await handleProcessQR(decodedText);
     } catch (err) {
       const errStr = typeof err === 'string' ? err : err?.message || '';
-      console.warn('File scan error:', errStr);
+      console.warn('File decode error:', errStr);
 
       if (errStr.includes('No MultiFormat Readers') || errStr.includes('NotFoundException')) {
         setScanningError('Could not detect a readable QR code in this image. Please ensure the QR code is centered, well-lit, and not cropped, or enter the Health ID manually.');
@@ -136,7 +165,7 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
     }
   };
 
-  // Manual Health ID lookup
+  // Manual Health ID submission
   const handleManualSubmit = async (e) => {
     if (e) e.preventDefault();
     if (!manualHealthId) return;
@@ -161,7 +190,7 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4">
       <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-white/20 animate-in fade-in zoom-in duration-200">
         
-        {/* Hidden sandbox container for file scanning without UI artifacts */}
+        {/* Hidden sandbox container for file decoding */}
         <div id="qr-file-scan-sandbox" style={{ display: 'none' }}></div>
 
         {/* Header */}
@@ -220,33 +249,72 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
         {scanningError && (
           <div className="mt-4 p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-start gap-2.5">
             <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5 text-rose-600" />
-            <span className="leading-relaxed">{scanningError}</span>
+            <div className="flex-1">
+              <span className="leading-relaxed block">{scanningError}</span>
+              {activeMode === 'camera' && (
+                <button
+                  type="button"
+                  onClick={() => startCameraStream(selectedCameraId)}
+                  className="mt-2 text-xs font-bold text-rose-900 underline hover:text-rose-950 flex items-center gap-1"
+                >
+                  <RefreshCw className="w-3 h-3" />
+                  <span>Retry Camera Connection</span>
+                </button>
+              )}
+            </div>
           </div>
         )}
 
         {/* TAB 1: Live Camera Scanner */}
         {activeMode === 'camera' && (
           <div className="mt-4 space-y-3">
-            <div className="relative overflow-hidden rounded-2xl border-2 border-slate-900 bg-slate-950 min-h-[260px] flex items-center justify-center">
-              {/* Animated Laser Sweep Beam */}
+            {/* Camera Selector Dropdown if multiple devices exist */}
+            {cameras.length > 1 && (
+              <div className="flex items-center justify-between text-xs font-semibold bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+                <span className="text-slate-500 flex items-center gap-1.5">
+                  <Video className="w-3.5 h-3.5 text-teal-600" />
+                  Select Device:
+                </span>
+                <select
+                  value={selectedCameraId}
+                  onChange={(e) => setSelectedCameraId(e.target.value)}
+                  className="bg-white border border-slate-200 rounded-lg px-2.5 py-1 text-slate-800 font-bold outline-none max-w-[200px] truncate"
+                >
+                  {cameras.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.label || `Camera ${c.id.substring(0, 5)}`}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            {/* Video Viewport Frame */}
+            <div className="relative overflow-hidden rounded-2xl border-2 border-slate-900 bg-slate-950 min-h-[280px]">
+              {/* Laser Sweep Animation when scanning */}
               {cameraActive && (
                 <div className="absolute inset-x-0 h-1 bg-gradient-to-r from-transparent via-teal-400 to-transparent shadow-[0_0_15px_rgba(45,212,191,0.8)] animate-laser pointer-events-none z-20"></div>
               )}
 
-              {/* Viewport Frame */}
-              <div id="qr-reader-viewport" className="w-full text-white z-10">
-                {!cameraActive && !loading && (
-                  <p className="text-center text-xs text-slate-400 py-12">
-                    Requesting camera access...
-                  </p>
-                )}
-                {loading && (
-                  <p className="text-center text-xs text-teal-400 font-bold py-12">
-                    Verifying cryptographic token...
-                  </p>
-                )}
-              </div>
+              {/* Status overlay (OUTSIDE the viewport container to avoid React reconciliation wipe) */}
+              {startingCamera && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-950/90 z-20 text-slate-300 text-xs gap-2">
+                  <RefreshCw className="w-6 h-6 animate-spin text-teal-400" />
+                  <span className="font-bold">Opening camera stream...</span>
+                </div>
+              )}
+
+              {loading && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-950/90 z-20 text-teal-300 text-xs gap-2">
+                  <RefreshCw className="w-6 h-6 animate-spin text-teal-400" />
+                  <span className="font-bold">Verifying cryptographic passport...</span>
+                </div>
+              )}
+
+              {/* Dedicated pure DOM container for Html5Qrcode video (NO React children inside) */}
+              <div id="qr-reader-viewport"></div>
             </div>
+
             <p className="text-center text-[11px] text-slate-400 font-medium">
               Point camera at patient's dynamic QR code on screen or printed passport.
             </p>

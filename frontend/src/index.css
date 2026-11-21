@@ -77,6 +77,23 @@
   box-shadow: 0 25px 50px -12px rgba(2, 44, 34, 0.4), 0 0 0 1px rgba(20, 184, 166, 0.25);
 }
 
+/* QR Camera Viewport Styling */
+#qr-reader-viewport {
+  width: 100% !important;
+  min-height: 280px !important;
+  background-color: #020617;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+#qr-reader-viewport video {
+  width: 100% !important;
+  height: 280px !important;
+  object-fit: cover !important;
+  border-radius: 1rem !important;
+}
+
 /* Print badge layout */
 @media print {
   body * {

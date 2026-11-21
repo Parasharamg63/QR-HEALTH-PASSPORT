@@ -35,13 +35,11 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Mount Routes
+// Mount Routes (Strictly mapped to Prompt)
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/passport', require('./routes/passportRoutes'));
 app.use('/api/doctor', require('./routes/doctorRoutes'));
 app.use('/api/medical', require('./routes/medicalRoutes'));
-app.use('/api/adherence', require('./routes/adherenceRoutes'));
-app.use('/api/alerts', require('./routes/alertRoutes'));
 
 // 404 Handler
 app.use((req, res) => {

@@ -6,6 +6,7 @@ import DoctorConsultationForm from './components/DoctorConsultationForm';
 import QRScannerModal from './components/QRScannerModal';
 import ConsentModal from './components/ConsentModal';
 import PatientRegistrationModal from './components/PatientRegistrationModal';
+import ClinicalSummaryModal from './components/ClinicalSummaryModal';
 import { useAuth } from './context/AuthContext';
 import { 
   QrCode, 
@@ -13,9 +14,7 @@ import {
   ShieldCheck, 
   Lock, 
   CheckCircle2, 
-  Activity, 
-  FileText, 
-  UserCheck 
+  FileText 
 } from 'lucide-react';
 import { api } from './services/api';
 
@@ -27,6 +26,7 @@ export default function App() {
   const [showScanner, setShowScanner] = useState(false);
   const [showConsentModal, setShowConsentModal] = useState(false);
   const [showRegisterModal, setShowRegisterModal] = useState(false);
+  const [summaryRecord, setSummaryRecord] = useState(null);
 
   // Doctor Consultation State
   const [activeSession, setActiveSession] = useState(null);
@@ -251,6 +251,9 @@ export default function App() {
                     const updated = await api.getPatientDossier(consultationDossier.patient._id, activeSession?.sessionId);
                     if (updated.success) {
                       setConsultationDossier(updated);
+                      if (updated.medicalHistory && updated.medicalHistory.length > 0) {
+                        setSummaryRecord(updated.medicalHistory[0]);
+                      }
                     }
                   }}
                 />
@@ -317,6 +320,14 @@ export default function App() {
           await loadPatientRecords();
           setActiveTab('passport');
         }}
+      />
+
+      {/* Clinical Consultation Summary Modal */}
+      <ClinicalSummaryModal
+        isOpen={!!summaryRecord}
+        record={summaryRecord}
+        patient={consultationDossier?.patient}
+        onClose={() => setSummaryRecord(null)}
       />
     </div>
   );

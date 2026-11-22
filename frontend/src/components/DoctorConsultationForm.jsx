@@ -116,6 +116,29 @@ export default function DoctorConsultationForm({ patient, sessionId, onTreatment
           instructions: 'Take every morning.',
         },
       ]);
+    } else if (type === 'vet') {
+      setDiagnosis('Routine Veterinary Health Check & Annual Immunization');
+      setIcdCode('Z00.0 / VET-WELLNESS');
+      setChiefComplaints('Annual deworming review, rabies & DHPPiL vaccination update, physical exam');
+      setClinicalObservations('Animal is alert and active. Shiny coat, clear sclera, normal capillary refill time (<2s). Normal thoracic auscultation.');
+      setTreatmentPlan('Administer broad-spectrum deworming tablet with food. Ensure clean fresh water daily. Monitor weight weekly.');
+      setInvestigationsOrdered('Fecal Flotation Test, Complete Blood Count (CBC)');
+      setMedicines([
+        {
+          name: 'Fenbendazole / Pyrantel Dewormer Tablet',
+          dosage: '500 mg',
+          frequency: 'Once Daily (1-0-0)',
+          mealTiming: 'With Food',
+          instructions: 'Administer with meal for internal parasite protection.',
+        },
+        {
+          name: 'Veterinary Multivitamin & Omega-3 Supplement',
+          dosage: '1 Tablet',
+          frequency: 'Once Daily (1-0-0)',
+          mealTiming: 'After Food',
+          instructions: 'For coat health and immune support.',
+        },
+      ]);
     }
   };
 
@@ -287,6 +310,13 @@ export default function DoctorConsultationForm({ patient, sessionId, onTreatment
               className="px-2.5 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-800 font-semibold transition cursor-pointer"
             >
               {t('hypertensionReview')}
+            </button>
+            <button
+              type="button"
+              onClick={() => handleApplyPreset('vet')}
+              className="px-2.5 py-1 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-semibold transition cursor-pointer"
+            >
+              {t('vetReview')}
             </button>
           </div>
         </div>

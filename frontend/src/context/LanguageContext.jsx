@@ -102,6 +102,7 @@ export const TRANSLATIONS = {
     quickPresets: 'Quick Presets:',
     diabeticReview: '+ Diabetic Review',
     hypertensionReview: '+ Hypertension Review',
+    vetReview: '+ Vet Wellness Review',
     diagnosisPlaceholder: 'Clinical Diagnosis (e.g. Type 2 Diabetes Mellitus with Essential Hypertension)',
     icdPlaceholder: 'ICD-10 Code (e.g. E11.9 / I10)',
     symptomsLabel: 'Chief Complaints / Symptoms:',
@@ -209,6 +210,7 @@ export const TRANSLATIONS = {
     verifyingPassport: 'Verifying cryptographic passport...',
     decodingEngineNote: 'Decoded with multi-tier hardware acceleration, resolution scaling, and inversion detection.',
     manualUhidNote: "If camera or QR image is unavailable, enter the patient's 14-digit UHID directly.",
+    vetDoctorOption: 'Veterinary Doctor / Animal Health Specialist',
   },
 
   kn: {
@@ -303,6 +305,7 @@ export const TRANSLATIONS = {
     quickPresets: 'ತ್ವರಿತ ಆಯ್ಕೆಗಳು:',
     diabeticReview: '+ ಮಧುಮೇಹ ಪರಿಶೀಲನೆ',
     hypertensionReview: '+ ರಕ್ತದೊತ್ತಡ ಪರಿಶೀಲನೆ',
+    vetReview: '+ ಪಶು ಆರೋಗ್ಯ ತಪಾಸಣೆ (Vet Review)',
     diagnosisPlaceholder: 'ಕ್ಲಿನಿಕಲ್ ರೋಗನಿರ್ಣಯ (ಉದಾ. ಟೈಪ್ 2 ಮಧುಮೇಹ, ಅಧಿಕ ರಕ್ತದೊತ್ತಡ)',
     icdPlaceholder: 'ICD-10 ಕೋಡ್ (ಉದಾ. E11.9 / I10)',
     symptomsLabel: 'ಪ್ರಮುಖ ಲಕ್ಷಣಗಳು / ದೂರುಗಳು:',
@@ -410,6 +413,7 @@ export const TRANSLATIONS = {
     verifyingPassport: 'ಕ್ರಿಪ್ಟೋಗ್ರಾಫಿಕ್ ಪಾಸ್‌ಪೋರ್ಟ್ ಪರಿಶೀಲಿಸಲಾಗುತ್ತಿದೆ...',
     decodingEngineNote: 'ಮಲ್ಟಿ-ಟೈರ್ ಹಾರ್ಡ್‌ವೇರ್ ವೇಗವರ್ಧನೆ, ರೆಸಲ್ಯೂಶನ್ ಸ್ಕೇಲಿಂಗ್ ಮತ್ತು ಇನ್ವರ್ಶನ್ ಡಿಟೆಕ್ಷನ್ ಮೂಲಕ ಡಿಕೋಡ್ ಮಾಡಲಾಗಿದೆ.',
     manualUhidNote: 'ಕ್ಯಾಮೆರಾ ಅಥವಾ ಕ್ಯೂಆರ್ ಚಿತ್ರ ಲಭ್ಯವಿಲ್ಲದಿದ್ದರೆ, ರೋಗಿಯ 14-ಅಂಕಿಯ UHID ಅನ್ನು ನೇರವಾಗಿ ನಮೂದಿಸಿ.',
+    vetDoctorOption: 'ಪಶುವೈದ್ಯರು (Veterinary Doctor / Animal Health)',
   },
 
   hi: {
@@ -504,6 +508,7 @@ export const TRANSLATIONS = {
     quickPresets: 'त्वरित प्रीसेट:',
     diabeticReview: '+ मधुमेह समीक्षा',
     hypertensionReview: '+ उच्च रक्तचाप समीक्षा',
+    vetReview: '+ पशु स्वास्थ्य समीक्षा (Vet Review)',
     diagnosisPlaceholder: 'नैदानिक निदान (उदा. टाइप 2 डायबिटीज, उच्च रक्तचाप)',
     icdPlaceholder: 'ICD-10 कोड (उदा. E11.9 / I10)',
     symptomsLabel: 'मुख्य लक्षण / शिकायतें:',
@@ -611,6 +616,7 @@ export const TRANSLATIONS = {
     verifyingPassport: 'क्रिप्टोग्राफिक पासपोर्ट का सत्यापन किया जा रहा है...',
     decodingEngineNote: 'मल्टी-टियर हार्डवेयर एक्सेलेरेशन, रेजोल्यूशन स्केलिंग और इनवर्जन डिटेक्शन द्वारा डिकोड किया गया।',
     manualUhidNote: 'यदि कैमरा या क्यूआर छवि उपलब्ध नहीं है, तो सीधे रोगी का 14-अंकीय UHID दर्ज करें।',
+    vetDoctorOption: 'पशु चिकित्सक (Veterinary Doctor / Animal Health)',
   },
 
   te: {
@@ -705,6 +711,7 @@ export const TRANSLATIONS = {
     quickPresets: 'త్వరిత ఎంపికలు:',
     diabeticReview: '+ మధుమేహ సమీక్ష',
     hypertensionReview: '+ రక్తపోటు సమీక్ష',
+    vetReview: '+ పశు ఆరోగ్య సమీక్ష (Vet Review)',
     diagnosisPlaceholder: 'క్లినికల్ రోగ నిర్ధారణ (ఉదా. టైప్ 2 డయాబెటిస్, హైపర్‌టెన్షన్)',
     icdPlaceholder: 'ICD-10 కోడ్ (ఉదా. E11.9 / I10)',
     symptomsLabel: 'ప్రధాన లక్షణాలు:',
@@ -812,6 +819,7 @@ export const TRANSLATIONS = {
     verifyingPassport: 'క్రిప్టోగ్రాఫిక్ పాస్‌పోర్ట్ ధృవీకరించబడుతోంది...',
     decodingEngineNote: 'మల్టీ-టైర్ హార్డ్‌వేర్ యాక్సిలరేషన్, రిజల్యూషన్ స్కేలింగ్ మరియు ఇన్‌వర్షన్ డిటెక్షన్‌తో డీకోడ్ చేయబడింది.',
     manualUhidNote: 'కెమెరా లేదా QR చిత్రం అందుబాటులో లేకపోతే, రోగి యొక్క 14-అంకెల UHID నేరుగా నమోదు చేయండి.',
+    vetDoctorOption: 'పశువైద్యుడు (Veterinary Doctor / Animal Health)',
   }
 };
 

@@ -530,8 +530,9 @@ export default function LoginPage() {
                     onChange={(e) => setDoctorData({ ...doctorData, specialization: e.target.value })}
                     className="w-full px-3 py-2 rounded-xl border border-slate-300 font-medium text-slate-800 bg-white"
                   >
-                    <option value="Chief Consultant Cardiologist">Chief Consultant Cardiologist</option>
                     <option value="General Physician & Internal Medicine">General Physician & Internal Medicine</option>
+                    <option value="Veterinary Doctor / Animal Health Specialist">{t('vetDoctorOption')}</option>
+                    <option value="Chief Consultant Cardiologist">Chief Consultant Cardiologist</option>
                     <option value="Consultant Diabetologist & Endocrinologist">Consultant Diabetologist & Endocrinologist</option>
                     <option value="Consultant Pulmonologist">Consultant Pulmonologist</option>
                     <option value="Orthopedic Surgeon">Orthopedic Surgeon</option>

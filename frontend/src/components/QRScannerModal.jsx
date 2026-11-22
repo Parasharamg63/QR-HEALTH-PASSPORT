@@ -3,6 +3,7 @@ import { Html5Qrcode } from 'html5-qrcode';
 import jsQR from 'jsqr';
 import { QrCode, Camera, Upload, X, AlertCircle, FileImage, RefreshCw, Video, CheckCircle2 } from 'lucide-react';
 import { api } from '../services/api';
+import { useLanguage } from '../context/LanguageContext';
 
 // Multi-Tier QR Decoder (Native BarcodeDetector -> jsQR with Inversion -> Scaled Canvas -> Binarized Contrast)
 async function decodeQRFromImageFile(file) {
@@ -113,6 +114,7 @@ async function decodeQRFromImageFile(file) {
 }
 
 export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
+  const { t } = useLanguage();
   const [activeMode, setActiveMode] = useState('camera'); // 'camera' | 'file' | 'manual'
   const [manualHealthId, setManualHealthId] = useState('');
   const [scanningError, setScanningError] = useState(null);
@@ -311,13 +313,13 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
               <QrCode className="w-6 h-6" />
             </div>
             <div>
-              <h3 className="text-lg font-black text-slate-900 tracking-tight">Doctor Clinical QR Scanner</h3>
-              <p className="text-xs text-slate-500 font-medium">Scan patient Health Passport to request consent</p>
+              <h3 className="text-lg font-black text-slate-900 tracking-tight">{t('scanModalTitle')}</h3>
+              <p className="text-xs text-slate-500 font-medium">{t('scanModalSub')}</p>
             </div>
           </div>
           <button 
             onClick={() => { stopCamera(); onClose(); }}
-            className="text-slate-400 hover:text-slate-600 p-2 rounded-xl hover:bg-slate-100 transition"
+            className="text-slate-400 hover:text-slate-600 p-2 rounded-xl hover:bg-slate-100 transition cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -332,7 +334,7 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
             }`}
           >
             <Camera className="w-4 h-4 text-[#00A4A6]" />
-            <span>Live Camera</span>
+            <span>{t('liveCamera')}</span>
           </button>
           
           <button
@@ -342,7 +344,7 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
             }`}
           >
             <FileImage className="w-4 h-4 text-emerald-400" />
-            <span>Upload Image</span>
+            <span>{t('uploadImage')}</span>
           </button>
 
           <button
@@ -352,7 +354,7 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
             }`}
           >
             <Upload className="w-4 h-4 text-slate-300" />
-            <span>Health ID Lookup</span>
+            <span>{t('healthIdLookup')}</span>
           </button>
         </div>
 
@@ -369,7 +371,7 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
                   className="mt-2 text-xs font-bold text-rose-900 underline hover:text-rose-950 flex items-center gap-1 cursor-pointer"
                 >
                   <RefreshCw className="w-3 h-3" />
-                  <span>Retry Camera Connection</span>
+                  <span>{t('retryCamera')}</span>
                 </button>
               )}
             </div>
@@ -384,7 +386,7 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
               <div className="flex items-center justify-between text-xs font-semibold bg-slate-50 p-2.5 rounded-xl border border-slate-200">
                 <span className="text-slate-500 flex items-center gap-1.5">
                   <Video className="w-3.5 h-3.5 text-blue-700" />
-                  Select Device:
+                  {t('selectDevice')}
                 </span>
                 <select
                   value={selectedCameraId}
@@ -411,14 +413,14 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
               {startingCamera && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-950/90 z-20 text-slate-300 text-xs gap-2">
                   <RefreshCw className="w-6 h-6 animate-spin text-blue-400" />
-                  <span className="font-bold">Opening camera stream...</span>
+                  <span className="font-bold">{t('openingCamera')}</span>
                 </div>
               )}
 
               {loading && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-950/90 z-20 text-blue-300 text-xs gap-2">
                   <RefreshCw className="w-6 h-6 animate-spin text-blue-400" />
-                  <span className="font-bold">Verifying cryptographic passport...</span>
+                  <span className="font-bold">{t('verifyingPassport')}</span>
                 </div>
               )}
 
@@ -427,7 +429,7 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
             </div>
 
             <p className="text-center text-[11px] text-slate-400 font-medium">
-              Point camera at patient's dynamic QR code on screen or printed passport.
+              {t('pointCamera')}
             </p>
           </div>
         )}
@@ -450,7 +452,7 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
                     className="max-h-36 rounded-xl mx-auto shadow-sm border border-slate-200" 
                   />
                   <p className="text-xs text-blue-700 font-bold">
-                    {loading ? 'Decoding QR image with multi-tier engine...' : 'Click or drop another image to change'}
+                    {loading ? t('verifyingPassport') : 'Click or drop another image to change'}
                   </p>
                 </div>
               ) : (
@@ -460,17 +462,17 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
                   </div>
                   <div>
                     <span className="text-xs font-bold text-slate-800 block">
-                      Choose QR Code Image or Screenshot
+                      {t('chooseQrFile')}
                     </span>
                     <span className="text-[11px] text-slate-400 mt-0.5 block">
-                      PNG, JPG, WEBP from patient's passport or phone
+                      {t('supportedFormats')}
                     </span>
                   </div>
                 </div>
               )}
             </label>
             <p className="text-center text-[11px] text-slate-400 font-medium">
-              Decoded with multi-tier hardware acceleration, resolution scaling, and inversion detection.
+              {t('decodingEngineNote')}
             </p>
           </div>
         )}
@@ -480,7 +482,7 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
           <form onSubmit={handleManualSubmit} className="mt-4 space-y-4 text-xs">
             <div>
               <label className="font-bold text-slate-700 block mb-1.5">
-                Universal Health Identifier (UHID):
+                {t('uhidLabel')}:
               </label>
               <input
                 type="text"
@@ -496,11 +498,11 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
               disabled={loading}
               className="w-full py-4 rounded-2xl bg-[#111111] hover:bg-black text-white font-black text-xs shadow-sm hover:shadow-md transition transform hover:-translate-y-0.5 disabled:opacity-50 cursor-pointer"
             >
-              {loading ? 'Querying Universal Health Registry...' : 'Lookup Patient & Request Consent'}
+              {loading ? t('verifyingPassport') : t('lookupPatientBtn')}
             </button>
 
             <p className="text-center text-[11px] text-slate-400 font-medium">
-              If camera or QR image is unavailable, enter the patient's 14-digit UHID directly.
+              {t('manualUhidNote')}
             </p>
           </form>
         )}

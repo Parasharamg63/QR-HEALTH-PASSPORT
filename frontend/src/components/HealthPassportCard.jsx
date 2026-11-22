@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import { 
   QrCode, 
   Printer, 
@@ -20,6 +21,7 @@ import { api } from '../services/api';
 
 export default function HealthPassportCard() {
   const { user, passport, refreshPassport } = useAuth();
+  const { t } = useLanguage();
   const [refreshing, setRefreshing] = useState(false);
   const [showPin, setShowPin] = useState(false);
   const [copiedId, setCopiedId] = useState(false);
@@ -51,7 +53,7 @@ export default function HealthPassportCard() {
   if (!passport) {
     return (
       <div className="bg-white rounded-2xl p-12 border border-slate-200 text-center shadow-xs">
-        <Activity className="w-8 h-8 text-blue-700 animate-spin mx-auto mb-3" />
+        <Activity className="w-8 h-8 text-[#00838C] animate-spin mx-auto mb-3" />
         <p className="text-slate-700 font-semibold text-sm">Loading Health Passport Records...</p>
       </div>
     );
@@ -66,15 +68,15 @@ export default function HealthPassportCard() {
       {/* Top Header & Actions */}
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E6F7F8] border border-[#B2E5E8] text-[#005F66] text-xs font-bold">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#E6F7F8] border border-[#B2E5E8] text-[#005F66] text-xs font-bold">
             <ShieldCheck className="w-3.5 h-3.5 text-[#00838C]" />
-            <span>Verified Patient Health Credential</span>
+            <span>{t('verifiedCredential')}</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight mt-1">
-            Digital Health Passport
+            {t('digitalPassport')}
           </h2>
           <p className="text-xs text-slate-500 font-medium">
-            Present this executive credential or scannable QR code at participating clinics and hospitals.
+            {t('passportSub')}
           </p>
         </div>
 
@@ -83,10 +85,10 @@ export default function HealthPassportCard() {
             onClick={handleRefreshQR}
             disabled={refreshing}
             className="px-4 py-2.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-300 text-xs font-bold text-slate-800 shadow-xs transition flex items-center gap-2 cursor-pointer"
-            title="Generate a fresh QR token"
+            title={t('refreshToken')}
           >
             <RefreshCw className={`w-3.5 h-3.5 text-slate-500 ${refreshing ? 'animate-spin' : ''}`} />
-            <span>{refreshing ? 'Updating...' : 'Refresh Token'}</span>
+            <span>{refreshing ? 'Updating...' : t('refreshToken')}</span>
           </button>
 
           <button
@@ -94,7 +96,7 @@ export default function HealthPassportCard() {
             className="px-5 py-2.5 rounded-xl bg-[#111111] hover:bg-black text-white text-xs font-black shadow-sm hover:shadow-md transition transform hover:-translate-y-0.5 flex items-center gap-2 cursor-pointer"
           >
             <Printer className="w-3.5 h-3.5 text-[#00A4A6]" />
-            <span>Print Smart Card</span>
+            <span>{t('printCard')}</span>
           </button>
         </div>
       </div>
@@ -110,14 +112,14 @@ export default function HealthPassportCard() {
           <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white">
-                <HeartHandshake className="w-6 h-6" />
+                <HeartHandshake className="w-6 h-6 text-[#00A4A6]" />
               </div>
               <div>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-blue-200 block">
-                  Universal Health Network
+                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-300 block">
+                  {t('universalHealthNetwork')}
                 </span>
                 <h3 className="text-base sm:text-lg font-bold tracking-tight text-white leading-tight">
-                  Patient Health Passport
+                  {t('patientPassport')}
                 </h3>
               </div>
             </div>
@@ -136,7 +138,7 @@ export default function HealthPassportCard() {
           <div className="space-y-4">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div className="flex items-center gap-3.5">
-                <div className="w-14 h-14 rounded-xl bg-blue-600/50 border border-white/20 flex items-center justify-center text-white text-xl font-bold shadow-xs">
+                <div className="w-14 h-14 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white text-xl font-bold shadow-xs">
                   {patientName.charAt(0)}
                 </div>
                 <div>
@@ -145,20 +147,20 @@ export default function HealthPassportCard() {
                       {patientName}
                     </h4>
                     <span className="text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 px-2 py-0.5 rounded font-semibold">
-                      Active
+                      {t('activeStatus')}
                     </span>
                   </div>
                   <div className="flex items-center gap-2 mt-1 text-xs text-slate-300">
-                    <span>{passport.gender || 'Male'}, {age} yrs</span>
+                    <span>{passport.gender || 'Male'}, {age} {t('years')}</span>
                     <span>•</span>
-                    <span>{passport.address?.district || 'Regional Care'}</span>
+                    <span>{passport.address?.district || 'Karnataka, India'}</span>
                   </div>
                 </div>
               </div>
 
               {/* Blood Group */}
               <div className="text-right">
-                <span className="text-[10px] text-slate-300 font-semibold uppercase tracking-wider block">Blood Group</span>
+                <span className="text-[10px] text-slate-300 font-semibold uppercase tracking-wider block">{t('bloodGroup')}</span>
                 <span className="text-2xl sm:text-3xl font-extrabold text-rose-300 font-mono">
                   {passport.bloodGroup || 'B+'}
                 </span>
@@ -169,7 +171,7 @@ export default function HealthPassportCard() {
             <div className="bg-white/10 border border-white/10 rounded-xl p-3 flex flex-wrap items-center justify-between gap-3">
               <div>
                 <span className="text-[10px] text-slate-300 uppercase tracking-wider font-semibold block">
-                  Universal Health Identifier (UHID)
+                  {t('uhidLabel')}
                 </span>
                 <span className="font-mono text-base font-bold text-white tracking-wide">
                   {passport.abhaId}
@@ -181,7 +183,7 @@ export default function HealthPassportCard() {
                 className="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 border border-white/20 text-xs font-semibold text-white transition flex items-center gap-1.5 cursor-pointer"
               >
                 {copiedId ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-slate-200" />}
-                <span>{copiedId ? 'Copied' : 'Copy ID'}</span>
+                <span>{copiedId ? t('copied') : t('copyId')}</span>
               </button>
             </div>
           </div>
@@ -189,30 +191,30 @@ export default function HealthPassportCard() {
           {/* Card Bottom: PIN Security & Details */}
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 border-t border-white/10 pt-4 text-xs">
             <div className="bg-white/5 border border-white/10 rounded-xl p-2.5">
-              <span className="text-[10px] text-slate-300 block font-semibold uppercase">Consent Security PIN</span>
+              <span className="text-[10px] text-slate-300 block font-semibold uppercase">{t('consentPin')}</span>
               <div className="flex items-center gap-2 mt-1">
                 <span className="font-mono text-sm font-bold text-white">
                   {showPin ? (passport.consentPIN || '1234') : '••••'}
                 </span>
                 <button
                   onClick={() => setShowPin(!showPin)}
-                  className="text-[10px] font-semibold text-blue-200 hover:text-white underline ml-auto cursor-pointer"
+                  className="text-[10px] font-semibold text-[#00A4A6] hover:text-white underline ml-auto cursor-pointer"
                 >
-                  {showPin ? 'Hide' : 'Show'}
+                  {showPin ? t('hide') : t('show')}
                 </button>
               </div>
             </div>
 
             <div className="bg-white/5 border border-white/10 rounded-xl p-2.5">
-              <span className="text-[10px] text-slate-300 block font-semibold uppercase">Organ Donor</span>
+              <span className="text-[10px] text-slate-300 block font-semibold uppercase">{t('organDonor')}</span>
               <div className="flex items-center gap-1.5 mt-1 text-slate-200 font-semibold">
                 <Heart className="w-3.5 h-3.5 text-rose-300" />
-                <span>{passport.organDonor ? 'Pledged Donor' : 'Not Pledged'}</span>
+                <span>{passport.organDonor ? t('pledgedDonor') : t('notPledged')}</span>
               </div>
             </div>
 
             <div className="bg-white/5 border border-white/10 rounded-xl p-2.5 col-span-2 sm:col-span-1">
-              <span className="text-[10px] text-slate-300 block font-semibold uppercase">Emergency Contact</span>
+              <span className="text-[10px] text-slate-300 block font-semibold uppercase">{t('emergencyContact')}</span>
               <a
                 href={`tel:${passport.emergencyContact?.phone || '+91 98860 99887'}`}
                 className="flex items-center gap-1.5 mt-1 text-amber-200 font-semibold hover:underline truncate"
@@ -228,11 +230,11 @@ export default function HealthPassportCard() {
         <div className="lg:col-span-4 bg-white rounded-2xl p-6 border border-slate-200 shadow-xs flex flex-col justify-between text-center space-y-4">
           <div className="space-y-1">
             <span className="text-[10px] font-black uppercase tracking-wider text-[#005F66] bg-[#E6F7F8] px-3 py-1 rounded-full border border-[#B2E5E8]">
-              Doctor Scan Pass
+              {t('doctorScanPass')}
             </span>
-            <h3 className="text-base font-black text-slate-950 mt-1">Dynamic Health QR</h3>
+            <h3 className="text-base font-black text-slate-950 mt-1">{t('dynamicHealthQr')}</h3>
             <p className="text-xs text-slate-500 font-medium">
-              The doctor scans this QR code to request access to your records.
+              {t('doctorScanInstructions')}
             </p>
           </div>
 
@@ -253,20 +255,20 @@ export default function HealthPassportCard() {
 
           <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-600 space-y-1">
             <div className="flex items-center justify-between text-[11px]">
-              <span className="font-semibold text-slate-500">Access Key:</span>
+              <span className="font-semibold text-slate-500">{t('accessKey')}:</span>
               <span className="font-mono text-slate-900 font-bold">{passport.consentPIN || '1234'}</span>
             </div>
             <div className="flex items-center justify-between text-[11px]">
               <span className="font-semibold text-slate-500">Status:</span>
               <span className="text-emerald-700 font-bold flex items-center gap-1">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 inline-block"></span>
-                Active Passport
+                {t('activePassportStatus')}
               </span>
             </div>
           </div>
 
           <p className="text-[11px] text-slate-400">
-            Protected by patient PIN consent. No data is decrypted without your approval.
+            {t('pinProtectionNote')}
           </p>
         </div>
       </div>
@@ -277,43 +279,43 @@ export default function HealthPassportCard() {
         <div className="lg:col-span-8 bg-white rounded-2xl p-6 border border-slate-200 shadow-xs space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Activity className="w-4 h-4 text-blue-700" />
-              <h4 className="text-sm font-bold text-slate-900">Current Recorded Vitals</h4>
+              <Activity className="w-4 h-4 text-[#00838C]" />
+              <h4 className="text-sm font-bold text-slate-900">{t('recordedVitals')}</h4>
             </div>
             <span className="text-xs text-slate-400">
-              Updated by attending physician
+              {t('updatedByPhysician')}
             </span>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
             <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80">
-              <span className="text-[10px] font-semibold text-slate-500 uppercase block">Blood Pressure</span>
+              <span className="text-[10px] font-semibold text-slate-500 uppercase block">{t('bp')}</span>
               <span className="text-base font-bold text-slate-900 font-mono mt-0.5 block">{vitals.bp || '128/82'}</span>
-              <span className="text-[10px] text-emerald-700 font-semibold">Normal</span>
+              <span className="text-[10px] text-emerald-700 font-semibold">{t('normal')}</span>
             </div>
 
             <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80">
-              <span className="text-[10px] font-semibold text-slate-500 uppercase block">Pulse Rate</span>
+              <span className="text-[10px] font-semibold text-slate-500 uppercase block">{t('pulse')}</span>
               <span className="text-base font-bold text-slate-900 font-mono mt-0.5 block">{vitals.pulse || 74} <span className="text-xs font-normal text-slate-500">bpm</span></span>
-              <span className="text-[10px] text-emerald-700 font-semibold">Regular</span>
+              <span className="text-[10px] text-emerald-700 font-semibold">{t('regular')}</span>
             </div>
 
             <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80">
-              <span className="text-[10px] font-semibold text-slate-500 uppercase block">SpO2 Oxygen</span>
-              <span className="text-base font-bold text-blue-800 font-mono mt-0.5 block">{vitals.spo2 || 98} <span className="text-xs font-normal text-slate-500">%</span></span>
-              <span className="text-[10px] text-emerald-700 font-semibold">Normal</span>
+              <span className="text-[10px] font-semibold text-slate-500 uppercase block">{t('spo2')}</span>
+              <span className="text-base font-bold text-[#00838C] font-mono mt-0.5 block">{vitals.spo2 || 98} <span className="text-xs font-normal text-slate-500">%</span></span>
+              <span className="text-[10px] text-emerald-700 font-semibold">{t('normal')}</span>
             </div>
 
             <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80">
-              <span className="text-[10px] font-semibold text-slate-500 uppercase block">Blood Sugar</span>
+              <span className="text-[10px] font-semibold text-slate-500 uppercase block">{t('glucose')}</span>
               <span className="text-base font-bold text-slate-900 font-mono mt-0.5 block">{vitals.glucose || 132} <span className="text-xs font-normal text-slate-500">mg/dL</span></span>
-              <span className="text-[10px] text-amber-700 font-semibold">Managed</span>
+              <span className="text-[10px] text-amber-700 font-semibold">{t('managed')}</span>
             </div>
 
             <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80">
-              <span className="text-[10px] font-semibold text-slate-500 uppercase block">Body Temp</span>
+              <span className="text-[10px] font-semibold text-slate-500 uppercase block">{t('temp')}</span>
               <span className="text-base font-bold text-slate-900 font-mono mt-0.5 block">{vitals.temp || 98.4} <span className="text-xs font-normal text-slate-500">°F</span></span>
-              <span className="text-[10px] text-emerald-700 font-semibold">Afebrile</span>
+              <span className="text-[10px] text-emerald-700 font-semibold">{t('afebrile')}</span>
             </div>
           </div>
         </div>
@@ -323,7 +325,7 @@ export default function HealthPassportCard() {
           <div>
             <div className="flex items-center gap-2 text-rose-900 font-bold text-sm mb-2">
               <AlertCircle className="w-4 h-4 text-rose-700" />
-              <span>Recorded Allergies</span>
+              <span>{t('recordedAllergies')}</span>
             </div>
             {passport.allergies && passport.allergies.length > 0 ? (
               <div className="space-y-1.5 text-xs text-rose-950">
@@ -337,12 +339,12 @@ export default function HealthPassportCard() {
                 ))}
               </div>
             ) : (
-              <p className="text-xs text-rose-800">No known adverse drug allergies recorded.</p>
+              <p className="text-xs text-rose-800">{t('noAllergies')}</p>
             )}
           </div>
 
           <div className="text-[11px] text-rose-800 pt-3 border-t border-rose-200/60 mt-3 font-medium">
-            Displayed on doctor's consultation screen during clinical examinations.
+            {t('allergyNote')}
           </div>
         </div>
       </div>

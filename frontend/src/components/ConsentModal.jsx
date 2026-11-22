@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { ShieldCheck, Lock, CheckCircle, X, AlertTriangle, KeyRound, ArrowRight, UserCheck } from 'lucide-react';
 import { api } from '../services/api';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function ConsentModal({ isOpen, onClose, sessionId, patientPreview, onConsentGranted }) {
+  const { t } = useLanguage();
   const [pin, setPin] = useState('1234');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -35,7 +37,7 @@ export default function ConsentModal({ isOpen, onClose, sessionId, patientPrevie
           </div>
           <button 
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-600 p-1.5 rounded-xl hover:bg-slate-100 transition"
+            className="text-slate-400 hover:text-slate-600 p-1.5 rounded-xl hover:bg-slate-100 transition cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -44,13 +46,13 @@ export default function ConsentModal({ isOpen, onClose, sessionId, patientPrevie
         <div>
           <div className="inline-flex items-center gap-1.5 text-xs font-black text-[#005F66] uppercase tracking-wider bg-[#E6F7F8] border border-[#B2E5E8] px-3 py-0.5 rounded-full">
             <Lock className="w-3.5 h-3.5 text-[#00838C]" />
-            <span>Consent Handshake Protocol</span>
+            <span>{t('consentProtocol')}</span>
           </div>
           <h3 className="text-xl font-black text-slate-950 tracking-tight mt-1.5">
-            Authorize Clinical Record Access
+            {t('authorizeAccess')}
           </h3>
           <p className="text-xs text-slate-500 mt-1.5 leading-relaxed font-medium">
-            <strong className="text-slate-900">Attending Physician</strong> is requesting explicit consent to decrypt past clinical encounters, diagnostic reports, and record new treatment.
+            {t('doctorRequestingConsent')}
           </p>
         </div>
 
@@ -58,20 +60,20 @@ export default function ConsentModal({ isOpen, onClose, sessionId, patientPrevie
         {patientPreview && (
           <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-4 text-xs space-y-1.5">
             <div className="flex justify-between items-center font-bold text-slate-800">
-              <span className="text-slate-500 font-semibold">Patient:</span>
+              <span className="text-slate-500 font-semibold">{t('patient')}:</span>
               <span className="text-slate-950 font-black">{patientPreview.name}</span>
             </div>
             <div className="flex justify-between items-center text-slate-600">
-              <span className="text-slate-400 font-semibold">Health ID:</span>
+              <span className="text-slate-400 font-semibold">{t('uhidLabel')}:</span>
               <span className="font-mono font-bold text-slate-900">{patientPreview.abhaId}</span>
             </div>
             <div className="flex justify-between items-center text-slate-600">
-              <span className="text-slate-400 font-semibold">Blood Group:</span>
+              <span className="text-slate-400 font-semibold">{t('bloodGroup')}:</span>
               <span className="font-black text-rose-600">{patientPreview.bloodGroup}</span>
             </div>
             <div className="flex justify-between items-center text-slate-600">
-              <span className="text-slate-400 font-semibold">Access Scope:</span>
-              <span className="font-bold text-emerald-700">60 Minutes Session (Ephemeral)</span>
+              <span className="text-slate-400 font-semibold">{t('accessScope')}</span>
+              <span className="font-bold text-emerald-700">{t('ephemeralSession')}</span>
             </div>
           </div>
         )}
@@ -88,14 +90,14 @@ export default function ConsentModal({ isOpen, onClose, sessionId, patientPrevie
           <label className="block text-xs font-black text-slate-800 flex items-center justify-between">
             <span className="flex items-center gap-1.5">
               <KeyRound className="w-3.5 h-3.5 text-blue-700" />
-              Patient 4-Digit Security PIN:
+              {t('patientPinLabel')}
             </span>
             <button
               type="button"
               onClick={() => setPin('1234')}
-              className="text-[11px] text-blue-700 hover:text-blue-800 font-bold underline"
+              className="text-[11px] text-blue-700 hover:text-blue-800 font-bold underline cursor-pointer"
             >
-              Fill '1234'
+              {t('fillDefaultPin')}
             </button>
           </label>
           <input
@@ -107,7 +109,7 @@ export default function ConsentModal({ isOpen, onClose, sessionId, patientPrevie
             className="w-full text-center tracking-[0.5em] font-mono text-2xl py-3 px-4 rounded-2xl border border-slate-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none font-black text-slate-900 bg-slate-50/50"
           />
           <p className="text-center text-[10px] text-slate-400 font-medium">
-            The patient must verbally or physically authorize this PIN to decrypt records.
+            {t('verbalAuthNote')}
           </p>
         </div>
 
@@ -117,7 +119,7 @@ export default function ConsentModal({ isOpen, onClose, sessionId, patientPrevie
             onClick={onClose}
             className="flex-1 py-3.5 rounded-2xl border border-slate-300 text-xs font-bold text-slate-700 hover:bg-slate-50 transition cursor-pointer"
           >
-            Deny Access
+            {t('denyAccess')}
           </button>
           <button
             onClick={handleGrant}
@@ -125,7 +127,7 @@ export default function ConsentModal({ isOpen, onClose, sessionId, patientPrevie
             className="flex-1 py-3.5 rounded-2xl bg-[#111111] hover:bg-black text-white text-xs font-black shadow-sm hover:shadow-md transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
           >
             <CheckCircle className="w-4 h-4 text-[#00A4A6]" />
-            <span>{loading ? 'Authorizing...' : 'Grant Access (60m)'}</span>
+            <span>{loading ? t('authorizing') : t('grantAccess60m')}</span>
           </button>
         </div>
       </div>

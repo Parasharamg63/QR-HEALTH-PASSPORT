@@ -13,17 +13,20 @@ import {
   ShieldCheck,
   ChevronRight
 } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function MedicalHistoryTimeline({ records = [], prescriptions = [] }) {
+  const { t } = useLanguage();
+
   if (records.length === 0 && prescriptions.length === 0) {
     return (
       <div className="bg-white rounded-3xl p-12 border border-slate-200/80 text-center text-slate-500 shadow-sm">
         <div className="w-16 h-16 rounded-2xl bg-slate-100 text-slate-600 flex items-center justify-center mx-auto mb-3">
           <FileText className="w-8 h-8" />
         </div>
-        <h4 className="font-extrabold text-slate-800 text-base">No Historical Encounters Logged Yet</h4>
+        <h4 className="font-extrabold text-slate-800 text-base">{t('noEncountersYet')}</h4>
         <p className="text-xs text-slate-400 mt-1 max-w-sm mx-auto">
-          When an authorized doctor scans your QR and commits a consultation, your verified record will appear here.
+          {t('noEncountersDesc')}
         </p>
       </div>
     );
@@ -36,18 +39,18 @@ export default function MedicalHistoryTimeline({ records = [], prescriptions = [
         <div>
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#E6F7F8] border border-[#B2E5E8] text-[#005F66] text-xs font-bold">
             <ShieldCheck className="w-3.5 h-3.5 text-[#00838C]" />
-            <span>Cryptographically Verified Clinical Ledger</span>
+            <span>{t('verifiedLedger')}</span>
           </div>
           <h3 className="text-xl sm:text-2xl font-black text-slate-950 tracking-tight mt-1">
-            Encounter & Treatment History
+            {t('encounterHistory')}
           </h3>
           <p className="text-xs text-slate-500 font-medium">
-            Immutable longitudinal electronic health record complying with HL7/FHIR International Health Records Standards.
+            {t('ledgerStandardNote')}
           </p>
         </div>
 
         <span className="text-xs font-black px-3.5 py-1.5 rounded-full bg-[#111111] text-white shadow-xs">
-          {records.length} Verified Clinical {records.length === 1 ? 'Visit' : 'Visits'}
+          {records.length} {t('verifiedVisits')}
         </span>
       </div>
 
@@ -97,7 +100,7 @@ export default function MedicalHistoryTimeline({ records = [], prescriptions = [
                   {rec.followUpDate && (
                     <div className="bg-[#E6F7F8] border border-[#B2E5E8] px-3 py-1.5 rounded-2xl text-xs text-[#005F66] font-bold flex items-center gap-1.5">
                       <Clock className="w-3.5 h-3.5 text-[#00838C]" />
-                      <span>Follow-up: {new Date(rec.followUpDate).toLocaleDateString()}</span>
+                      <span>{t('followUp')} {new Date(rec.followUpDate).toLocaleDateString()}</span>
                     </div>
                   )}
                 </div>
@@ -105,7 +108,7 @@ export default function MedicalHistoryTimeline({ records = [], prescriptions = [
                 {/* Diagnosis & ICD Tag */}
                 <div className="bg-slate-50/80 p-4 rounded-2xl border border-slate-200/60 space-y-2">
                   <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 block">
-                    Clinical Diagnosis & Classification:
+                    {t('diagnosisTitle')}:
                   </span>
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="text-base font-black text-slate-950">{rec.diagnosis}</span>
@@ -118,7 +121,7 @@ export default function MedicalHistoryTimeline({ records = [], prescriptions = [
 
                   {rec.chiefComplaints && rec.chiefComplaints.length > 0 && (
                     <div className="pt-2 flex flex-wrap items-center gap-1.5">
-                      <span className="text-[11px] text-slate-400 font-bold">Symptoms:</span>
+                      <span className="text-[11px] text-slate-400 font-bold">{t('symptoms')}</span>
                       {rec.chiefComplaints.map((c, i) => (
                         <span key={i} className="bg-white px-2.5 py-0.5 rounded-md text-[11px] font-semibold text-slate-700 border border-slate-200">
                           {c}
@@ -132,23 +135,23 @@ export default function MedicalHistoryTimeline({ records = [], prescriptions = [
                 {rec.vitalsRecorded && (
                   <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 text-xs">
                     <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-                      <span className="text-[10px] text-slate-400 font-bold block">BP</span>
+                      <span className="text-[10px] text-slate-400 font-bold block">{t('bp')}</span>
                       <strong className="font-mono text-slate-900 font-black">{rec.vitalsRecorded.bp || '120/80'}</strong>
                     </div>
                     <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-                      <span className="text-[10px] text-slate-400 font-bold block">Pulse</span>
+                      <span className="text-[10px] text-slate-400 font-bold block">{t('pulse')}</span>
                       <strong className="font-mono text-slate-900 font-black">{rec.vitalsRecorded.pulse || 72} bpm</strong>
                     </div>
                     <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-                      <span className="text-[10px] text-slate-400 font-bold block">SpO2</span>
+                      <span className="text-[10px] text-slate-400 font-bold block">{t('spo2')}</span>
                       <strong className="font-mono text-slate-900 font-black">{rec.vitalsRecorded.spo2 || 98}%</strong>
                     </div>
                     <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-                      <span className="text-[10px] text-slate-400 font-bold block">Sugar</span>
+                      <span className="text-[10px] text-slate-400 font-bold block">{t('glucose')}</span>
                       <strong className="font-mono text-slate-900 font-black">{rec.vitalsRecorded.glucose || 120} mg/dL</strong>
                     </div>
                     <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-                      <span className="text-[10px] text-slate-400 font-bold block">Temp</span>
+                      <span className="text-[10px] text-slate-400 font-bold block">{t('temp')}</span>
                       <strong className="font-mono text-slate-900 font-black">{rec.vitalsRecorded.temp || 98.6}°F</strong>
                     </div>
                   </div>
@@ -159,7 +162,7 @@ export default function MedicalHistoryTimeline({ records = [], prescriptions = [
                   <div className="space-y-2 pt-2 border-t border-slate-100">
                     <span className="text-[10px] font-black uppercase tracking-wider text-slate-500 block flex items-center gap-1.5">
                       <Pill className="w-3.5 h-3.5 text-blue-700" />
-                      Prescribed Medications ({associatedRx.medicines.length})
+                      {t('prescribedMeds')} ({associatedRx.medicines.length})
                     </span>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -189,7 +192,7 @@ export default function MedicalHistoryTimeline({ records = [], prescriptions = [
                 {rec.treatmentPlan && (
                   <div className="p-3 bg-slate-50 border border-slate-200/80 rounded-2xl text-xs text-slate-800 space-y-0.5">
                     <span className="font-bold text-slate-900 uppercase tracking-wider text-[10px] block">
-                      Physician Treatment Advice:
+                      {t('physicianAdvice')}
                     </span>
                     <p className="leading-relaxed font-medium">{rec.treatmentPlan}</p>
                   </div>

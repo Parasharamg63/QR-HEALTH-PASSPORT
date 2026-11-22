@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
+import { useLanguage } from '../context/LanguageContext';
 import { 
   ShieldCheck, 
   Stethoscope, 
@@ -13,88 +14,149 @@ import {
   Palette,
   Check,
   ChevronDown,
-  Sparkles
+  Globe
 } from 'lucide-react';
 
 export default function Navbar({ activeTab, setActiveTab }) {
   const { user, logout } = useAuth();
   const { theme, setTheme, themes, currentTheme } = useTheme();
+  const { lang, setLang, languages, currentLanguage, t } = useLanguage();
   const [showThemeMenu, setShowThemeMenu] = useState(false);
+  const [showLangMenu, setShowLangMenu] = useState(false);
   const isDoctor = user?.role === 'doctor';
 
   return (
     <header className="sticky top-0 z-40 bg-white border-b border-slate-200/80 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
-      {/* Reassuring Top Sub-Bar with Live Theme Selector */}
+      {/* Reassuring Top Sub-Bar with Live Theme & Language Selectors */}
       <div className="bg-[#111111] text-slate-300 text-xs py-1.5 px-4 sm:px-8 border-b border-black">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block animate-pulse"></span>
             <span className="font-bold text-white text-[11px] tracking-wide">
-              Universal Clinical Health Network
+              {t('networkTitle')}
             </span>
             <span className="hidden md:inline text-slate-600">•</span>
             <span className="hidden md:inline text-slate-400 text-[11px]">
-              Consent-Governed Cryptographic EHR Network (256-Bit TLS)
+              {t('networkSub')}
             </span>
           </div>
 
-          {/* Theme Selector Dropdown */}
-          <div className="relative">
-            <button
-              onClick={() => setShowThemeMenu(!showThemeMenu)}
-              className="flex items-center gap-1.5 bg-slate-800/80 hover:bg-slate-700/80 text-white text-[11px] font-bold px-3 py-1 rounded-full border border-slate-700 transition cursor-pointer"
-            >
-              <Palette className="w-3 h-3 text-[#00A4A6]" />
-              <span className="hidden sm:inline">Theme:</span>
-              <span className="text-[#00A4A6]">{currentTheme.name}</span>
-              <ChevronDown className="w-3 h-3 text-slate-400" />
-            </button>
-
-            {showThemeMenu && (
-              <div 
-                className="absolute right-0 mt-2 w-64 bg-white text-slate-900 rounded-2xl shadow-2xl border border-slate-200 p-2 z-50 animate-in fade-in zoom-in duration-150"
-                onMouseLeave={() => setShowThemeMenu(false)}
+          {/* Quick Selectors: Language & Theme */}
+          <div className="flex items-center gap-2">
+            {/* Local Language Selector Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => { setShowLangMenu(!showLangMenu); setShowThemeMenu(false); }}
+                className="flex items-center gap-1.5 bg-slate-800/90 hover:bg-slate-700 text-white text-[11px] font-bold px-3 py-1 rounded-full border border-slate-700 transition cursor-pointer"
+                title={t('selectLanguage')}
               >
-                <div className="px-3 py-2 border-b border-slate-100 mb-1">
-                  <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 block">
-                    Visual Interface Themes
-                  </span>
-                  <span className="text-xs font-bold text-slate-800">Choose Interface Style</span>
-                </div>
+                <Globe className="w-3 h-3 text-[#00A4A6]" />
+                <span className="font-black text-white">{currentLanguage.nativeName}</span>
+                <ChevronDown className="w-3 h-3 text-slate-400" />
+              </button>
 
-                <div className="space-y-1">
-                  {themes.map((t) => (
-                    <button
-                      key={t.id}
-                      onClick={() => {
-                        setTheme(t.id);
-                        setShowThemeMenu(false);
-                      }}
-                      className={`w-full text-left p-2.5 rounded-xl transition flex items-center justify-between cursor-pointer ${
-                        theme === t.id 
-                          ? 'bg-slate-100 text-slate-950 font-black' 
-                          : 'hover:bg-slate-50 text-slate-700 font-medium'
-                      }`}
-                    >
-                      <div className="flex items-center gap-2.5">
-                        <span 
-                          className="w-3.5 h-3.5 rounded-full border border-slate-300 flex-shrink-0"
-                          style={{ backgroundColor: t.accentColor }}
-                        ></span>
-                        <div>
-                          <div className="text-xs font-bold leading-tight">{t.name}</div>
-                          <div className="text-[10px] text-slate-500 font-semibold">{t.tagline}</div>
+              {showLangMenu && (
+                <div 
+                  className="absolute right-0 mt-2 w-56 bg-white text-slate-900 rounded-2xl shadow-2xl border border-slate-200 p-2 z-50 animate-in fade-in zoom-in duration-150"
+                  onMouseLeave={() => setShowLangMenu(false)}
+                >
+                  <div className="px-3 py-1.5 border-b border-slate-100 mb-1">
+                    <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 block">
+                      {t('language')} / ಭಾಷೆ / भाषा
+                    </span>
+                    <span className="text-xs font-bold text-slate-800">{t('selectLanguage')}</span>
+                  </div>
+
+                  <div className="space-y-1">
+                    {languages.map((l) => (
+                      <button
+                        key={l.id}
+                        onClick={() => {
+                          setLang(l.id);
+                          setShowLangMenu(false);
+                        }}
+                        className={`w-full text-left p-2 rounded-xl transition flex items-center justify-between cursor-pointer ${
+                          lang === l.id 
+                            ? 'bg-slate-100 text-slate-950 font-black' 
+                            : 'hover:bg-slate-50 text-slate-700 font-medium'
+                        }`}
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm">{l.flag}</span>
+                          <div>
+                            <div className="text-xs font-bold leading-tight">{l.nativeName}</div>
+                            <div className="text-[10px] text-slate-500 font-medium">{l.name}</div>
+                          </div>
                         </div>
-                      </div>
 
-                      {theme === t.id && (
-                        <Check className="w-4 h-4 text-emerald-600 flex-shrink-0" />
-                      )}
-                    </button>
-                  ))}
+                        {lang === l.id && (
+                          <Check className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+                        )}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
+
+            {/* Theme Selector Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => { setShowThemeMenu(!showThemeMenu); setShowLangMenu(false); }}
+                className="flex items-center gap-1.5 bg-slate-800/80 hover:bg-slate-700/80 text-white text-[11px] font-bold px-3 py-1 rounded-full border border-slate-700 transition cursor-pointer"
+              >
+                <Palette className="w-3 h-3 text-[#00A4A6]" />
+                <span className="hidden sm:inline">{t('theme')}:</span>
+                <span className="text-[#00A4A6]">{currentTheme.name}</span>
+                <ChevronDown className="w-3 h-3 text-slate-400" />
+              </button>
+
+              {showThemeMenu && (
+                <div 
+                  className="absolute right-0 mt-2 w-64 bg-white text-slate-900 rounded-2xl shadow-2xl border border-slate-200 p-2 z-50 animate-in fade-in zoom-in duration-150"
+                  onMouseLeave={() => setShowThemeMenu(false)}
+                >
+                  <div className="px-3 py-2 border-b border-slate-100 mb-1">
+                    <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 block">
+                      Visual Interface Themes
+                    </span>
+                    <span className="text-xs font-bold text-slate-800">Choose Interface Style</span>
+                  </div>
+
+                  <div className="space-y-1">
+                    {themes.map((tItem) => (
+                      <button
+                        key={tItem.id}
+                        onClick={() => {
+                          setTheme(tItem.id);
+                          setShowThemeMenu(false);
+                        }}
+                        className={`w-full text-left p-2.5 rounded-xl transition flex items-center justify-between cursor-pointer ${
+                          theme === tItem.id 
+                            ? 'bg-slate-100 text-slate-950 font-black' 
+                            : 'hover:bg-slate-50 text-slate-700 font-medium'
+                        }`}
+                      >
+                        <div className="flex items-center gap-2.5">
+                          <span 
+                            className="w-3.5 h-3.5 rounded-full border border-slate-300 flex-shrink-0"
+                            style={{ backgroundColor: tItem.accentColor }}
+                          ></span>
+                          <div>
+                            <div className="text-xs font-bold leading-tight">{tItem.name}</div>
+                            <div className="text-[10px] text-slate-500 font-semibold">{tItem.tagline}</div>
+                          </div>
+                        </div>
+
+                        {theme === tItem.id && (
+                          <Check className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -117,7 +179,7 @@ export default function Navbar({ activeTab, setActiveTab }) {
               </span>
             </div>
             <p className="text-[11px] text-slate-500 font-medium hidden sm:block mt-0.5">
-              Secure Universal Health Passport & Verified Doctor Consultation Ecosystem
+              {t('tagline')}
             </p>
           </div>
         </div>
@@ -133,7 +195,7 @@ export default function Navbar({ activeTab, setActiveTab }) {
             <div className="text-left hidden sm:block">
               <div className="text-xs font-bold text-slate-900 leading-tight">{user?.name}</div>
               <div className="text-[10px] font-semibold text-slate-500">
-                {isDoctor ? 'Licensed Physician' : 'Verified Patient'}
+                {isDoctor ? t('licensedPhysician') : t('verifiedPatient')}
               </div>
             </div>
           </div>
@@ -142,10 +204,10 @@ export default function Navbar({ activeTab, setActiveTab }) {
           <button
             onClick={logout}
             className="px-4 py-2 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-100 hover:text-slate-950 font-bold text-xs transition flex items-center gap-1.5 cursor-pointer"
-            title="Sign out of your session"
+            title={t('signOut')}
           >
             <LogOut className="w-3.5 h-3.5 text-slate-500" />
-            <span className="hidden sm:inline">Sign Out</span>
+            <span className="hidden sm:inline">{t('signOut')}</span>
           </button>
         </div>
       </div>
@@ -163,7 +225,7 @@ export default function Navbar({ activeTab, setActiveTab }) {
               }`}
             >
               <QrCode className="w-4 h-4 text-[#00A4A6]" />
-              <span>Digital Health Passport & QR</span>
+              <span>{t('passportTab')}</span>
             </button>
 
             <button
@@ -175,7 +237,7 @@ export default function Navbar({ activeTab, setActiveTab }) {
               }`}
             >
               <FileText className="w-4 h-4 text-[#00A4A6]" />
-              <span>Medical History Ledger</span>
+              <span>{t('historyTab')}</span>
             </button>
           </>
         ) : (
@@ -184,7 +246,7 @@ export default function Navbar({ activeTab, setActiveTab }) {
             className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#111111] text-white font-extrabold shadow-sm"
           >
             <Stethoscope className="w-4 h-4 text-[#00A4A6]" />
-            <span>Doctor Clinical Portal • Scan QR & Record Consultation</span>
+            <span>{t('doctorPortalTab')}</span>
           </button>
         )}
       </nav>

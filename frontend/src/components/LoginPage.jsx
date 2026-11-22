@@ -18,12 +18,15 @@ import {
   Award, 
   Briefcase,
   HeartHandshake,
-  Check
+  Check,
+  Globe
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function LoginPage() {
   const { login, register, loading } = useAuth();
+  const { lang, setLang, languages, currentLanguage, t } = useLanguage();
   const [mode, setMode] = useState('login'); // 'login' | 'register'
   const [regRole, setRegRole] = useState('patient'); // 'patient' | 'doctor'
   const [error, setError] = useState(null);
@@ -138,18 +141,36 @@ export default function LoginPage() {
         
         {/* Left Column: Reassuring Healthcare Narrative */}
         <div className="lg:col-span-5 space-y-6 text-slate-800 text-center lg:text-left">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#E6F7F8] border border-[#B2E5E8] text-[#005F66] text-xs font-bold">
-            <HeartHandshake className="w-3.5 h-3.5 text-[#00838C]" />
-            <span>Universal Health Network</span>
+          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#E6F7F8] border border-[#B2E5E8] text-[#005F66] text-xs font-bold">
+              <HeartHandshake className="w-3.5 h-3.5 text-[#00838C]" />
+              <span>{t('networkTitle')}</span>
+            </div>
+
+            {/* Quick Language Selector Pill */}
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-slate-200 text-xs text-slate-700 shadow-xs">
+              <Globe className="w-3.5 h-3.5 text-[#00838C]" />
+              <select
+                value={lang}
+                onChange={(e) => setLang(e.target.value)}
+                className="bg-transparent text-xs font-bold text-slate-800 outline-none cursor-pointer"
+              >
+                {languages.map((l) => (
+                  <option key={l.id} value={l.id}>
+                    {l.flag} {l.nativeName}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
 
           <div className="space-y-3">
             <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-slate-950 leading-tight">
-              Patient-First Care.<br />
-              <span className="text-[#00838C]">Consent-Driven Medical History.</span>
+              {t('patientFirstCare')}<br />
+              <span className="text-[#00838C]">{t('consentDrivenHistory')}</span>
             </h1>
             <p className="text-slate-600 text-sm leading-relaxed max-w-lg mx-auto lg:mx-0 font-medium">
-              A private digital health passport that puts patients in control. Present your QR code at the clinic, and unlock your medical records only when you authorize with your security PIN.
+              {t('loginNarrative')}
             </p>
           </div>
 
@@ -160,8 +181,8 @@ export default function LoginPage() {
                 <QrCode className="w-4 h-4" />
               </div>
               <div className="text-xs">
-                <div className="font-black text-slate-950">Personal Health Passport & QR</div>
-                <div className="text-slate-500 font-medium mt-0.5">Instant universal access to blood group, vitals, and emergency contacts.</div>
+                <div className="font-black text-slate-950">{t('personalPassportFeature')}</div>
+                <div className="text-slate-500 font-medium mt-0.5">{t('universalAccessFeature')}</div>
               </div>
             </div>
 
@@ -170,8 +191,8 @@ export default function LoginPage() {
                 <Lock className="w-4 h-4" />
               </div>
               <div className="text-xs">
-                <div className="font-black text-slate-950">Explicit Patient PIN Consent</div>
-                <div className="text-slate-500 font-medium mt-0.5">Doctors cannot view sensitive history until you confirm your 4-digit PIN.</div>
+                <div className="font-black text-slate-950">{t('consentFeature')}</div>
+                <div className="text-slate-500 font-medium mt-0.5">{t('pinConsentFeature')}</div>
               </div>
             </div>
 
@@ -180,8 +201,8 @@ export default function LoginPage() {
                 <Stethoscope className="w-4 h-4" />
               </div>
               <div className="text-xs">
-                <div className="font-black text-slate-950">Longitudinal Clinical Ledger</div>
-                <div className="text-slate-500 font-medium mt-0.5">Permanent, chronological records of diagnoses, vitals, and medication plans.</div>
+                <div className="font-black text-slate-950">{t('ledgerFeatureTitle')}</div>
+                <div className="text-slate-500 font-medium mt-0.5">{t('ledgerFeature')}</div>
               </div>
             </div>
           </div>
@@ -200,12 +221,12 @@ export default function LoginPage() {
                   <h2 className="text-lg font-black text-slate-950 leading-tight">
                     QR HEALTH <span className="text-[#00838C]">PASSPORT</span>
                   </h2>
-                  <p className="text-xs text-slate-500 font-medium">Sign in or register your account</p>
+                  <p className="text-xs text-slate-500 font-medium">{t('signInOrRegister')}</p>
                 </div>
               </div>
 
               <span className="text-[11px] font-black text-slate-700 bg-slate-100 px-3 py-1 rounded-full border border-slate-200">
-                256-Bit TLS Protected
+                {t('protected256Tls')}
               </span>
             </div>
 
@@ -219,7 +240,7 @@ export default function LoginPage() {
                 }`}
               >
                 <LogIn className="w-4 h-4 text-[#00A4A6]" />
-                <span>Sign In</span>
+                <span>{t('signIn')}</span>
               </button>
               <button
                 type="button"
@@ -229,7 +250,7 @@ export default function LoginPage() {
                 }`}
               >
                 <UserPlus className="w-4 h-4 text-[#00A4A6]" />
-                <span>Create Account</span>
+                <span>{t('createAccount')}</span>
               </button>
             </div>
 
@@ -246,7 +267,7 @@ export default function LoginPage() {
                   }`}
                 >
                   <User className="w-3.5 h-3.5" />
-                  <span>Register as Patient</span>
+                  <span>{t('registerPatientTab')}</span>
                 </button>
                 <button
                   type="button"
@@ -258,7 +279,7 @@ export default function LoginPage() {
                   }`}
                 >
                   <Stethoscope className="w-3.5 h-3.5" />
-                  <span>Register as Doctor</span>
+                  <span>{t('registerDoctorTab')}</span>
                 </button>
               </div>
             )}
@@ -277,7 +298,7 @@ export default function LoginPage() {
                 <div>
                   <label className="font-semibold text-slate-700 block mb-1 flex items-center gap-1.5">
                     <Mail className="w-3.5 h-3.5 text-slate-400" />
-                    Email Address
+                    {t('emailAddress')}
                   </label>
                   <input
                     type="email"
@@ -293,15 +314,15 @@ export default function LoginPage() {
                   <label className="font-semibold text-slate-700 block mb-1 flex items-center justify-between">
                     <span className="flex items-center gap-1.5">
                       <KeyRound className="w-3.5 h-3.5 text-slate-400" />
-                      Password
+                      {t('password')}
                     </span>
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="text-[11px] text-blue-700 hover:underline font-medium flex items-center gap-1"
+                      className="text-[11px] text-blue-700 hover:underline font-medium flex items-center gap-1 cursor-pointer"
                     >
                       {showPassword ? <EyeOff className="w-3 h-3" /> : <Eye className="w-3 h-3" />}
-                      <span>{showPassword ? 'Hide' : 'Show'}</span>
+                      <span>{showPassword ? t('hide') : t('show')}</span>
                     </button>
                   </label>
                   <input
@@ -320,11 +341,11 @@ export default function LoginPage() {
                   className="w-full py-3.5 rounded-2xl bg-[#111111] hover:bg-black text-white font-black text-sm shadow-sm hover:shadow-md transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2 mt-2 disabled:opacity-50 cursor-pointer"
                 >
                   <LogIn className="w-4 h-4 text-[#00A4A6]" />
-                  <span>{loading ? 'Signing In...' : 'Sign In'}</span>
+                  <span>{loading ? t('signingIn') : t('signIn')}</span>
                 </button>
 
                 <p className="text-center text-[11px] text-slate-500 pt-2">
-                  Protected with industry-standard 256-bit encryption.
+                  {t('networkSub')}
                 </p>
               </form>
             )}
@@ -333,7 +354,7 @@ export default function LoginPage() {
             {mode === 'register' && regRole === 'patient' && (
               <form onSubmit={handlePatientRegisterSubmit} className="space-y-3 text-xs max-h-[440px] overflow-y-auto pr-1">
                 <div>
-                  <label className="font-semibold text-slate-700 block mb-1">Full Legal Name</label>
+                  <label className="font-semibold text-slate-700 block mb-1">{t('fullName')}</label>
                   <input
                     type="text"
                     required
@@ -346,7 +367,7 @@ export default function LoginPage() {
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="font-semibold text-slate-700 block mb-1">Email Address</label>
+                    <label className="font-semibold text-slate-700 block mb-1">{t('emailAddress')}</label>
                     <input
                       type="email"
                       required
@@ -357,7 +378,7 @@ export default function LoginPage() {
                     />
                   </div>
                   <div>
-                    <label className="font-semibold text-slate-700 block mb-1">Password</label>
+                    <label className="font-semibold text-slate-700 block mb-1">{t('password')}</label>
                     <input
                       type="password"
                       required
@@ -371,7 +392,7 @@ export default function LoginPage() {
 
                 <div className="grid grid-cols-3 gap-2.5">
                   <div>
-                    <label className="font-semibold text-slate-700 block mb-1">Blood Group</label>
+                    <label className="font-semibold text-slate-700 block mb-1">{t('bloodGroup')}</label>
                     <select
                       value={patientData.bloodGroup}
                       onChange={(e) => setPatientData({ ...patientData, bloodGroup: e.target.value })}
@@ -383,19 +404,19 @@ export default function LoginPage() {
                     </select>
                   </div>
                   <div>
-                    <label className="font-semibold text-slate-700 block mb-1">Gender</label>
+                    <label className="font-semibold text-slate-700 block mb-1">{t('gender')}</label>
                     <select
                       value={patientData.gender}
                       onChange={(e) => setPatientData({ ...patientData, gender: e.target.value })}
                       className="w-full px-2 py-2 rounded-xl border border-slate-300 font-medium bg-white"
                     >
-                      <option value="Male">Male</option>
-                      <option value="Female">Female</option>
-                      <option value="Other">Other</option>
+                      <option value="Male">{t('male')}</option>
+                      <option value="Female">{t('female')}</option>
+                      <option value="Other">{t('other')}</option>
                     </select>
                   </div>
                   <div>
-                    <label className="font-semibold text-slate-700 block mb-1">Birth Date</label>
+                    <label className="font-semibold text-slate-700 block mb-1">{t('birthDate')}</label>
                     <input
                       type="date"
                       value={patientData.dob}
@@ -406,7 +427,7 @@ export default function LoginPage() {
                 </div>
 
                 <div>
-                  <label className="font-semibold text-slate-700 block mb-1">Contact Phone Number</label>
+                  <label className="font-semibold text-slate-700 block mb-1">{t('contactPhone')}</label>
                   <input
                     type="text"
                     value={patientData.phone}
@@ -419,7 +440,7 @@ export default function LoginPage() {
                 <div className="p-3 bg-slate-50 border border-slate-200 rounded-2xl text-[11px] text-slate-700 flex items-start gap-2">
                   <CheckCircle2 className="w-4 h-4 text-[#00838C] flex-shrink-0 mt-0.5" />
                   <span>
-                    A personal <strong>Universal Health ID</strong> and dynamic <strong>QR Health Passport</strong> will be generated automatically.
+                    {t('patientGenNote')}
                   </span>
                 </div>
 
@@ -429,7 +450,7 @@ export default function LoginPage() {
                   className="w-full py-3.5 rounded-2xl bg-[#111111] hover:bg-black text-white font-black text-sm shadow-sm hover:shadow-md transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
                 >
                   <UserPlus className="w-4 h-4 text-[#00A4A6]" />
-                  <span>{loading ? 'Creating Account...' : 'Complete Patient Registration'}</span>
+                  <span>{loading ? t('creatingAccount') : t('completePatientReg')}</span>
                 </button>
               </form>
             )}
@@ -438,7 +459,7 @@ export default function LoginPage() {
             {mode === 'register' && regRole === 'doctor' && (
               <form onSubmit={handleDoctorRegisterSubmit} className="space-y-3 text-xs max-h-[440px] overflow-y-auto pr-1">
                 <div>
-                  <label className="font-semibold text-slate-700 block mb-1">Doctor Full Name</label>
+                  <label className="font-semibold text-slate-700 block mb-1">{t('fullName')}</label>
                   <input
                     type="text"
                     required
@@ -451,7 +472,7 @@ export default function LoginPage() {
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="font-semibold text-slate-700 block mb-1">Professional Email</label>
+                    <label className="font-semibold text-slate-700 block mb-1">{t('emailAddress')}</label>
                     <input
                       type="email"
                       required
@@ -462,7 +483,7 @@ export default function LoginPage() {
                     />
                   </div>
                   <div>
-                    <label className="font-semibold text-slate-700 block mb-1">Password</label>
+                    <label className="font-semibold text-slate-700 block mb-1">{t('password')}</label>
                     <input
                       type="password"
                       required
@@ -478,7 +499,7 @@ export default function LoginPage() {
                   <div>
                     <label className="font-semibold text-slate-700 block mb-1 flex items-center gap-1">
                       <Award className="w-3.5 h-3.5 text-blue-700" />
-                      Medical License Number
+                      {t('medicalLicenseNo')}
                     </label>
                     <input
                       type="text"
@@ -490,7 +511,7 @@ export default function LoginPage() {
                     />
                   </div>
                   <div>
-                    <label className="font-semibold text-slate-700 block mb-1">Years of Experience</label>
+                    <label className="font-semibold text-slate-700 block mb-1">{t('experienceYears')}</label>
                     <input
                       type="number"
                       min="1"
@@ -503,7 +524,7 @@ export default function LoginPage() {
                 </div>
 
                 <div>
-                  <label className="font-semibold text-slate-700 block mb-1">Clinical Specialization</label>
+                  <label className="font-semibold text-slate-700 block mb-1">{t('specialization')}</label>
                   <select
                     value={doctorData.specialization}
                     onChange={(e) => setDoctorData({ ...doctorData, specialization: e.target.value })}
@@ -524,7 +545,7 @@ export default function LoginPage() {
                   <div>
                     <label className="font-semibold text-slate-700 block mb-1 flex items-center gap-1">
                       <Building2 className="w-3.5 h-3.5 text-blue-700" />
-                      Hospital / Clinic
+                      {t('hospitalClinic')}
                     </label>
                     <input
                       type="text"
@@ -537,7 +558,7 @@ export default function LoginPage() {
                   <div>
                     <label className="font-semibold text-slate-700 block mb-1 flex items-center gap-1">
                       <Briefcase className="w-3.5 h-3.5 text-blue-700" />
-                      Department
+                      {t('department')}
                     </label>
                     <input
                       type="text"
@@ -550,7 +571,7 @@ export default function LoginPage() {
                 </div>
 
                 <div>
-                  <label className="font-semibold text-slate-700 block mb-1">Contact Phone</label>
+                  <label className="font-semibold text-slate-700 block mb-1">{t('contactPhone')}</label>
                   <input
                     type="text"
                     value={doctorData.phone}
@@ -563,7 +584,7 @@ export default function LoginPage() {
                 <div className="p-3 bg-slate-50 border border-slate-200 rounded-2xl text-[11px] text-slate-800 flex items-start gap-2">
                   <CheckCircle2 className="w-4 h-4 text-[#00838C] flex-shrink-0 mt-0.5" />
                   <span>
-                    Upon registration, doctor clinical privileges are granted to scan patient QR codes, initiate consent handshakes, and record treatments.
+                    {t('doctorGenNote')}
                   </span>
                 </div>
 
@@ -573,7 +594,7 @@ export default function LoginPage() {
                   className="w-full py-3.5 rounded-2xl bg-[#111111] hover:bg-black text-white font-black text-sm shadow-sm hover:shadow-md transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
                 >
                   <Stethoscope className="w-4 h-4 text-[#00A4A6]" />
-                  <span>{loading ? 'Registering Physician...' : 'Register as Doctor'}</span>
+                  <span>{loading ? t('registeringPhysician') : t('registerDoctorBtn')}</span>
                 </button>
               </form>
             )}
